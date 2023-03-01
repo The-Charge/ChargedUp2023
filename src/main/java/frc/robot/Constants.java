@@ -25,5 +25,8 @@ public class Constants {
       public static final int kRightMotor2Port = 2; // RightRear
       public static final int shifterChannel = 1; // Shifter
       public static final int clawChannel = 2; // Claw
+
+      public static final double ticksPerMeter = 17483.3; // Average from three tests from both encoders
    }
+
 }
