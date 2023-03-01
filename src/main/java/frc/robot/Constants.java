@@ -4,32 +4,26 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.util.Units;
-
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
  * constants are needed, to reduce verbosity.
  */
 public class Constants {
-   
+
    public static final class DriveConstants {
-      public static final int kLeftMotor1Port = 16;
-      public static final int kLeftMotor2Port = 17;
-      public static final int kRightMotor1Port = 3;
-      public static final int kRightMotor2Port = 2; 
-      public static final int shifterChannel = 1;
-      public static final int clawChannel = 2;
-    }
-   public static final class VisionConstants {
-      public static final String cameraName = "IMX219";
-      public static final double cameraHeight = Units.inchesToMeters(3.5);
-      public static final double cameraAngle = Units.degreesToRadians(19.5);
-      public static final Transform3d cameraToRobot = new Transform3d();
-      public static final Transform3d robotToCamera = cameraToRobot.inverse();
+      public static final int kLeftMotor1Port = 16; // LeftFront
+      public static final int kLeftMotor2Port = 17; // LeftRear
+      public static final int kRightMotor1Port = 3; // RightFront
+      public static final int kRightMotor2Port = 2; // RightRear
+      public static final int shifterChannel = 1; // Shifter
+      public static final int clawChannel = 2; // Claw
    }
 }
