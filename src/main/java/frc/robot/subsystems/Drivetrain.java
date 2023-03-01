@@ -189,11 +189,11 @@ SmartDashboard.putNumber("Get Heading", getHeading());
     }
 
     public void shiftHigh() {
-      shiftSpeed.set(true);
+      shiftSpeed.set(false);
     }
 
     public void shiftLow() {
-      shiftSpeed.set(false);
+      shiftSpeed.set(true);
     }
 
     public void setReversed() {
