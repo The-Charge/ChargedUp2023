@@ -21,7 +21,6 @@ public class Arm extends SubsystemBase {
   public Arm() {
     shoulderMotor = new WPI_TalonSRX(ArmConstants.shoulderCAN_ID);
 		elbowMotor = new WPI_TalonSRX(ArmConstants.elbowCAN_ID);
-    shoulderMotor.setInverted(true);
 		elbowMotor.setInverted(true);
     shoulderMotor.setNeutralMode(NeutralMode.Coast);
 		elbowMotor.setNeutralMode(NeutralMode.Coast);
@@ -87,6 +86,8 @@ public class Arm extends SubsystemBase {
   public void run(double shoulderPower, double elbowPower){
     elbowMotor.set(elbowPower);
     shoulderMotor.set(shoulderPower);
+    SmartDashboard.putNumber("shoulderPower", shoulderPower);
+    SmartDashboard.putNumber("elbowPower", elbowPower);
   }
       
   public double getElbowAngle(){return elbowAngle;}

@@ -28,7 +28,7 @@ public final class Constants {
     public static final double elbowperMotorTick = 6.28/4096;
     public static final double shoulderperMotorTick = 6.28/4096;
     public static final int numberOfState = 5;
-    public static double[] targetShoulder = {0,-0.8,0.8,-0.6,0.6};
+    public static double[] targetShoulder = {0,0.8,-0.8,0.6,-0.6};
     public static double[] targetElbow = {0,1.7,-1.7,2.9,-2.9};
     public static double[] targetX ={0, 1.43, -1.43, 1.24, -1.24};
     public static double[] targetY ={0.0762,0.12, 0.12, 1.42, 1.42};
