@@ -120,10 +120,10 @@ closeClawBtn.onTrue(new CloseClaw( m_claw ).withInterruptBehavior(InterruptionBe
 final JoystickButton openClawBtn = new JoystickButton(rightJoystick, 10);        
 openClawBtn.onTrue(new OpenClaw( m_claw ).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
                         
-final JoystickButton shiftLowBtn = new JoystickButton(leftJoystick, 12);        
+final JoystickButton shiftLowBtn = new JoystickButton(rightJoystick, 11);        
 shiftLowBtn.onTrue(new ShiftLow( m_drivetrain ).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
                         
-final JoystickButton shiftHighBtn = new JoystickButton(leftJoystick, 10);        
+final JoystickButton shiftHighBtn = new JoystickButton(rightJoystick, 9);        
 shiftHighBtn.onTrue(new ShiftHigh( m_drivetrain ).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
                         
 

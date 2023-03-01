@@ -84,7 +84,7 @@ right = new MotorControllerGroup(rightFrontMotor, rightRearMotor  );
  addChild("right",right);
  
 
-shiftSpeed = new Solenoid(1, PneumaticsModuleType.CTREPCM, 1);
+shiftSpeed = new Solenoid(1, PneumaticsModuleType.REVPH, 1);
  addChild("shiftSpeed", shiftSpeed);
  
 
@@ -146,13 +146,13 @@ SmartDashboard.putNumber("Get Heading", getHeading());
         l *= -1;
         r *= -1;
       }
-      if (isHalfSpeed) {
-        l*= 0.5;
-        r *= 0.5;
-      } else if (isQuarterSpeed) {
+      
+      if (isQuarterSpeed) {
         l *= 0.25;
         r *= 0.25;
-      }
+      }else if (isHalfSpeed) {
+        l*= 0.5;
+        r *= 0.5;}
       differentialDrive.tankDrive(l, r);
     }
     public double getLeftEncoder() {
