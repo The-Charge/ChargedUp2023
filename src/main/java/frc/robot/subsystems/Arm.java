@@ -22,6 +22,7 @@ public class Arm extends SubsystemBase {
     shoulderMotor = new WPI_TalonSRX(ArmConstants.shoulderCAN_ID);
 		elbowMotor = new WPI_TalonSRX(ArmConstants.elbowCAN_ID);
 		elbowMotor.setInverted(true);
+    shoulderMotor.setInverted(true);
     shoulderMotor.setNeutralMode(NeutralMode.Coast);
 		elbowMotor.setNeutralMode(NeutralMode.Coast);
   }

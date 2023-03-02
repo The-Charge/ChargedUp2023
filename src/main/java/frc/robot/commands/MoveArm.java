@@ -76,7 +76,7 @@ public class MoveArm extends CommandBase {
         elbowHitIntermediate = Math.abs(m_arm.getElbowAngle() - targetElbowAngle) < 0.1;
       }
     }else{
-      double xSpeed = -RobotContainer.getInstance().getleftJoystick().getX()/100;
+      double xSpeed = -RobotContainer.getInstance().getleftJoystick().getY()/100;
       double ySpeed = -RobotContainer.getInstance().getrightJoystick().getY()/100;
       if (Math.abs(xSpeed) < 0.0005)xSpeed = 0;
       if (Math.abs(ySpeed) < 0.0005)ySpeed = 0;
@@ -91,8 +91,7 @@ public class MoveArm extends CommandBase {
         if (targetElbowAngle > .4){
           targetElbowAngle = .4;
         }else if (targetElbowAngle < -.4){
-          targetElbowAngle = -
-          .4;
+          targetElbowAngle = -.4;
         }
       }else{
       double oldX = targetX;
@@ -168,7 +167,7 @@ public class MoveArm extends CommandBase {
     double currentElbowAngle = m_arm.getElbowAngle();
     double currentShoulderAngle = m_arm.getShoulderAngle();
     double temp = targetShoulderAngle-currentShoulderAngle;
-    m_arm.run(3 * temp + Math.abs(temp)/temp*ArmConstants.shoulderRestVoltage[armState], 
+    m_arm.run(1.5 * temp + Math.abs(temp)/temp*ArmConstants.shoulderRestVoltage[armState], 
       3 * (targetElbowAngle - currentElbowAngle) + ArmConstants.elbowRestVoltage[armState]);
     SmartDashboard.putNumber("targetshoulder", targetShoulderAngle);
     SmartDashboard.putNumber("targetelbow", targetElbowAngle);
