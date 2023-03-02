@@ -1,34 +1,34 @@
 {
   "MainWindow": {
     "GLOBAL": {
-      "height": "900",
-      "maximized": "0",
+      "height": "705",
+      "maximized": "1",
       "style": "0",
       "userScale": "2",
-      "width": "1600",
-      "xpos": "-1",
-      "ypos": "-1"
+      "width": "1366",
+      "xpos": "0",
+      "ypos": "23"
     }
   },
   "Window": {
     "###Analyzer": {
       "Collapsed": "0",
-      "Pos": "400,31",
-      "Size": "450,687"
+      "Pos": "394,12",
+      "Size": "354,687"
     },
     "###Generator": {
       "Collapsed": "0",
-      "Pos": "6,31",
-      "Size": "387,375"
+      "Pos": "8,19",
+      "Size": "379,293"
     },
     "###Logger": {
       "Collapsed": "0",
-      "Pos": "6,412",
-      "Size": "387,481"
+      "Pos": "3,313",
+      "Size": "387,391"
     },
     "###Program Log": {
       "Collapsed": "0",
-      "Pos": "400,725",
+      "Pos": "400,686",
       "Size": "450,168"
     },
     "Debug##Default": {
@@ -36,10 +36,20 @@
       "Pos": "60,60",
       "Size": "400,400"
     },
+    "Deploy Status": {
+      "Collapsed": "0",
+      "Pos": "341,70",
+      "Size": "683,564"
+    },
     "Diagnostic Plots": {
       "Collapsed": "0",
-      "Pos": "685,25",
-      "Size": "590,690"
+      "Pos": "754,9",
+      "Size": "607,690"
+    },
+    "Warning": {
+      "Collapsed": "0",
+      "Pos": "639,11",
+      "Size": "89,680"
     }
   }
 }
