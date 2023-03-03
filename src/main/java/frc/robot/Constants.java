@@ -29,8 +29,11 @@ public class Constants {
       public static final int clawChannel = 2; // Claw
    }
 
-   public static final class SisIDConstants {
+   public static final class SysIDConstants {
       public static final double ticksPerMeter = 17483.3; // Average from three tests from both encoders
+
+      public static final double leftEncoderTicksPerMeter = 17462;
+      public static final double rightEncoderTicksPerMeter = 17464;
 
       public static final double ksVolts = 1.8516;
       public static final double kvVoltSecondsPerMeter = 4.9995;
