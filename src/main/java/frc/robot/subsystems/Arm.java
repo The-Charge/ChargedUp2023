@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class Arm extends SubsystemBase {
-  /** Creates a new Arm. */
   private WPI_TalonSRX shoulderMotor;
 	private WPI_TalonSRX elbowMotor;
   private double shoulderAngle = 0;
@@ -28,7 +27,7 @@ public class Arm extends SubsystemBase {
   }
 
   public boolean isXYInLimit(double x, double y){
-    if(y < -ArmConstants.shoulderHeight) return false;
+    if(y < -ArmConstants.shoulderHeight + 0.1) return false;
     if(y + ArmConstants.shoulderHeight > robotLimit.height) return false;
     if(Math.abs(x) > robotLimit.widthFromCenter) return false;
     if(Math.abs(x) < robotLimit.robotLength / 2 && y < 0)return false;
@@ -39,11 +38,9 @@ public class Arm extends SubsystemBase {
     double[] xy = new double[2];
     double shoulderHorizen = Math.PI/2 + shoulderParameter;
     double elbowHorizen = -Math.PI/2 + elbowParameter + shoulderParameter;
-    xy[0] = Math.cos(shoulderHorizen) * ArmConstants.shoulderArmLength +
-              Math.cos(elbowHorizen) * ArmConstants.elbowArmLength;
-    xy[1] = Math.sin(shoulderHorizen) * ArmConstants.shoulderArmLength +
-              Math.sin(elbowHorizen) * ArmConstants.elbowArmLength;
-    return xy;
+    xy[0] = Math.cos(shoulderHorizen) * ArmConstants.shoulderL + Math.cos(elbowHorizen) * ArmConstants.elbowL;
+    xy[1] = Math.sin(shoulderHorizen) * ArmConstants.shoulderL + Math.sin(elbowHorizen) * ArmConstants.elbowL;
+    return xy; 
   }
 
   public boolean isAngleInLimit(double targetShoulderAngle, double targetElbowAngle){
@@ -62,29 +59,29 @@ public class Arm extends SubsystemBase {
       angles[2] = 1;
       return angles;
     }
-    double thirdSide = Math.sqrt(targetX * targetX + targetY * targetY);
-    if (thirdSide + ArmConstants.elbowArmLength < ArmConstants.shoulderArmLength  || 
-    thirdSide > ArmConstants.elbowArmLength + ArmConstants.shoulderArmLength) angles[2] = -1;
+    double thirdSide2 = targetX*targetX + targetY*targetY;
+    double thirdSide = Math.sqrt(thirdSide2);
+    if (thirdSide + ArmConstants.elbowL < ArmConstants.shoulderL  || 
+      thirdSide > ArmConstants.elbowL + ArmConstants.shoulderL) angles[2] = -1;
     else{
       angles[2] = 1;
-      double oppositeElbowAngle = Math.acos((thirdSide * thirdSide + 
-        ArmConstants.shoulderArmLength * ArmConstants.shoulderArmLength - 
-        ArmConstants.elbowArmLength * ArmConstants.elbowArmLength) / 2 / ArmConstants.shoulderArmLength / thirdSide);
-      angles[1] = Math.asin(thirdSide * Math.sin(oppositeElbowAngle) / ArmConstants.elbowArmLength);
-      if (thirdSide * thirdSide > ArmConstants.shoulderArmLength * ArmConstants.shoulderArmLength + 
-        ArmConstants.elbowArmLength + ArmConstants.elbowArmLength){
-        angles[1] = Math.PI - angles[1];
-      }
+      double shoulder2 = ArmConstants.shoulderL*ArmConstants.shoulderL;
+      double elbow2 = ArmConstants.elbowL*ArmConstants.elbowL;
+      double oppositeElbowAngle = Math.acos((thirdSide2 + shoulder2 - elbow2) / 2 / ArmConstants.shoulderL / thirdSide);
+      angles[1] = Math.acos((shoulder2 + elbow2 - thirdSide2) / 2 / ArmConstants.elbowL / ArmConstants.shoulderL);
       angles[0] = Math.abs(Math.PI/2 - oppositeElbowAngle - Math.atan(targetY/Math.abs(targetX)));
       if (targetX > 0) angles[0] = -angles[0];
-      if (angles[0] > 0){
-        angles[1] = -angles[1];
-      }
+      if (angles[0] > 0)angles[1] = -angles[1];
     }   
     return angles;
   }
 
   public void run(double shoulderPower, double elbowPower){
+    if(shoulderPower > ArmConstants.shoulderPowerLimit){
+      shoulderPower = ArmConstants.shoulderPowerLimit;
+    }else if(shoulderPower < -ArmConstants.shoulderPowerLimit){
+      shoulderPower = -ArmConstants.shoulderPowerLimit;
+    }
     elbowMotor.set(elbowPower);
     shoulderMotor.set(shoulderPower);
     SmartDashboard.putNumber("shoulderPower", shoulderPower);
