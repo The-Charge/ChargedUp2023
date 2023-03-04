@@ -45,3 +45,15 @@ public final class Constants {
     public static final double robotLength = 40 * 0.0254;
 }
 }
+/** ABC: Why are you using Radians and Meters??
+ *  Wouldn't it be more usefull to work with degrees and inches?
+ * All rule measuremments are in inches and we measure angles with a protractor in 
+ * degrees.  Not sure why you are making this more complicated than needed
+ * 
+ * Please make some comments about the arrays, what are they for, what do the array values mean
+ * 
+ * What units are the weights?  I am assuming Kg but nowhere does it say so.
+ * 
+ * 
+ * 
+ **/  

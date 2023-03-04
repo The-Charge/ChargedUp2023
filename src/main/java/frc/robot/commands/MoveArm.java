@@ -25,6 +25,11 @@ public class MoveArm extends CommandBase {
   private boolean elbowHitIntermediate = false;
   private boolean shoulderHitTarget = false;
 
+  /** ABC:  Please give some explaination of what these variables are used for.  
+   * Some I can figure out but otheres I have no clue
+   * 
+   **/
+
   public MoveArm(Arm subsystem) {
     m_arm = subsystem;
     addRequirements(m_arm);
@@ -50,6 +55,7 @@ public class MoveArm extends CommandBase {
     SmartDashboard.putNumber("armState", armState);
     SmartDashboard.putBoolean("Elbowhit", elbowHitIntermediate);
     SmartDashboard.putBoolean("inTransittion", inTransittion);
+
     if (inTransittion || secondStepNeeded){
       if(!inTransittion){
         armState = finalState;
@@ -75,6 +81,12 @@ public class MoveArm extends CommandBase {
         else targetElbowAngle = -Math.PI/2;
         elbowHitIntermediate = Math.abs(m_arm.getElbowAngle() - targetElbowAngle) < 0.1;
       }
+
+
+/**  ABC: This should be all set up with Case statements.  As we add move and more states this code is 
+ * going to get more and more confusing
+ * 
+ */
     }else{
       double xSpeed = -RobotContainer.getInstance().getleftJoystick().getY()/500;
       double ySpeed = -RobotContainer.getInstance().getrightJoystick().getY()/500;
@@ -84,6 +96,17 @@ public class MoveArm extends CommandBase {
         double[] xy = m_arm.getXY(m_arm.getShoulderAngle(),m_arm.getElbowAngle()); 
         targetX = xy[0];
         targetY = xy[1];
+
+/** ABC: why are you using a range of values for the X and Y joysticks.
+ * I thought we had decided that we were just going to move the X and Y values at a constant rate of speed
+ * As long as the joysticks were within some deadband, the X,Y setpoints should not changed.
+ * If the joystick was outside of the deadband, the X,Y setpoint would move at some constant rate of change.
+ * That change should not be any faster than the robot is able to keep up with.
+ * 
+ */
+
+
+
       }      
       if (armState == 0){
         targetShoulderAngle = targetShoulderAngle + xSpeed;
@@ -188,4 +211,35 @@ public class MoveArm extends CommandBase {
   public boolean isFinished() {
     return false;
   }
+
+
 }
+
+
+/**  ABC:  This is extremely confusing.  You are missing the difference bewteen what 
+* the command should be doing and what subsystem should be doing.
+* The command should be telling the subsystem "What" to do.  The subsystem should be figuring 
+* out "How to do it.
+
+The command is ussually very simple.  Read the Joystick values and pass the data to the susbsystem
+or to go to a predefined configuration.
+
+I would say that most of this code should go in the subsystem.
+
+Also, everything is happening witin one command.  This defeats the notion of A command based system.
+
+For a complicated system like the Arm, I would suspect that there are multiple commands.  With each command having its own state engine.
+
+The way I see it being used here, you have one command, the is always in the execute state; it never ends.
+
+I see at least two states being used.  One to drive the arm from one predefined configuration to another.
+When that is happenng,  the joysticks are completely ignored.
+
+the second state would be an Operator controlled state, where the joysticks are in control.  This would probably be 
+the default command, which is interrupted and stopped when a Botton Box button is pressed.
+
+
+
+
+
+**/
