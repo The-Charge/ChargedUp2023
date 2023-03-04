@@ -23,6 +23,7 @@ public class MoveMagicArm extends CommandBase {
   private boolean secondStepNeeded = false;
   private int finalState = 0;
   private boolean elbowHitIntermediate = false;
+
   private boolean shoulderHitTarget = false;
 
   public MoveMagicArm(MagicArm subsystem) {
@@ -78,9 +79,9 @@ public class MoveMagicArm extends CommandBase {
     }else{
       double xSpeed = -RobotContainer.getInstance().getleftJoystick().getY()/500;
       double ySpeed = -RobotContainer.getInstance().getrightJoystick().getY()/500;
-      if (Math.abs(xSpeed) < 0.0002)xSpeed = 0;
-      if (Math.abs(ySpeed) < 0.0002)ySpeed = 0;
-      if(Math.abs(xSpeed) < 0.0002 && Math.abs(ySpeed) <0.0002){
+      if (Math.abs(xSpeed) < 0.0005)xSpeed = 0;
+      if (Math.abs(ySpeed) < 0.0005)ySpeed = 0;
+      if(Math.abs(xSpeed) < 0.0005 && Math.abs(ySpeed) <0.0005){
         double[] xy = m_arm.getXY(m_arm.getShoulderAngle(),m_arm.getElbowAngle()); 
         targetX = xy[0];
         targetY = xy[1];
@@ -124,6 +125,8 @@ public class MoveMagicArm extends CommandBase {
         if (angles[2] > 0){
           targetShoulderAngle = angles[0];
           targetElbowAngle = angles[1];
+          SmartDashboard.putNumber("targetShoulderAngle", targetShoulderAngle);
+          SmartDashboard.putNumber("TargetElbowAngle", targetElbowAngle);
         }
       }
 

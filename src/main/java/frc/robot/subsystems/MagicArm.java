@@ -84,11 +84,11 @@ public class MagicArm extends SubsystemBase {
 
 
     /* Zero the sensor once on robot boot up */
-    shldrMtr.setSelectedSensorPosition(0, MagicArmCnsts.kPIDLoopIdxShldr, MagicArmCnsts.kTimeoutMs);
-    elbowMtr.setSelectedSensorPosition(0, MagicArmCnsts.kPIDLoopIdxElbow, MagicArmCnsts.kTimeoutMs);
+    //shldrMtr.setSelectedSensorPosition(0, MagicArmCnsts.kPIDLoopIdxShldr, MagicArmCnsts.kTimeoutMs);
+    //elbowMtr.setSelectedSensorPosition(0, MagicArmCnsts.kPIDLoopIdxElbow, MagicArmCnsts.kTimeoutMs);
 
     shldrMtr.setNeutralMode(NeutralMode.Brake);
-		elbowMtr.setNeutralMode(NeutralMode.Coast);
+		elbowMtr.setNeutralMode(NeutralMode.Brake);
   }
 
   public boolean isXYInLimit(double x, double y){
@@ -98,6 +98,7 @@ public class MagicArm extends SubsystemBase {
     if(Math.abs(x) < robotLimit.robotLength / 2 && y < 0)return false;
     return true;
   }
+  // calculate constraints later 
 
   public double[] getXY (double shoulderParameter, double elbowParameter){
     double[] xy = new double[2];
@@ -112,6 +113,7 @@ public class MagicArm extends SubsystemBase {
     double[] xy = getXY(targetShoulderAngle, targetElbowAngle);
     return isXYInLimit(xy[0],xy[1]);
   }
+  // add polar limit
 
   public double[] getAngles(double targetX, double targetY){
     // first value is for shoulder angle to achieve the target x,y

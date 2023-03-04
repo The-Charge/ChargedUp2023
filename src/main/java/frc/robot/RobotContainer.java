@@ -24,8 +24,8 @@ public class RobotContainer {
 
     private static RobotContainer m_robotContainer = new RobotContainer();
 
-    public final Arm m_arm = new Arm();
-    //public final MagicArm m_arm = new MagicArm();
+    //public final Arm m_arm = new Arm();
+    public final MagicArm m_arm = new MagicArm();
 
     //public final Claw m_claw = new Claw();
 
@@ -47,9 +47,9 @@ private final Joystick leftJoystick = new Joystick(0);
 
         //configureButtonBindings();
         //m_drivetrain.setDefaultCommand(new TankDrive( m_drivetrain ) );
-        m_arm.setDefaultCommand(new MoveArm(m_arm));
+        //m_arm.setDefaultCommand(new MoveArm(m_arm));
         //m_claw.setDefaultCommand(new RunClaw(m_claw));
-        //m_arm.setDefaultCommand(new MoveMagicArm(m_arm));
+        m_arm.setDefaultCommand(new MoveMagicArm(m_arm));
 
         SmartDashboard.putData("AutoSelect", m_chooser);
     }
