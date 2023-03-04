@@ -16,6 +16,7 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+  
   public static final class ArmConstants {
     public static final int shoulderCAN_ID = 15;
     public static final int elbowCAN_ID = 14;
@@ -43,5 +44,19 @@ public final class Constants {
     public static final double height = 78*0.0254;
     public static final double widthFromCenter = 66 * 0.0254;
     public static final double robotLength = 40 * 0.0254;
-}
+  }
+
+  public static final class MagicArmCnsts{
+    public static final int kSlotIdxShldr = 0;
+    public static final int kSlotIdxElbow = 0;
+    public static final int kPIDLoopIdxShldr = 0;
+    public static final int kPIDLoopIdxElbow = 0;
+    public static final int kTimeoutMs = 30;
+	  /**
+	    * Gains used in Motion Magic, to be adjusted accordingly
+      * Gains(kp, ki, kd, kf, izone, peak output);
+    */
+    public static final Gains kGainsShldr = new Gains(5, 0.001, 0.0, 0.0, 0, 1.0);
+    public static final Gains kGainsElbow = new Gains(7, 0.0, 0.0, 0.0, 0, 1.0);
+  }
 }

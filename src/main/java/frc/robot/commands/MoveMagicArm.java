@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.MagicArm;
 
-public class MoveArm extends CommandBase {
-  /** Creates a new MoveArm. */
-  private Arm m_arm;
+public class MoveMagicArm extends CommandBase {
+  private MagicArm m_arm;
   private double targetElbowAngle = 0;
   private double targetShoulderAngle = 0;
   private double targetX = ArmConstants.targetX[0];
@@ -25,7 +25,7 @@ public class MoveArm extends CommandBase {
   private boolean elbowHitIntermediate = false;
   private boolean shoulderHitTarget = false;
 
-  public MoveArm(Arm subsystem) {
+  public MoveMagicArm(MagicArm subsystem) {
     m_arm = subsystem;
     addRequirements(m_arm);
   }
@@ -166,17 +166,7 @@ public class MoveArm extends CommandBase {
         }else armState = 4;
       }
     } 
-    holdPosition(); 
-  }
-
-  private void holdPosition(){
-    double currentElbowAngle = m_arm.getElbowAngle();
-    double currentShoulderAngle = m_arm.getShoulderAngle();
-    double temp = targetShoulderAngle-currentShoulderAngle;
-    m_arm.run(3 * temp + Math.abs(temp)/temp*ArmConstants.shoulderRestVoltage[armState], 
-      3 * (targetElbowAngle - currentElbowAngle) + ArmConstants.elbowRestVoltage[armState]);
-    SmartDashboard.putNumber("targetshoulder", targetShoulderAngle);
-    SmartDashboard.putNumber("targetelbow", targetElbowAngle);
+    m_arm.run(targetShoulderAngle, targetElbowAngle);; 
   }
 
   // Called once the command ends or is interrupted.
@@ -185,7 +175,6 @@ public class MoveArm extends CommandBase {
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
-    return false;
-  }
+  public boolean isFinished() {return false;}
 }
+ 
