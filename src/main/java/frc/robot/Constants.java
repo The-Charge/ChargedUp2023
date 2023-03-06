@@ -30,9 +30,9 @@ public final class Constants {
     public static final double shoulderperMotorTick = 6.28/4096;
     public static final int numberOfState = 5;
     public static final double shoulderPowerLimit = 0.6;
-    public static double[] targetShoulder = {0, -0.8,-0.42,  0.8, 0.42};
-    public static double[] targetElbow =    {0,  1.7, 2.00, -1.7, -2.0};
-    public static double[] targetX ={0.000, 1.43, 1.32, -1.43, -1.32};
+    public static double[] targetShoulder = {0, -0.46,-0.42,  0.46, 0.42};
+    public static double[] targetElbow =    {0,  1.02, 2.00, -1.02, -2.0};
+    public static double[] targetX ={0.000, 0.93, 1.32, -0.93, -1.32};
     public static double[] targetY ={0.076, 0.12, 0.91,  0.12,  0.91};
     public static double[] xRange = {0.2, 0.3, 0.23, 0.3, 0.23};
     public static double[] yRange = {0.2, 0.2, 0.20, 0.2, 0.20};
@@ -41,9 +41,11 @@ public final class Constants {
   }
 
   public static final class robotLimit{
-    public static final double height = 78*0.0254;
+    public static final double height = (78-11)*0.0254;
     public static final double widthFromCenter = 66 * 0.0254;
     public static final double robotLength = 40 * 0.0254;
+    public static final double shoulderRange = 0.87;
+    public static final double elbowRange = 175/180*3.1415;
   }
 
   public static final class MagicArmCnsts{

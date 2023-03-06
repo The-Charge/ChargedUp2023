@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.MagicArm;
 
 public class MoveMagicArm extends CommandBase {
@@ -23,7 +22,7 @@ public class MoveMagicArm extends CommandBase {
   private boolean secondStepNeeded = false;
   private int finalState = 0;
   private boolean elbowHitIntermediate = false;
-
+  private boolean joyStickMoved = false;
   private boolean shoulderHitTarget = false;
 
   public MoveMagicArm(MagicArm subsystem) {
@@ -43,6 +42,7 @@ public class MoveMagicArm extends CommandBase {
     targetShoulderAngle = 0;
     elbowHitIntermediate = true;
     shoulderHitTarget = true;
+    joyStickMoved = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -65,6 +65,7 @@ public class MoveMagicArm extends CommandBase {
           targetElbowAngle = ArmConstants.targetElbow[armState];
           if (Math.abs(m_arm.getElbowAngle() - targetElbowAngle) < 0.1){
             inTransittion = false;
+            joyStickMoved = false;
             targetX = ArmConstants.targetX[armState];
             targetY = ArmConstants.targetY[armState];
           }
@@ -79,12 +80,13 @@ public class MoveMagicArm extends CommandBase {
     }else{
       double xSpeed = -RobotContainer.getInstance().getleftJoystick().getY()/500;
       double ySpeed = -RobotContainer.getInstance().getrightJoystick().getY()/500;
-      if (Math.abs(xSpeed) < 0.0005)xSpeed = 0;
-      if (Math.abs(ySpeed) < 0.0005)ySpeed = 0;
-      if(Math.abs(xSpeed) < 0.0005 && Math.abs(ySpeed) <0.0005){
+      if (Math.abs(xSpeed) < 0.0005)xSpeed = 0; else joyStickMoved = true;
+      if (Math.abs(ySpeed) < 0.0005)ySpeed = 0; else joyStickMoved = true;
+      if(Math.abs(xSpeed) < 0.0005 && Math.abs(ySpeed) <0.0005 && joyStickMoved){
         double[] xy = m_arm.getXY(m_arm.getShoulderAngle(),m_arm.getElbowAngle()); 
         targetX = xy[0];
         targetY = xy[1];
+        joyStickMoved = false;
       }      
       if (armState == 0){
         targetShoulderAngle = targetShoulderAngle + xSpeed;
@@ -125,8 +127,6 @@ public class MoveMagicArm extends CommandBase {
         if (angles[2] > 0){
           targetShoulderAngle = angles[0];
           targetElbowAngle = angles[1];
-          SmartDashboard.putNumber("targetShoulderAngle", targetShoulderAngle);
-          SmartDashboard.putNumber("TargetElbowAngle", targetElbowAngle);
         }
       }
 
@@ -161,7 +161,6 @@ public class MoveMagicArm extends CommandBase {
       }else if(RobotContainer.getInstance().getleftJoystick().getRawButton(6) && !(armState == 4)){
         inTransittion = true;
         elbowHitIntermediate = false;
-        armState = 4;
         if(armState == 1 || armState == 2){
           secondStepNeeded = true;
           armState = 0;
@@ -170,6 +169,8 @@ public class MoveMagicArm extends CommandBase {
       }
     } 
     m_arm.run(targetShoulderAngle, targetElbowAngle);; 
+    SmartDashboard.putNumber("targetShoulderAngle", targetShoulderAngle);
+    SmartDashboard.putNumber("TargetElbowAngle", targetElbowAngle);
   }
 
   // Called once the command ends or is interrupted.

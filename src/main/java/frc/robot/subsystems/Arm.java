@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.robotLimit;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
@@ -32,6 +33,10 @@ public class Arm extends SubsystemBase {
     if(Math.abs(x) > robotLimit.widthFromCenter) return false;
     if(Math.abs(x) < robotLimit.robotLength / 2 && y < 0)return false;
     return true;
+  }
+
+  public double[] getXY(){
+    return getXY(shoulderAngle, elbowAngle);
   }
 
   public double[] getXY (double shoulderParameter, double elbowParameter){
@@ -77,13 +82,8 @@ public class Arm extends SubsystemBase {
   }
 
   public void run(double shoulderPower, double elbowPower){
-    if(shoulderPower > ArmConstants.shoulderPowerLimit){
-      shoulderPower = ArmConstants.shoulderPowerLimit;
-    }else if(shoulderPower < -ArmConstants.shoulderPowerLimit){
-      shoulderPower = -ArmConstants.shoulderPowerLimit;
-    }
     elbowMotor.set(elbowPower);
-    shoulderMotor.set(shoulderPower);
+    shoulderMotor.set(MathUtil.clamp(shoulderPower, ArmConstants.shoulderPowerLimit, - ArmConstants.shoulderPowerLimit));
     SmartDashboard.putNumber("shoulderPower", shoulderPower);
     SmartDashboard.putNumber("elbowPower", elbowPower);
   }

@@ -5,13 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.Arm;
 
 public class MoveArm extends CommandBase {
-  /** Creates a new MoveArm. */
   private Arm m_arm;
   private double targetElbowAngle = 0;
   private double targetShoulderAngle = 0;
@@ -24,6 +24,7 @@ public class MoveArm extends CommandBase {
   private int finalState = 0;
   private boolean elbowHitIntermediate = false;
   private boolean shoulderHitTarget = false;
+  private boolean joyStickMoved = false;
 
   public MoveArm(Arm subsystem) {
     m_arm = subsystem;
@@ -42,6 +43,7 @@ public class MoveArm extends CommandBase {
     targetShoulderAngle = 0;
     elbowHitIntermediate = true;
     shoulderHitTarget = true;
+    joyStickMoved = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -64,6 +66,7 @@ public class MoveArm extends CommandBase {
           targetElbowAngle = ArmConstants.targetElbow[armState];
           if (Math.abs(m_arm.getElbowAngle() - targetElbowAngle) < 0.1){
             inTransittion = false;
+            joyStickMoved = false;
             targetX = ArmConstants.targetX[armState];
             targetY = ArmConstants.targetY[armState];
           }
@@ -78,12 +81,13 @@ public class MoveArm extends CommandBase {
     }else{
       double xSpeed = -RobotContainer.getInstance().getleftJoystick().getY()/500;
       double ySpeed = -RobotContainer.getInstance().getrightJoystick().getY()/500;
-      if (Math.abs(xSpeed) < 0.0002)xSpeed = 0;
-      if (Math.abs(ySpeed) < 0.0002)ySpeed = 0;
-      if(Math.abs(xSpeed) < 0.0002 && Math.abs(ySpeed) <0.0002){
+      if (Math.abs(xSpeed) < 0.0002)xSpeed = 0; else joyStickMoved = true;
+      if (Math.abs(ySpeed) < 0.0002)ySpeed = 0; else joyStickMoved = true;
+      if(Math.abs(xSpeed) < 0.0002 && Math.abs(ySpeed) <0.0002 && joyStickMoved){
         double[] xy = m_arm.getXY(m_arm.getShoulderAngle(),m_arm.getElbowAngle()); 
         targetX = xy[0];
         targetY = xy[1];
+        joyStickMoved = false;
       }      
       if (armState == 0){
         targetShoulderAngle = targetShoulderAngle + xSpeed;
@@ -101,18 +105,10 @@ public class MoveArm extends CommandBase {
       }else{
         double oldX = targetX;
         double oldY = targetY;
-        targetX = targetX + xSpeed;
-        targetY = targetY + ySpeed;
-        if (targetX > ArmConstants.targetX[armState] + ArmConstants.xRange[armState]){
-          targetX = ArmConstants.targetX[armState] + ArmConstants.xRange[armState];
-        }else if (targetX < ArmConstants.targetX[armState] -  ArmConstants.xRange[armState]){
-          targetX = ArmConstants.targetX[armState] -  ArmConstants.xRange[armState];
-        }
-        if (targetY > ArmConstants.targetY[armState] + ArmConstants.yRange[armState]){
-          targetY = ArmConstants.targetY[armState] + ArmConstants.yRange[armState];
-        }else if (targetY < ArmConstants.targetY[armState] - ArmConstants.yRange[armState]){
-          targetY = ArmConstants.targetY[armState] - ArmConstants.yRange[armState];
-        }
+        targetX = MathUtil.clamp(targetX + xSpeed, ArmConstants.targetX[armState] + ArmConstants.xRange[armState],
+          ArmConstants.targetX[armState] -  ArmConstants.xRange[armState]);
+        targetY = MathUtil.clamp(targetY + ySpeed,  ArmConstants.targetY[armState] + ArmConstants.yRange[armState],
+          ArmConstants.targetY[armState] - ArmConstants.yRange[armState]);
         if(!m_arm.isXYInLimit(targetX, targetY)){
           targetX = oldX;
           targetY = oldY;
@@ -158,7 +154,6 @@ public class MoveArm extends CommandBase {
       }else if(RobotContainer.getInstance().getleftJoystick().getRawButton(6) && !(armState == 4)){
         inTransittion = true;
         elbowHitIntermediate = false;
-        armState = 4;
         if(armState == 1 || armState == 2){
           secondStepNeeded = true;
           armState = 0;
