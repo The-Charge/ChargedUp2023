@@ -24,7 +24,7 @@ public class RunClaw extends CommandBase {
   @Override
   public void execute() {
     if(RobotContainer.getInstance().getleftJoystick().getRawButton(1))m_Claw.openClaw();
-    else m_Claw.CloseClaw();
+    else m_Claw.closeClaw();
   }
 
   // Called once the command ends or is interrupted.
