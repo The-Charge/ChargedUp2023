@@ -14,8 +14,12 @@ package frc.robot;
 
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
+
+import com.pathplanner.lib.server.PathPlannerServer;
+
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -43,8 +47,24 @@ public class Robot extends TimedRobot {
         // autonomous chooser on the dashboard.
         m_robotContainer = RobotContainer.getInstance();
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
+
+        PathPlannerServer.startServer(5811); //Comment out for comp.
+
+        ValueModifier();
     }
 
+    private void ValueModifier() {
+        SmartDashboard.putNumber("ksVolts", Constants.SysIDConstants.ksVolts);
+        SmartDashboard.putNumber("kvVoltSecondsPerMeter", Constants.SysIDConstants.kvVoltSecondsPerMeter);
+        SmartDashboard.putNumber("kaVoltSecondsSquaredPerMeter", Constants.SysIDConstants.kaVoltSecondsSquaredPerMeter);
+        SmartDashboard.putNumber("kPDriveVel", Constants.SysIDConstants.kPDriveVel);
+        SmartDashboard.putNumber("kIDriveVel", Constants.SysIDConstants.kIDriveVel);
+        SmartDashboard.putNumber("kDDriveVel", Constants.SysIDConstants.kDDriveVel);
+        SmartDashboard.putNumber("kMaxSpeedMetersPerSecond", Constants.SysIDConstants.kMaxSpeedMetersPerSecond);
+        SmartDashboard.putNumber("kMaxAccelerationMetersPerSecondSquared",
+                Constants.SysIDConstants.kMaxAccelerationMetersPerSecondSquared);
+
+    }
     /**
      * This function is called every robot packet, no matter the mode. Use this for
      * items like
