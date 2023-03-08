@@ -169,7 +169,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getHeading() {
-    return navx.getRotation2d().getDegrees();
+    return navx.getAngle();
   }
 
   public void resetEncoders() {
