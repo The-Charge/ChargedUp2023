@@ -82,17 +82,17 @@ public class Drivetrain extends SubsystemBase {
     differentialDrive = new DifferentialDrive(left, right);
 
     leftFrontMotor.setInverted(false);
-    leftFrontMotor.setNeutralMode(NeutralMode.Coast);
+    leftFrontMotor.setNeutralMode(NeutralMode.Brake);
 
     leftRearMotor.setInverted(false);
-    leftRearMotor.setNeutralMode(NeutralMode.Coast);
+    leftRearMotor.setNeutralMode(NeutralMode.Brake);
 
     // Right side inverted
     rightFrontMotor.setInverted(true);
-    rightFrontMotor.setNeutralMode(NeutralMode.Coast);
+    rightFrontMotor.setNeutralMode(NeutralMode.Brake);
 
     rightRearMotor.setInverted(true);
-    rightRearMotor.setNeutralMode(NeutralMode.Coast);
+    rightRearMotor.setNeutralMode(NeutralMode.Brake);
 
     rightRearMotor.follow(rightFrontMotor);
     leftRearMotor.follow(leftFrontMotor);

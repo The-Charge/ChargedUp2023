@@ -104,6 +104,7 @@ public class Turn90Relative extends CommandBase {
 
         m_drivetrain.run(leftSpeed, rightSpeed);
         SmartDashboard.putNumber("Distance to travel", finalDegrees - m_drivetrain.getHeading());
+        SmartDashboard.putNumber("Speed", speed);
     }
 
     // Called once the command ends or is interrupted.
