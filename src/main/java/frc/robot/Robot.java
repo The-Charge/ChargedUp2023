@@ -54,13 +54,22 @@ public class Robot extends TimedRobot {
     }
 
     private void ValueModifier() {
+        //value modifier is for testing, disable or comment out in comp.
+        //put volt constants into temp constants
         SmartDashboard.putNumber("ksVolts", Constants.SysIDConstants.ksVolts);
-        SmartDashboard.putNumber("kvVoltSecondsPerMeter", Constants.SysIDConstants.kvVoltSecondsPerMeter);
-        SmartDashboard.putNumber("kaVoltSecondsSquaredPerMeter", Constants.SysIDConstants.kaVoltSecondsSquaredPerMeter);
+        SmartDashboard.putNumber("kvVoltSecondsPerMeter", 
+        Constants.SysIDConstants.kvVoltSecondsPerMeter);
+        SmartDashboard.putNumber("kaVoltSecondsSquaredPerMeter", 
+        Constants.SysIDConstants.kaVoltSecondsSquaredPerMeter);
+
+        //put PID values into temp constants
         SmartDashboard.putNumber("kPDriveVel", Constants.SysIDConstants.kPDriveVel);
         SmartDashboard.putNumber("kIDriveVel", Constants.SysIDConstants.kIDriveVel);
         SmartDashboard.putNumber("kDDriveVel", Constants.SysIDConstants.kDDriveVel);
-        SmartDashboard.putNumber("kMaxSpeedMetersPerSecond", Constants.SysIDConstants.kMaxSpeedMetersPerSecond);
+
+        //put max speed and acceleration into temp constants
+        SmartDashboard.putNumber("kMaxSpeedMetersPerSecond", 
+        Constants.SysIDConstants.kMaxSpeedMetersPerSecond);
         SmartDashboard.putNumber("kMaxAccelerationMetersPerSecondSquared",
                 Constants.SysIDConstants.kMaxAccelerationMetersPerSecondSquared);
 

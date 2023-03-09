@@ -94,7 +94,7 @@ public class RobotContainer {
 
   private void pathSendableChooserInit() {
     //Makes new array of paths (strings)
-    String[] test = new String[4];
+    String[] test = new String[(int)Constants.SysIDConstants.NUMBER_OF_PATHWAYS];
 
     //manually places in paths
     test[0] = "None";

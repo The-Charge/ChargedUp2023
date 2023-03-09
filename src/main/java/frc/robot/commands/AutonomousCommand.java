@@ -78,6 +78,7 @@ public class AutonomousCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        //This checks if a path is selected
         if (RobotContainer.getInstance().getSelectedPath() != "None") {
             m_autonomousCommand = getAutonomousCommandPath();
         }
@@ -131,13 +132,19 @@ public class AutonomousCommand extends CommandBase {
     }
     
     private void getSmartDashValues() {
+        //get Volt constraints for SysID
         ksVolts = SmartDashboard.getNumber("ksVolts", Constants.SysIDConstants.ksVolts);
-        kvVoltSecondsPerMeter = SmartDashboard.getNumber("kvVoltSecondsPerMeter", Constants.SysIDConstants.kvVoltSecondsPerMeter);
+        kvVoltSecondsPerMeter = SmartDashboard.getNumber("kvVoltSecondsPerMeter", 
+        Constants.SysIDConstants.kvVoltSecondsPerMeter);
         kaVoltSecondsSquaredPerMeter = SmartDashboard.getNumber("kaVoltSecondsSquaredPerMeter",
                 Constants.SysIDConstants.kaVoltSecondsSquaredPerMeter);
+
+        //get PID values for SysID
         kPDriveVel = SmartDashboard.getNumber("kPDriveVel", Constants.SysIDConstants.kPDriveVel);
         kIDriveVel = SmartDashboard.getNumber("kIDriveVel", Constants.SysIDConstants.kIDriveVel);
         kDDriveVel = SmartDashboard.getNumber("kDDriveVel", Constants.SysIDConstants.kDDriveVel);
+
+        //get max speed and acceleration for SysID
         kMaxSpeedMetersPerSecond = SmartDashboard.getNumber("kMaxSpeedMetersPerSecond",
                 Constants.SysIDConstants.kMaxSpeedMetersPerSecond);
         kMaxAccelerationMetersPerSecondSquared = SmartDashboard.getNumber("kMaxAccelerationMetersPerSecondSquared",
