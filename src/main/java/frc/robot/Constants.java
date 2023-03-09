@@ -45,7 +45,7 @@ public final class Constants {
     public static final double widthFromCenter = 66 * 0.0254;
     public static final double robotLength = 40 * 0.0254;
     public static final double shoulderRange = 0.87;
-    public static final double elbowRange = 175/180*3.1415;
+    public static final double elbowRange = (175/180)*3.1415;
   }
 
   public static final class MagicArmCnsts{

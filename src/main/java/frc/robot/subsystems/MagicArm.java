@@ -174,8 +174,9 @@ public class MagicArm extends SubsystemBase {
       angles[0] = Math.abs(Math.PI/2 - oppositeElbowAngle - Math.atan(_y/Math.abs(_x)));  //convert angle from +x axis to the shoulder motor angle
       if (_x > 0) angles[0] = -angles[0];                 //the triangle is solved as in the 1st quadrant, now compensate if it is in the 2nd quad.
       if (angles[0] > 0)angles[1] = -angles[1];           //Forcing the elbow and the shoulder in the same quadrant, also takes care of the elbow in the 2nd quad math
-      if(Math.abs(angles[0]) > robotLimit.shoulderRange || Math.abs(angles[1]) > robotLimit.elbowRange) angles[2] = -1;  //tell user to ignore solutions because it is outside the range set by the robot design
-      else angles[2] = 1; //acceptable solution
+      //if(Math.abs(angles[0]) > robotLimit.shoulderRange || Math.abs(angles[1]) > robotLimit.elbowRange) angles[2] = -1;  //tell user to ignore solutions because it is outside the range set by the robot design
+      //else 
+      angles[2] = 1; //acceptable solution
     }   
     return angles;
   }

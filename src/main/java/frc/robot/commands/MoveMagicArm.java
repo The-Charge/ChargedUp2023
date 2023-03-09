@@ -124,6 +124,7 @@ public class MoveMagicArm extends CommandBase {
         SmartDashboard.putNumber("targetY", targetY);
     
         double[] angles = m_arm.getAngles(targetX, targetY);
+        SmartDashboard.putNumber("Angle2", angles[2]);
         if (angles[2] > 0){
           targetShoulderAngle = angles[0];
           targetElbowAngle = angles[1];
