@@ -66,7 +66,7 @@ public class Claw extends SubsystemBase {
         clawSolenoid.set(true);
     }
 
-    public void closeClaw(boolean switchState) {
+    public void closeClaw(boolean switchState) { // switchState if closeClaw is not from defaultCommand
         clawSolenoid.set(false);
         SmartDashboard.putBoolean("Claw Open", false);
         if (switchState) {

@@ -34,8 +34,8 @@ public class MoveArmSimple extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double xSpeed = -RobotContainer.getInstance().getleftJoystick().getY() / 250;
-    double ySpeed = -RobotContainer.getInstance().getrightJoystick().getY() / 250;
+    double xSpeed = -RobotContainer.getInstance().getArmJoystick().getX() / 250; //.getleftJoystick().getY() / 250;
+    double ySpeed = -RobotContainer.getInstance().getArmJoystick().getY() / 250; //.getrightJoystick().getY() / 250;
     if (Math.abs(xSpeed) < 0.0004)
       xSpeed = 0;
     else

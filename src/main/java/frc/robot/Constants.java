@@ -70,4 +70,22 @@ public final class Constants {
     public static final Gains kGainsShldr = new Gains(8.0, 0.0001, 100.0, 0.1, 0, 1.0);
     public static final Gains kGainsElbow = new Gains(7.0, 0.0001, 70.0, 0.1, 0, 1.0);
   }
+
+  public static class Gains {
+    public final double kP;
+    public final double kI;
+    public final double kD;
+    public final double kF;
+    public final int kIzone;
+    public final double kPeakOutput;
+
+    public Gains(double _kP, double _kI, double _kD, double _kF, int _kIzone, double _kPeakOutput) {
+      kP = _kP;
+      kI = _kI;
+      kD = _kD;
+      kF = _kF;
+      kIzone = _kIzone;
+      kPeakOutput = _kPeakOutput;
+    }
+  }
 }

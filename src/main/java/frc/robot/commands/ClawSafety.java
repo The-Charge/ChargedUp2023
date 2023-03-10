@@ -56,12 +56,12 @@ public class ClawSafety extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        SmartDashboard.putBoolean("Is in robot", m_arm.isArmTipInsideRobotX());
-        if (m_arm.isArmTipInsideRobotX()) {
-            m_claw.closeClaw(false);
-        } else if (m_claw.isOpen) {
+        SmartDashboard.putBoolean("Is in robot", m_arm.isArmTipInsideRobotX()); // if robot arm is within the no-go zone
+        if (m_arm.isArmTipInsideRobotX()) { // if robot arm is within the no-go zone
+            m_claw.closeClaw(false); // temp close claw as it remains in the zone
+        } else if (m_claw.isOpen) { // re-open claw if was previously open
             m_claw.openClaw();
-        } else {
+        } else { // close is default
             m_claw.closeClaw(true);
         }
     }
