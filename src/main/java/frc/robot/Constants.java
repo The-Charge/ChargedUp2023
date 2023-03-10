@@ -45,7 +45,7 @@ public final class Constants {
     public static final double widthFromCenter = 66 * 0.0254;
     public static final double robotLength = 40 * 0.0254;
     public static final double shoulderRange = 0.87;
-    public static final double elbowRange = (175/180)*3.1415;
+    public static final double elbowRange = (175.0/180.0)*3.1415;
   }
 
   public static final class MagicArmCnsts{
@@ -58,7 +58,7 @@ public final class Constants {
 	    * Gains used in Motion Magic, to be adjusted accordingly
       * Gains(kp, ki, kd, kf, izone, peak output);
     */
-    public static final Gains kGainsShldr = new Gains(5, 0.001, 0.0, 0.0, 0, 1.0);
-    public static final Gains kGainsElbow = new Gains(7, 0.0, 0.0, 0.0, 0, 1.0);
+    public static final Gains kGainsShldr = new Gains(8.0, 0.0001, 100.0, 0.1, 0, 1.0);
+    public static final Gains kGainsElbow = new Gains(7.0, 0.0001, 70.0, 0.1, 0, 1.0);
   }
 }

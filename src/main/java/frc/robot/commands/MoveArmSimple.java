@@ -5,12 +5,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.MagicArm;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class MoveArmSimple extends CommandBase {
   /** Creates a new MoveArmSimple. */
@@ -36,27 +33,21 @@ public class MoveArmSimple extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double xSpeed = -RobotContainer.getInstance().getleftJoystick().getY()/500;
-    double ySpeed = -RobotContainer.getInstance().getrightJoystick().getY()/500;
-    if (Math.abs(xSpeed) < 0.0005)xSpeed = 0; else joyStickMoved = true;
-    if (Math.abs(ySpeed) < 0.0005)ySpeed = 0; else joyStickMoved = true;
-    if(Math.abs(xSpeed) < 0.0005 && Math.abs(ySpeed) <0.0005 && joyStickMoved){
+    double xSpeed = -RobotContainer.getInstance().getleftJoystick().getY()/250;
+    double ySpeed = -RobotContainer.getInstance().getrightJoystick().getY()/250;
+    if (Math.abs(xSpeed) < 0.0004)xSpeed = 0; else joyStickMoved = true;
+    if (Math.abs(ySpeed) < 0.0004)ySpeed = 0; else joyStickMoved = true;
+    if(Math.abs(xSpeed) < 0.0004 && Math.abs(ySpeed) <0.0004 && joyStickMoved){
       double[] xy = m_arm.getXY(); 
       targetX = xy[0];
       targetY = xy[1];
       joyStickMoved = false;
     }      
-    double oldX = targetX;
-    double oldY = targetY;
-    targetX = targetX + xSpeed;
-    targetY = targetY + ySpeed;
-    if(!m_arm.isXYInLimit(targetX, targetY)){
-      targetX = oldX;
-      targetY = oldY;
-    }
-    SmartDashboard.putNumber("targetX", targetX);
-    SmartDashboard.putNumber("targetY", targetY);
-    m_arm.moveToXY(targetX, targetY);
+    targetX = m_arm.getLigitX(targetX + xSpeed);
+    targetY = m_arm.getLigitY(targetX, targetY + ySpeed);
+    m_arm.moveTowardXY(targetX, targetY);
+    SmartDashboard.putNumber("targetX", targetX / 0.0254);
+    SmartDashboard.putNumber("targetY", targetY / 0.0254 + 11);
   }
 
   // Called once the command ends or is interrupted.

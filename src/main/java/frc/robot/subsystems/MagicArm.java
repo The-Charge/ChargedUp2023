@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.MagicArmCnsts;
 import frc.robot.Constants.robotLimit;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -89,8 +90,10 @@ public class MagicArm extends SubsystemBase {
 
     //Need the code from Mr. Curry to set relative sensor values from abosulte sensor values
     /* Zero the sensor once on robot boot up */
-    //shldrMtr.setSelectedSensorPosition(0, MagicArmCnsts.kPIDLoopIdxShldr, MagicArmCnsts.kTimeoutMs);
-    //elbowMtr.setSelectedSensorPosition(0, MagicArmCnsts.kPIDLoopIdxElbow, MagicArmCnsts.kTimeoutMs);
+    int shldrTick = -(shldrMtr.getSensorCollection().getPulseWidthPosition() % 4096  - 23);
+    shldrMtr.setSelectedSensorPosition(shldrTick, MagicArmCnsts.kPIDLoopIdxShldr, MagicArmCnsts.kTimeoutMs);
+    int elbowTick = -(elbowMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1804);
+    elbowMtr.setSelectedSensorPosition(elbowTick, MagicArmCnsts.kPIDLoopIdxElbow, MagicArmCnsts.kTimeoutMs);
 
     shldrMtr.setNeutralMode(NeutralMode.Brake);
 		elbowMtr.setNeutralMode(NeutralMode.Brake);
@@ -108,6 +111,17 @@ public class MagicArm extends SubsystemBase {
     if(Math.abs(_x) > robotLimit.widthFromCenter) return false;            //Not extend >48 inch from the robot
     if(Math.abs(_x) < robotLimit.robotLength / 2 && _y < 0)return false;    //Not below the shoulder mount while inside the robot
     return true;
+  }
+
+  public double getLigitX(double _x){
+    return MathUtil.clamp(_x, -robotLimit.widthFromCenter, robotLimit.widthFromCenter);            
+  }
+
+  public double getLigitY(double _x, double _y){
+    if(Math.abs(_x) < robotLimit.robotLength / 2) {
+      return MathUtil.clamp(_y, 0, ArmConstants.shoulderL - (Math.sqrt(ArmConstants.elbowL * ArmConstants.elbowL - _x*_x)));
+    }
+    else return MathUtil.clamp(_y, -ArmConstants.shoulderHeight + 0.1, robotLimit.height);
   }
 
   /**
@@ -174,9 +188,8 @@ public class MagicArm extends SubsystemBase {
       angles[0] = Math.abs(Math.PI/2 - oppositeElbowAngle - Math.atan(_y/Math.abs(_x)));  //convert angle from +x axis to the shoulder motor angle
       if (_x > 0) angles[0] = -angles[0];                 //the triangle is solved as in the 1st quadrant, now compensate if it is in the 2nd quad.
       if (angles[0] > 0)angles[1] = -angles[1];           //Forcing the elbow and the shoulder in the same quadrant, also takes care of the elbow in the 2nd quad math
-      //if(Math.abs(angles[0]) > robotLimit.shoulderRange || Math.abs(angles[1]) > robotLimit.elbowRange) angles[2] = -1;  //tell user to ignore solutions because it is outside the range set by the robot design
-      //else 
-      angles[2] = 1; //acceptable solution
+      if(Math.abs(angles[0]) > robotLimit.shoulderRange || Math.abs(angles[1]) > robotLimit.elbowRange) angles[2] = -1;  //tell user to ignore solutions because it is outside the range set by the robot design
+      else angles[2] = 1; //acceptable solution
     }   
     return angles;
   }
@@ -203,8 +216,8 @@ public class MagicArm extends SubsystemBase {
     shldrAngl = shldrTicks * ArmConstants.shoulderperMotorTick;
     SmartDashboard.putNumber("ElbowEncoder",    elbowTicks);
 		SmartDashboard.putNumber("ShoulderEncoder", shldrTicks);
-    SmartDashboard.putNumber("currentShoulderAngle", shldrAngl);
-    SmartDashboard.putNumber("currentElbowAngle",    elbowAngl);
+    SmartDashboard.putNumber("currentShoulderAngle", shldrAngl/3.14*180.0);
+    SmartDashboard.putNumber("currentElbowAngle",    elbowAngl/3.14*180.0);
   }
 
   public boolean isArmTipInsideRobotX(){
@@ -219,17 +232,16 @@ public class MagicArm extends SubsystemBase {
    * @param _y
    * @return true if a solution is available, otherwise false.
    */
-  public boolean moveToXYFromNeutral(double _x, double _y){
+  public boolean moveTowardXYFromNeutral(double _x, double _y){
     if (isXYInLimit(_x, _y)){
       double[] angles = getAngles(_x, _y);
       if(angles[2] > 0){
-        if (Math.abs(angles[1]-elbowAngl) < 0.1)run(angles[0], angles[1]); //elbow already at target, move shoulder
+        if (Math.abs(angles[1]-elbowAngl) < 0.05)run(angles[0], angles[1]); //elbow already at target, move shoulder
         else{
           double[] xy = getXY();
           if (Math.abs(xy[0]) < robotLimit.robotLength/2) run(shldrAngl, angles[1]); //only move the elbow if the arm tip has not cleared the robot,
           else if (xy[1] < -ArmConstants.shoulderHeight + 0.1) run(shldrAngl*0.99, angles[1]); //move the elbow and raise the shoulder a little if the arm tip is at the ground
           else run(angles[0], angles[1]); //move both arms if the arm tip has cleared the robot and not on the ground.
-          
         }
         return true;
       }else return false;
@@ -239,11 +251,11 @@ public class MagicArm extends SubsystemBase {
   /**
    * To lower the arm tip to the neutral position: shoulder up, elbow down
    */
-  public void moveToNeutral(){
+  public void moveTowardNeutral(){
     double[] xy = getXY();
     if(xy[1] > robotLimit.height)run(shldrAngl, 0); //if the arm tip is above the limit, lower the elbow only
     else{
-      if (Math.abs(shldrAngl) < 0.1)run(0,0); //if the shoulder is at 0, lower the elbow to 0
+      if (Math.abs(shldrAngl) < 0.05)run(0,0); //if the shoulder is at 0, lower the elbow to 0
       else run(0, elbowAngl); //if the shoulder is not at 0, move only the shoulder to 0
     }
   }
@@ -255,15 +267,15 @@ public class MagicArm extends SubsystemBase {
    * @param _y
    * @return true if a solution is available, otherwise false.
    */
-  public boolean moveToXY(double _x, double _y){
+  public boolean moveTowardXY(double _x, double _y){
     if(isXYInLimit(_x, _y)){
       double[] angles = getAngles(_x, _y);
       if(angles[2] > 0) { // a solution is found
         double[] xy = getXY();
-        if (xy[0] * _x > 0) moveToXYFromNeutral(_x, _y);  //the current and the desired arm tip positions at the same side of the robot
+        if (xy[0] * _x > 0) moveTowardXYFromNeutral(_x, _y);  //the current and the desired arm tip positions at the same side of the robot
         else {
-          if (Math.abs(shldrAngl) < 0.1)run(shldrAngl, angles[1]); //optimization to avoid the elbow slow down at the neutral position 
-          else moveToNeutral();  //move to neutral position if optimization cannot be safely performed.
+          if (Math.abs(shldrAngl) < 0.05)run(0, angles[1]); //optimization to avoid the elbow slow down at the neutral position 
+          else moveTowardNeutral();  //move to neutral position if optimization cannot be safely performed.
         }
         return true;
       }else return false;}

@@ -7,14 +7,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.MagicArm;
 
-public class MoveMagicArmToXY extends CommandBase {
-  private double m_X, m_Y;
+public class MoveArmToNeutral extends CommandBase {
   private MagicArm m_arm;
-  private boolean canMove = true;
-  
-  public MoveMagicArmToXY(MagicArm subsystem, double _x, double _y) {
-    m_X = _x;
-    m_Y = _y;
+
+  public MoveArmToNeutral(MagicArm subsystem) {
     m_arm = subsystem;
     addRequirements(m_arm);
   }
@@ -25,16 +21,16 @@ public class MoveMagicArmToXY extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {canMove = m_arm.moveTowardXY(m_X, m_Y);}
+  public void execute() {m_arm.moveTowardNeutral();}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {canMove = false;}
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     double[] xy = m_arm.getXY();
-    return(((xy[0]-m_X)*(xy[0]-m_X) + (xy[1]-m_Y)*(xy[1]-m_Y) < 0.01) || (!canMove));
+    return(Math.abs(xy[0]) < 0.02);
   }
 }
