@@ -17,20 +17,24 @@ public class MoveArmToNeutral extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {m_arm.moveTowardNeutral();}
+  public void execute() {
+    m_arm.moveTowardNeutral();
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     double[] xy = m_arm.getXY();
-    return(Math.abs(xy[0]) < 0.02);
+    return (Math.abs(xy[0]) < 0.02);
   }
 }

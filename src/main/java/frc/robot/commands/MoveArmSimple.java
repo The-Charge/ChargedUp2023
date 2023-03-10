@@ -15,6 +15,7 @@ public class MoveArmSimple extends CommandBase {
   private double targetX;
   private double targetY;
   private boolean joyStickMoved = false;
+
   public MoveArmSimple(MagicArm subsystem) {
     m_arm = subsystem;
     addRequirements(m_arm);
@@ -33,16 +34,22 @@ public class MoveArmSimple extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double xSpeed = -RobotContainer.getInstance().getleftJoystick().getY()/250;
-    double ySpeed = -RobotContainer.getInstance().getrightJoystick().getY()/250;
-    if (Math.abs(xSpeed) < 0.0004)xSpeed = 0; else joyStickMoved = true;
-    if (Math.abs(ySpeed) < 0.0004)ySpeed = 0; else joyStickMoved = true;
-    if(Math.abs(xSpeed) < 0.0004 && Math.abs(ySpeed) <0.0004 && joyStickMoved){
-      double[] xy = m_arm.getXY(); 
+    double xSpeed = -RobotContainer.getInstance().getleftJoystick().getY() / 250;
+    double ySpeed = -RobotContainer.getInstance().getrightJoystick().getY() / 250;
+    if (Math.abs(xSpeed) < 0.0004)
+      xSpeed = 0;
+    else
+      joyStickMoved = true;
+    if (Math.abs(ySpeed) < 0.0004)
+      ySpeed = 0;
+    else
+      joyStickMoved = true;
+    if (Math.abs(xSpeed) < 0.0004 && Math.abs(ySpeed) < 0.0004 && joyStickMoved) {
+      double[] xy = m_arm.getXY();
       targetX = xy[0];
       targetY = xy[1];
       joyStickMoved = false;
-    }      
+    }
     targetX = m_arm.getLigitX(targetX + xSpeed);
     targetY = m_arm.getLigitY(targetX, targetY + ySpeed);
     m_arm.moveTowardXY(targetX, targetY);
@@ -52,7 +59,8 @@ public class MoveArmSimple extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
