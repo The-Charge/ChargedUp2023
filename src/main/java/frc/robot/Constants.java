@@ -28,7 +28,26 @@ public class Constants {
       public static final int shifterChannel = 1; // Shifter
       public static final int clawChannel = 2; // Claw
    }
+   public static final class AutoConstants {
+      public static final double intakeSpeed = 0.4;
+      public static final double deliverSpeed = 1.0;
+      public static final double teleSpeed = 0.8;
+      public static final double kMaxSpeedMetersPerSecond = 1.5; // 1.0
+      public static final double kMaxAccelerationMetersPerSecondSquared = 1.0; // .5
 
+      // Reasonable baseline values for a RAMSETE follower in units of meters and
+      // seconds
+      public static final double kRamseteB = 2;
+      public static final double kRamseteZeta = 0.7;
+  
+      public static final double climbPowerLimit = 0.5;
+      public static final double climbPowerForwardBias = 0.2;
+      public static final double climbPowerBackwardBias = -0.2;
+      public static final double climbPitchGain = 0.5;
+      public static final double climbPitchDerivativeGain = 0.15;
+      public static final double fastClimbTicks = 22600;
+      public static final double headingGain = 0.02;
+  }
    public static final class SysIDConstants {
       public static final double ticksPerMeter = 17483.3; // Average from three tests from both encoders
 
