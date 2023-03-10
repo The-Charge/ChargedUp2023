@@ -27,7 +27,7 @@ public class RobotContainer {
 
     public final MagicArm m_arm = new MagicArm();
 
-    //public final Claw m_claw = new Claw();
+    public final Claw m_claw = new Claw();
 
     // Joysticks
     private final Joystick buttonBox = new Joystick(2);
@@ -48,6 +48,7 @@ public class RobotContainer {
         //m_drivetrain.setDefaultCommand(new TankDrive( m_drivetrain ) );
         //m_claw.setDefaultCommand(new RunClaw(m_claw));
         m_arm.setDefaultCommand(new MoveArmSimple(m_arm));
+        m_claw.setDefaultCommand(new ClawSafety(m_claw, m_arm));
         JoystickButton middleButton = new JoystickButton(rightJoystick,2);
         middleButton.onTrue((new MoveArmToNeutral(m_arm)).withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf));
         JoystickButton frontLowButton = new JoystickButton(rightJoystick,3);
@@ -59,6 +60,13 @@ public class RobotContainer {
         JoystickButton backHighButton = new JoystickButton(rightJoystick,6);
         backHighButton.onTrue((new MoveMagicArmToXY(m_arm, -1.2,1)).withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf)); 
         SmartDashboard.putData("AutoSelect", m_chooser);
+
+
+        JoystickButton openClawBtn = new JoystickButton(leftJoystick, 11);
+        openClawBtn.onTrue(new OpenClaw(m_claw));
+
+        JoystickButton closeClawBtn = new JoystickButton(leftJoystick, 12);
+        closeClawBtn.onTrue(new CloseClaw(m_claw));
     }
 
     public static RobotContainer getInstance() {
