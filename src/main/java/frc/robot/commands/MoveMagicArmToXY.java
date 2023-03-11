@@ -40,6 +40,6 @@ public class MoveMagicArmToXY extends CommandBase {
   @Override
   public boolean isFinished() {
     double[] xy = m_arm.getXY();
-    return (((xy[0] - m_X) * (xy[0] - m_X) + (xy[1] - m_Y) * (xy[1] - m_Y) < 0.01) || (!canMove));
+    return(((xy[0]-m_X)*(xy[0]-m_X) + (xy[1]-m_Y)*(xy[1]-m_Y) < 0.0007) || (!canMove));
   }
 }

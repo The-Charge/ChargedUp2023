@@ -59,6 +59,9 @@ public class Drivetrain extends SubsystemBase {
   private DifferentialDrive differentialDrive;
   private AHRS navx;
   private boolean isReversed = false, isHalfSpeed = false, isQuarterSpeed = false;
+  private double pitch = 0;
+  private double gyroOffset;
+  private double pitchOffset;
 
   /**
   *
@@ -102,15 +105,20 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putBoolean("HalfSpeed", isHalfSpeed);
     SmartDashboard.putBoolean("QuarterSpeed", isQuarterSpeed);
     SmartDashboard.putBoolean("Reversed", isReversed);
+
+    resetPitch();
+    resetHeading();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     /* Display 6-axis Processed Angle Data */
+    pitch = -(navx.getPitch() - pitchOffset);
+
     SmartDashboard.putBoolean("IMU_Connected", navx.isConnected());
     SmartDashboard.putNumber("IMU_Yaw", navx.getYaw());
-    SmartDashboard.putNumber("IMU_Pitch", navx.getPitch());
+    SmartDashboard.putNumber("IMU_Pitch", pitch);
 
     // displays encoder ticks
     SmartDashboard.putNumber("Left Encoder", getLeftEncoder());
@@ -210,6 +218,7 @@ public class Drivetrain extends SubsystemBase {
   public double getRightEncoder() {
     return rightRearMotor.getSelectedSensorPosition();
   }
+  public double getPitch(){ return pitch;}
 
   public void setBrake() {
     leftFrontMotor.setNeutralMode(NeutralMode.Brake);
@@ -228,8 +237,12 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getHeading() {
-    return navx.getRotation2d().getDegrees();
+    return navx.getRotation2d().getDegrees()-gyroOffset;
   }
+
+  public void resetPitch(){ pitchOffset = navx.getPitch();}
+  
+  public void resetHeading() { gyroOffset = navx.getRotation2d().getDegrees();}
 
   public void resetEncoders() {
     leftFrontMotor.setSelectedSensorPosition(0);
