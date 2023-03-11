@@ -267,7 +267,7 @@ public class MagicArm extends SubsystemBase {
 
   public boolean isArmTipInsideRobotX() {
     double[] xy = getXY();
-    return Math.abs(xy[0]) < robotLimit.robotLength / 2;
+    return Math.abs(xy[0]+0.1) < robotLimit.robotLength / 2;
   }
 
   /**
@@ -305,15 +305,11 @@ public class MagicArm extends SubsystemBase {
   /**
    * To lower the arm tip to the neutral position: shoulder up, elbow down
    */
-  public void moveTowardNeutral() {
-    double[] xy = getXY();
-    if (xy[1] > robotLimit.height)
-      run(shldrAngl, 0); // if the arm tip is above the limit, lower the elbow only
-    else {
-      if (Math.abs(shldrAngl) < 0.05)
-        run(0, 0); // if the shoulder is at 0, lower the elbow to 0
-      else
-        run(0, elbowAngl); // if the shoulder is not at 0, move only the shoulder to 0
+  public void moveTowardNeutral(){
+    if(Math.abs(elbowAngl) > 2.3)run(shldrAngl, 0); //if the arm tip is above the limit, lower the elbow only
+    else{
+      if (Math.abs(shldrAngl) < 0.1)run(0,0); //if the shoulder is at 0, lower the elbow to 0
+      else run(0, elbowAngl); //if the shoulder is not at 0, move only the shoulder to 0
     }
   }
 

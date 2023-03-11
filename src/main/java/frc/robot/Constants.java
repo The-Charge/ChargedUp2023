@@ -52,7 +52,7 @@ public final class Constants {
   public static final class robotLimit {
     public static final double height = (78 - 11) * 0.0254;
     public static final double widthFromCenter = 66 * 0.0254;
-    public static final double robotLength = 40 * 0.0254;
+    public static final double robotLength = 44 * 0.0254;
     public static final double shoulderRange = 0.87;
     public static final double elbowRange = (175.0 / 180.0) * 3.1415;
   }

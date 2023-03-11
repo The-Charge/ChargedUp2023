@@ -201,3 +201,4 @@ public class MoveMagicArm extends CommandBase {
     return false;
   }
 }
+
