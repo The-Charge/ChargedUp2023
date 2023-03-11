@@ -25,7 +25,15 @@ public final class Constants {
     public static final int shifterChannel = 1; // Shifter
     public static final int clawChannel = 2; // Claw
   }
-
+  public static final class AutoConstants {
+    public static final double climbPowerLimit = 0.6;
+    public static final double climbPowerForwardBias = 0.35;
+    public static final double climbPowerBackwardBias = -0.35;
+    public static final double climbPitchGain = 0.03;
+    public static final double climbPitchDerivativeGain = 0.6;
+    public static final double fastClimbTicks = 22600;
+    public static final double headingGain = 0.02;
+  }
   public static final class ArmConstants {
     public static final int shoulderCAN_ID = 15;
     public static final int elbowCAN_ID = 14;
