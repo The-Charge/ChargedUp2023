@@ -4,6 +4,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -88,4 +93,25 @@ public final class Constants {
       kPeakOutput = _kPeakOutput;
     }
   }
+
+  public static final class VisionConstants {
+    public static final String cameraName = "IMX219";
+
+    public static final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(4.6);
+    public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(16.7);
+ 
+    public static final double nodeSideDistanceMeters = Units.inchesToMeters(6.25 + 0);
+ 
+    public static final double fieldLength = Units.inchesToMeters(651.25);
+    public static final double fieldWidth = Units.inchesToMeters(315.5);
+ 
+    public static final Transform3d robotToCamera = new Transform3d(new Translation3d(0.31, 0.07, Units.inchesToMeters(9.5)), new Rotation3d(0, 19, 0));
+    public static final Transform3d cameraToRobot = robotToCamera.inverse();
+ 
+    //31,7
+    public static final double LINEAR_P = 1;
+    public static final double LINEAR_D = 0;
+    public static final double ANGULAR_P = 0.05; //0.05
+    public static final double ANGULAR_D = 0;
+ }
 }
