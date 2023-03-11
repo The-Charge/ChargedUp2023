@@ -98,16 +98,26 @@ public class RobotContainer {
 
     //manually places in paths
     test[0] = "None";
-    test[1] = "Forward 2M";
-    test[2] = "Reverse Waypoint";
-    test[3] = "Turn 90";
+    test[1] = "BottomCrossPowerStrip";
+    test[2] = "BottomOnePiece + ChargeStation";
+    test[3] = "BottomOnePiece";
+    test[4] = "BottomTwoPiece + ThirdPickup";
+    test[5] = "BottomTwoPiece";
+    test[6] = "Forward 2M";
+    test[7] = "MiddleOnePiece";
+    test[8] = "Reverse Waypoint";
+    test[9] = "TopOnePiece + ChargeStation";
+    test[10] = "TopOnePiece";
+    test[11] = "TopTwoPiece + ThirdPickup";
+    test[12] = "TopTwoPiece";
+    test[13] = "Turn 90";
 
     //adds path options to sendable chooser
     for (int x = 0; x < test.length; x++) {
       m_pathSendableChooser.addOption(test[x], test[x]);
     }
 
-    //default path is a path that doesn't exist
+    //default path doesn't run the robot
     m_pathSendableChooser.setDefaultOption(test[0], test[0]);
     SmartDashboard.putData("Auto Path Chooser", m_pathSendableChooser);
   }

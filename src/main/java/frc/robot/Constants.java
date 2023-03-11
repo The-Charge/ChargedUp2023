@@ -56,8 +56,7 @@ public class Constants {
       public static final double kRamseteB = 2;
       public static final double kRamseteZeta = 0.7;
 
-      //TODO should we delete this?
-      public static final double NUMBER_OF_PATHWAYS = 4; //list of pathways #ed
+      public static final double NUMBER_OF_PATHWAYS = 14; //list of pathways #ed
    }
 
 }
