@@ -110,7 +110,7 @@ public class MagicArm extends SubsystemBase {
    * @return true if the cooridnate is allowed, false otherwise.
    */
   public boolean isXYInLimit(double _x, double _y) {
-    if (_y < -ArmConstants.shoulderHeight + 0.1)
+    if (_y < -ArmConstants.shoulderHeight + 0.02)
       return false; // Not into the floor
     if (_y + ArmConstants.shoulderHeight > robotLimit.height)
       return false; // Not above the height limit
@@ -130,7 +130,7 @@ public class MagicArm extends SubsystemBase {
       return MathUtil.clamp(_y, 0,
           ArmConstants.shoulderL - (Math.sqrt(ArmConstants.elbowL * ArmConstants.elbowL - _x * _x)));
     } else
-      return MathUtil.clamp(_y, -ArmConstants.shoulderHeight + 0.1, robotLimit.height);
+      return MathUtil.clamp(_y, -ArmConstants.shoulderHeight + 0.02, robotLimit.height);
   }
 
   /**
@@ -289,7 +289,7 @@ public class MagicArm extends SubsystemBase {
           double[] xy = getXY();
           if (Math.abs(xy[0]) < robotLimit.robotLength / 2)
             run(shldrAngl, angles[1]); // only move the elbow if the arm tip has not cleared the robot,
-          else if (xy[1] < -ArmConstants.shoulderHeight + 0.1)
+          else if (xy[1] < -ArmConstants.shoulderHeight + 0.02)
             run(shldrAngl * 0.99, angles[1]); // move the elbow and raise the shoulder a little if the arm tip is at the
                                               // ground
           else

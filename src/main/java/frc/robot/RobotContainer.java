@@ -79,7 +79,7 @@ public class RobotContainer {
     SequentialCommandGroup driveAndClimb = new SequentialCommandGroup(
         new ResetHeading(m_drivetrain),
         new ResetPitch(m_drivetrain),
-        new DriveForward(m_drivetrain, -.65, 10),
+        new DriveForward(m_drivetrain, .65, 10),
         new Climb(m_drivetrain));
     SequentialCommandGroup driveOver = new SequentialCommandGroup(
         new ResetHeading(m_drivetrain),
@@ -88,7 +88,7 @@ public class RobotContainer {
     SequentialCommandGroup driverOverBackClimb = new SequentialCommandGroup(
         new ResetHeading(m_drivetrain),
         new ResetPitch(m_drivetrain),
-        new DriveOver(m_drivetrain, -.35, 10),
+        new DriveOver(m_drivetrain, .65, 10),
         new DriveForward(m_drivetrain, -.65, 10),
         new Climb(m_drivetrain));
     m_chooser.addOption("DriveAndClimb", driveAndClimb);
@@ -160,7 +160,7 @@ public class RobotContainer {
     final JoystickButton closeClawBtn = new JoystickButton(armController, 5);
     closeClawBtn.onTrue(new CloseClaw(m_claw).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
     final JoystickButton openClawBtn = new JoystickButton(armController, 6);
-    openClawBtn.onTrue(new OpenClaw(m_claw).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+    openClawBtn.onTrue(new OpenClaw(m_claw, m_arm).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
     //Arm State Buttons
     JoystickButton middleButton = new JoystickButton(armController, 10);
@@ -171,13 +171,13 @@ public class RobotContainer {
         (new MoveMagicArmToXY(m_arm, 1.0, 0.1)).withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf));
     JoystickButton frontHighButton = new JoystickButton(armController, 4);
     frontHighButton
-        .onTrue((new MoveMagicArmToXY(m_arm, 1.2, 1)).withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf));
+        .onTrue((new MoveMagicArmToXY(m_arm, 1.10, .79)).withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf));
     JoystickButton backLowButton = new JoystickButton(armController, 1);
     backLowButton.onTrue(
         (new MoveMagicArmToXY(m_arm, -1.0, 0.1)).withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf));
     JoystickButton backHighButton = new JoystickButton(armController, 2);
     backHighButton
-        .onTrue((new MoveMagicArmToXY(m_arm, -1.2, 1)).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        .onTrue((new MoveMagicArmToXY(m_arm, -1.10, .79)).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
     SmartDashboard.putData("AutoSelect", m_chooser);
 

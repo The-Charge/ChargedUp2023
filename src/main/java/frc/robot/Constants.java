@@ -33,10 +33,10 @@ public final class Constants {
     public static final double MAX_VELOCITY = 7000; //Maximum for Velocity ControlMode (Initial Test Starting Pt) 
   }
   public static final class AutoConstants {
-    public static final double climbPowerLimit = 0.6;
-    public static final double climbPowerForwardBias = 0.35;
-    public static final double climbPowerBackwardBias = -0.35;
-    public static final double climbPitchGain = 0.03;
+    public static final double climbPowerLimit = 0.52;
+    public static final double climbPowerForwardBias = 0.3;
+    public static final double climbPowerBackwardBias = -0.3;
+    public static final double climbPitchGain = 0.08;
     public static final double climbPitchDerivativeGain = 0.6;
     public static final double fastClimbTicks = 22600;
     public static final double headingGain = 0.02;
@@ -65,16 +65,16 @@ public final class Constants {
   }
 
   public static final class robotLimit {
-    public static final double height = (78 - 11) * 0.0254;
+    public static final double height = (78-2) * 0.0254;
     public static final double widthFromCenter = 66 * 0.0254;
     public static final double robotLength = 44 * 0.0254;
-    public static final double shoulderRange = 0.87;
+    public static final double shoulderRange = Units.degreesToRadians(70);
     public static final double elbowRange = (175.0 / 180.0) * 3.1415;
   }
 
   public static final class MagicArmCnsts {
     public static final int kSlotIdxShldr = 0;
-    public static final int kSlotIdxElbow = 0;
+    public static final int kSlotIdxElbow = 0; 
     public static final int kPIDLoopIdxShldr = 0;
     public static final int kPIDLoopIdxElbow = 0;
     public static final int kTimeoutMs = 30;
