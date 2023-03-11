@@ -36,22 +36,22 @@ public class Constants {
       public static final double rightEncoderTicksPerMeter = 18850;
 
       //volt constraints
-      public static final double ksVolts = 2; //original # = 0.89527
-      public static final double kvVoltSecondsPerMeter = 2.5; //original # = 2.806
-      public static final double kaVoltSecondsSquaredPerMeter = .25; //original # = 0.68504
+      public static final double ksVolts = 2; 
+      public static final double kvVoltSecondsPerMeter = 2.5; 
+      public static final double kaVoltSecondsSquaredPerMeter = .25; 
 
       //PID values
-      public static final double kPDriveVel = 9; //original # = 1.4154
-      public static final double kIDriveVel = 3; //original # = 0.0
-      public static final double kDDriveVel = .1; //original # = 0.0
+      public static final double kPDriveVel = 9; 
+      public static final double kIDriveVel = 3; 
+      public static final double kDDriveVel = .1; 
 
       public static final double kTrackwidthMeters = 0.60008;
       public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
             kTrackwidthMeters);
 
       //max speed and acceleration 
-      public static final double kMaxSpeedMetersPerSecond = 1.5; // 1.5, original # = 1
-      public static final double kMaxAccelerationMetersPerSecondSquared = 1; // 1, original # = .5
+      public static final double kMaxSpeedMetersPerSecond = 3; 
+      public static final double kMaxAccelerationMetersPerSecondSquared = 2; 
 
       public static final double kRamseteB = 2;
       public static final double kRamseteZeta = 0.7;
