@@ -29,6 +29,8 @@ public final class Constants {
     public static final int kRightMotor2Port = 2; // RightRear
     public static final int shifterChannel = 1; // Shifter
     public static final int clawChannel = 2; // Claw
+
+    public static final double MAX_VELOCITY = 7000; //Maximum for Velocity ControlMode (Initial Test Starting Pt) 
   }
 
   public static final class ArmConstants {
