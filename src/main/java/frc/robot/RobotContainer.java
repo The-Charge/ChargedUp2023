@@ -137,20 +137,23 @@ public class RobotContainer {
     openClawBtn.onTrue(new OpenClaw(m_claw).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
     //Arm State Buttons
-    JoystickButton middleButton = new JoystickButton(armController, 10);
-    middleButton.onTrue((new MoveArmToNeutral(m_arm)).withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf));
+    JoystickButton moveArmToNeutralBtn = new JoystickButton(armController, 10);
+    moveArmToNeutralBtn.onTrue((new MoveArmToNeutral(m_arm)).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
-    JoystickButton frontLowButton = new JoystickButton(armController, 3);
-    frontLowButton.onTrue(
-        (new MoveMagicArmToXY(m_arm, 1.0, 0.1)).withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf));
-    JoystickButton frontHighButton = new JoystickButton(armController, 4);
-    frontHighButton
-        .onTrue((new MoveMagicArmToXY(m_arm, 1.2, 1)).withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf));
-    JoystickButton backLowButton = new JoystickButton(armController, 1);
-    backLowButton.onTrue(
-        (new MoveMagicArmToXY(m_arm, -1.0, 0.1)).withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf));
-    JoystickButton backHighButton = new JoystickButton(armController, 2);
-    backHighButton
+    JoystickButton moveArmFrontLowBtn = new JoystickButton(armController, 3);
+    moveArmFrontLowBtn.onTrue(
+        (new MoveMagicArmToXY(m_arm, 1.0, 0.1)).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+
+    JoystickButton moveArmFrontHighBtn = new JoystickButton(armController, 4);
+    moveArmFrontHighBtn
+        .onTrue((new MoveMagicArmToXY(m_arm, 1.2, 1)).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+
+    JoystickButton moveArmRearLowBtn = new JoystickButton(armController, 1);
+    moveArmRearLowBtn.onTrue(
+        (new MoveMagicArmToXY(m_arm, -1.0, 0.1)).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+
+    JoystickButton moveArmRearHighBtn = new JoystickButton(armController, 2);
+    moveArmRearHighBtn
         .onTrue((new MoveMagicArmToXY(m_arm, -1.2, 1)).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
     SmartDashboard.putData("AutoSelect", m_chooser);
