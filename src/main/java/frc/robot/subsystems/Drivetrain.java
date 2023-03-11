@@ -72,11 +72,11 @@ left = new MotorControllerGroup(leftFrontMotor, leftRearMotor  );
  addChild("left",left);
  
 
-rightFrontMotor = new WPI_TalonSRX(3);
+rightFrontMotor = new WPI_TalonSRX(2);
  
  
 
-rightRearMotor = new WPI_TalonSRX(2);
+rightRearMotor = new WPI_TalonSRX(3);
  
  
 
