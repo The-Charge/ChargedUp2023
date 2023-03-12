@@ -23,6 +23,7 @@ import com.pathplanner.lib.auto.RamseteAutoBuilder;
 
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -103,6 +104,33 @@ public class AutonomousCommand extends CommandBase {
 
         HashMap<String, Command> eventMap = new HashMap<>();
 
+        // Scores Current game piece
+        eventMap.put("MoveArmScore", m_autonomousCommand);
+        eventMap.put("OpenClaw", m_autonomousCommand);
+        /**
+         * Centers gravity for accurate autonomous pathing and
+         * Makes next event quicker
+         */
+        eventMap.put("MoveArmNeutral", m_autonomousCommand);
+
+        // Picks up game piece
+        eventMap.put("MoveArmLow", m_autonomousCommand);
+        eventMap.put("CloseClaw", m_autonomousCommand);
+
+        /**
+         * Centers gravity for accurate autonomous pathing and
+         * Makes next event quicker again
+         */
+        eventMap.put("MoveArmNeutral", m_autonomousCommand);
+
+        // Scores previously grabbed piece
+        eventMap.put("MoveArmScore", m_autonomousCommand);
+        eventMap.put("OpenClaw", m_autonomousCommand);
+
+
+
+
+        m_driveTrain.resetOdometry(new Pose2d());
         /**
          * Create the AutoBuilder. This only needs to be created once when robot code
          * starts, not every time you want to create an auto command. A good place to
