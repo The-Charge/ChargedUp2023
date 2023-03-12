@@ -43,6 +43,8 @@ public class Robot extends TimedRobot {
         // autonomous chooser on the dashboard.
         m_robotContainer = RobotContainer.getInstance();
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
+
+        RobotContainer.getInstance().m_drivetrain.setBrake();
     }
 
     /**
@@ -88,6 +90,8 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
+        RobotContainer.getInstance().m_drivetrain.setBrake();
+
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
@@ -107,6 +111,7 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
+        RobotContainer.getInstance().m_drivetrain.setBrake();
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
