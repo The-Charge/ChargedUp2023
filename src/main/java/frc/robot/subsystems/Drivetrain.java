@@ -147,7 +147,7 @@ public class Drivetrain extends SubsystemBase {
 
     //displays the corrected angle of the robot
     SmartDashboard.putNumber("Get Heading", getHeading());
-
+    SmartDashboard.putString("Pose", getPose().toString());
     m_odometry.update(Rotation2d.fromDegrees(getHeading()),
       getLeftEncoderDistance(),
       getRightEncoderDistance());
