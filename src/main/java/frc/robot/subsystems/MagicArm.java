@@ -107,26 +107,39 @@ public class MagicArm extends SubsystemBase {
     elbowMtr.config_kD(MagicArmCnsts.kSlotIdxElbow, MagicArmCnsts.kGainsElbow.kD, MagicArmCnsts.kTimeoutMs);
 
     /* Set acceleration and vcruise velocity - see documentation */
-    shldrMtr.configMotionCruiseVelocity(40, MagicArmCnsts.kTimeoutMs);
+    shldrMtr.configMotionCruiseVelocity(75, MagicArmCnsts.kTimeoutMs);
     shldrMtr.configMotionAcceleration(100, MagicArmCnsts.kTimeoutMs);
     shldrMtr.configMotionSCurveStrength(5, MagicArmCnsts.kTimeoutMs);
-    elbowMtr.configMotionCruiseVelocity(80, MagicArmCnsts.kTimeoutMs);
+    elbowMtr.configMotionCruiseVelocity(100, MagicArmCnsts.kTimeoutMs);
     elbowMtr.configMotionAcceleration(45, MagicArmCnsts.kTimeoutMs);
     elbowMtr.configMotionSCurveStrength(7, MagicArmCnsts.kTimeoutMs);
-
     /**
      * Need the code from Mr. Curry to set relative sensor values from abosulte
      * Sensor values
-     * Zero the sensor once on robot boot up
      */
-    int shldrTick = -(shldrMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 23);
-    shldrMtr.setSelectedSensorPosition(shldrTick, MagicArmCnsts.kPIDLoopIdxShldr, MagicArmCnsts.kTimeoutMs);
-    int elbowTick = -(elbowMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1804);
-    elbowMtr.setSelectedSensorPosition(elbowTick, MagicArmCnsts.kPIDLoopIdxElbow, MagicArmCnsts.kTimeoutMs);
+    /* Zero the sensor once on robot boot up */
+    int shldrTick = shldrMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 23;
+    if (shldrTick > 2048) {
+      shldrTick -= 4096;
+    } else if (shldrTick < -2048) {
+      shldrTick += 4096;
+    }
+    shldrMtr.setSelectedSensorPosition(-shldrTick, MagicArmCnsts.kPIDLoopIdxShldr, MagicArmCnsts.kTimeoutMs);
+    int elbowTick = elbowMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1804;
+    if (elbowTick > 2048) {
+      shldrTick -= 4096;
+    } else if (elbowTick < -2048) {
+      elbowTick += 4096;
+    }
+    elbowMtr.setSelectedSensorPosition(-elbowTick, MagicArmCnsts.kPIDLoopIdxElbow, MagicArmCnsts.kTimeoutMs);
 
     /* Break mode activation for elbow and shoulder */
     shldrMtr.setNeutralMode(NeutralMode.Brake);
     elbowMtr.setNeutralMode(NeutralMode.Brake);
+  }
+
+  public void setCoastMode() {
+    elbowMtr.setNeutralMode(NeutralMode.Coast);
   }
 
   /**
@@ -168,8 +181,9 @@ public class MagicArm extends SubsystemBase {
     if (Math.abs(_x) < robotLimit.robotLength / 2) {
       return MathUtil.clamp(_y, 0,
           ArmConstants.shoulderL - (Math.sqrt(ArmConstants.elbowL * ArmConstants.elbowL - _x * _x)));
-    } else
-      return MathUtil.clamp(_y, -ArmConstants.shoulderHeight + 0.02, robotLimit.height);
+    } else {
+      return MathUtil.clamp(_y, -ArmConstants.shoulderHeight + 0.02, robotLimit.height - ArmConstants.shoulderHeight);
+    }
   }
 
   /**
@@ -252,8 +266,8 @@ public class MagicArm extends SubsystemBase {
 
     if (thirdSide + ArmConstants.elbowL < ArmConstants.shoulderL ||
         thirdSide > ArmConstants.elbowL + ArmConstants.shoulderL) {
-          // No triangle exists
-      angles[2] = -1; 
+      // No triangle exists
+      angles[2] = -1;
     } else {
       double shoulder2 = ArmConstants.shoulderL * ArmConstants.shoulderL;
       double elbow2 = ArmConstants.elbowL * ArmConstants.elbowL;
@@ -318,6 +332,10 @@ public class MagicArm extends SubsystemBase {
     elbowMtr.set(ControlMode.MotionMagic, _elbowAngl / ArmConstants.elbowperMotorTick);
   }
 
+  public void runElbow(double _elbowAngl) {
+    elbowMtr.set(ControlMode.MotionMagic, _elbowAngl / ArmConstants.elbowperMotorTick);
+  }
+
   public double getElbowAngle() {
     return elbowAngl;
   }
@@ -347,13 +365,12 @@ public class MagicArm extends SubsystemBase {
 
   public boolean isArmTipInsideRobotX() {
     double[] xy = getXY();
-    return Math.abs(xy[0]+0.1) < robotLimit.robotLength / 2;
+    return Math.abs(xy[0] + 0.1) < robotLimit.robotLength / 2;
   }
 
   /**
-   * Move the arm tip to the desired (x,y) coordinates.
-   * The starting position needs to be close to a neutral position: shoulder up,
-   * Elbow down.
+   * Move the arm tip to the desired (x,y) coordinates. The starting position
+   * needs to be close to a neutral position: shoulder up, Elbow down.
    * 
    * @param _x
    * @param _y
@@ -395,25 +412,24 @@ public class MagicArm extends SubsystemBase {
    * To lower the arm tip to the neutral position: shoulder up, elbow down
    */
   public void moveTowardNeutral() {
-    double[] xy = getXY();
-    // If the arm tip is above the limit, lower the elbow only
-    if (xy[1] > robotLimit.height) {
+    if (Math.abs(elbowAngl) > 2.3) {
+      // If the arm tip is above the limit, lower the elbow only
       run(shldrAngl, 0);
     } else {
-      // If the shoulder is at 0, lower the elbow to 0
-      if (Math.abs(shldrAngl) < 0.05) {
+      if (Math.abs(shldrAngl) < ArmConstants.shoulderAngleToSafeSwingElbowThrough) {
+        // If the shoulder is at 0, lower the elbow to 0
         run(0, 0);
-      }
-      // If the shoulder is not at 0, move only the shoulder to 0
-      else
+      } else {
+        // If the shoulder is not at 0, move only the shoulder to 0
         run(0, elbowAngl);
+      }
     }
   }
 
   /**
-   * Move the arm tip to the desired (x,y) coordinates.
-   * Use moveTOXYFromNeutral if the starting position is close to neutral since
-   * That method has less calculations.
+   * Move the arm tip to the desired (x,y) coordinates.Use moveTOXYFromNeutral if
+   * the starting position is close to neutral since That method has less
+   * calculations.
    * 
    * @param _x
    * @param _y
@@ -425,24 +441,25 @@ public class MagicArm extends SubsystemBase {
       // A solution is found
       if (angles[2] > 0) {
         double[] xy = getXY();
-
-        // The current and the desired arm tip positions at the same side of the
-        // Robot
-        if (xy[0] * _x > 0)
+        /**
+         * The current and the desired arm tip positions at the same side of the
+         * Robot
+         */
+        if (xy[0] * _x > 0) {
           moveTowardXYFromNeutral(_x, _y);
-        else {
-          // Optimization to avoid the elbow slow down at the neutral position
-          if (Math.abs(shldrAngl) < 0.05) {
+        } else {
+          if (Math.abs(shldrAngl) < ArmConstants.shoulderAngleToSafeSwingElbowThrough) {
+            // Optimization to avoid the elbow slow down at the neutral position
             run(0, angles[1]);
-          }
-          // Move to neutral position if optimization cannot be safely performed.
-          else {
+          } else {
+            // Move to neutral position if optimization cannot be safely performed
             moveTowardNeutral();
           }
         }
         return true;
-      } else
+      } else {
         return false;
+      }
     }
     return false;
   }
