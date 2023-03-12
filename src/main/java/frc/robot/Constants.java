@@ -122,7 +122,7 @@ public final class Constants {
     // 31,7
     public static final double LINEAR_P = 1;
     public static final double LINEAR_D = 0;
-    public static final double ANGULAR_P = 0.05; // 0.05
+    public static final double ANGULAR_P = 0.5; // 0.05
     public static final double ANGULAR_D = 0;
   }
 }
