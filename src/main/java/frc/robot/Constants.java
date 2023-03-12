@@ -23,33 +23,43 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
   public static final class DriveConstants {
-    public static final int kLeftMotor1Port = 16; // LeftFront
-    public static final int kLeftMotor2Port = 17; // LeftRear
-    public static final int kRightMotor1Port = 3; // RightFront
-    public static final int kRightMotor2Port = 2; // RightRear
-    public static final int shifterChannel = 1; // Shifter
-    public static final int clawChannel = 2; // Claw
+    public static final int kLeftMotor1Port = 16;
+    public static final int kLeftMotor2Port = 17;
+    public static final int kRightMotor1Port = 3;
+    public static final int kRightMotor2Port = 2;
+    public static final int shifterChannel = 1;
+    public static final int clawChannel = 2;
   }
 
   public static final class ArmConstants {
+
     public static final int shoulderCAN_ID = 15;
     public static final int elbowCAN_ID = 14;
+
     public static final double shoulderL = 0.9906;
     public static final double elbowL = 0.9144;
+
     public static final double shoulderHeight = 11 * 0.0254;
     public static final double shoulderWeight = 3;
+
     public static final double elbowMotorWeight = 1;
     public static final double elbowWeight = 4;
+
     public static final double elbowperMotorTick = 6.28 / 4096;
     public static final double shoulderperMotorTick = 6.28 / 4096;
+
     public static final int numberOfState = 5;
+
     public static final double shoulderPowerLimit = 0.6;
+
     public static double[] targetShoulder = { 0, -0.46, -0.42, 0.46, 0.42 };
     public static double[] targetElbow = { 0, 1.02, 2.00, -1.02, -2.0 };
     public static double[] targetX = { 0.000, 0.93, 1.32, -0.93, -1.32 };
     public static double[] targetY = { 0.076, 0.12, 0.91, 0.12, 0.91 };
+
     public static double[] xRange = { 0.2, 0.3, 0.23, 0.3, 0.23 };
     public static double[] yRange = { 0.2, 0.2, 0.20, 0.2, 0.20 };
+
     public static double[] shoulderRestVoltage = { 0, 0, 0, 0, 0 };
     public static double[] elbowRestVoltage = { 0, 0, 0, 0, 0 };
   }
@@ -99,19 +109,19 @@ public final class Constants {
 
     public static final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(4.6);
     public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(16.7);
- 
+
     public static final double nodeSideDistanceMeters = Units.inchesToMeters(6.25 + 0);
- 
+
     public static final double fieldLength = Units.inchesToMeters(651.25);
     public static final double fieldWidth = Units.inchesToMeters(315.5);
- 
-    public static final Transform3d robotToCamera = new Transform3d(new Translation3d(0.31, 0.07, Units.inchesToMeters(9.5)), new Rotation3d(0, 19, 0));
+
+    public static final Transform3d robotToCamera = new Transform3d(
+        new Translation3d(0.31, 0.07, Units.inchesToMeters(9.5)), new Rotation3d(0, 19, 0));
     public static final Transform3d cameraToRobot = robotToCamera.inverse();
- 
-    //31,7
+
     public static final double LINEAR_P = 1;
     public static final double LINEAR_D = 0;
-    public static final double ANGULAR_P = 0.05; //0.05
+    public static final double ANGULAR_P = 0.05;
     public static final double ANGULAR_D = 0;
- }
+  }
 }
