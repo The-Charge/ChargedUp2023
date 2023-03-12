@@ -159,7 +159,6 @@ public class MagicArm extends SubsystemBase {
       // Not below the shoulder mount while inside the robot
       return false;
     }
-
     return true;
   }
 
@@ -172,7 +171,7 @@ public class MagicArm extends SubsystemBase {
       return MathUtil.clamp(_y, 0,
           ArmConstants.shoulderL - (Math.sqrt(ArmConstants.elbowL * ArmConstants.elbowL - _x * _x)));
     } else
-      return MathUtil.clamp(_y, -ArmConstants.shoulderHeight + 0.1, robotLimit.height);
+      return MathUtil.clamp(_y, -ArmConstants.shoulderHeight + 0.02, robotLimit.height);
   }
 
   /**
@@ -350,7 +349,7 @@ public class MagicArm extends SubsystemBase {
 
   public boolean isArmTipInsideRobotX() {
     double[] xy = getXY();
-    return Math.abs(xy[0]) < robotLimit.robotLength / 2;
+    return Math.abs(xy[0]+0.1) < robotLimit.robotLength / 2;
   }
 
   /**
