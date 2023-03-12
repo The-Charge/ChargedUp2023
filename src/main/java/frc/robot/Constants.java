@@ -31,6 +31,17 @@ public final class Constants {
     public static final int clawChannel = 2;
   }
 
+    public static final double MAX_VELOCITY = 7000; //Maximum for Velocity ControlMode (Initial Test Starting Pt) 
+  }
+  public static final class AutoConstants {
+    public static final double climbPowerLimit = 0.52;
+    public static final double climbPowerForwardBias = 0.3;
+    public static final double climbPowerBackwardBias = -0.3;
+    public static final double climbPitchGain = 0.08;
+    public static final double climbPitchDerivativeGain = 0.6;
+    public static final double fastClimbTicks = 22600;
+    public static final double headingGain = 0.02;
+  }
   public static final class ArmConstants {
 
     public static final int shoulderCAN_ID = 15;
@@ -65,16 +76,16 @@ public final class Constants {
   }
 
   public static final class robotLimit {
-    public static final double height = (78 - 11) * 0.0254;
+    public static final double height = (78-2) * 0.0254;
     public static final double widthFromCenter = 66 * 0.0254;
-    public static final double robotLength = 40 * 0.0254;
-    public static final double shoulderRange = 0.87;
+    public static final double robotLength = 44 * 0.0254;
+    public static final double shoulderRange = Units.degreesToRadians(70);
     public static final double elbowRange = (175.0 / 180.0) * 3.1415;
   }
 
   public static final class MagicArmCnsts {
     public static final int kSlotIdxShldr = 0;
-    public static final int kSlotIdxElbow = 0;
+    public static final int kSlotIdxElbow = 0; 
     public static final int kPIDLoopIdxShldr = 0;
     public static final int kPIDLoopIdxElbow = 0;
     public static final int kTimeoutMs = 30;
@@ -116,7 +127,7 @@ public final class Constants {
     public static final double fieldWidth = Units.inchesToMeters(315.5);
 
     public static final Transform3d robotToCamera = new Transform3d(
-        new Translation3d(0.31, 0.07, Units.inchesToMeters(9.5)), new Rotation3d(0, 19, 0));
+        new Translation3d(0.31, 0.07, Units.inchesToMeters(4.6)), new Rotation3d(0, 16.7, 0));
     public static final Transform3d cameraToRobot = robotToCamera.inverse();
 
     public static final double LINEAR_P = 1;
