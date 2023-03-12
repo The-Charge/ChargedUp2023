@@ -30,38 +30,6 @@ public final class Constants {
     public static final int kRightMotor2Port = 2; // RightRear
     public static final int shifterChannel = 1; // Shifter
     public static final int clawChannel = 2; // Claw
-
-   public static final class SysIDConstants {
-      public static final double ticksPerMeter = 17483.3; // Average from three tests from both encoders
-
-      public static final double leftEncoderTicksPerMeter = 18850; //17362, 92% is 
-      public static final double rightEncoderTicksPerMeter = 18850;
-
-      //volt constraints
-      public static final double ksVolts = 2; 
-      public static final double kvVoltSecondsPerMeter = 2.5; 
-      public static final double kaVoltSecondsSquaredPerMeter = .25; 
-
-      //PID values
-      public static final double kPDriveVel = 9; 
-      public static final double kIDriveVel = 3; 
-      public static final double kDDriveVel = .1; 
-
-      public static final double kTrackwidthMeters = 0.60008;
-      public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
-            kTrackwidthMeters);
-
-      //max speed and acceleration 
-      public static final double kMaxSpeedMetersPerSecond = 3; 
-      public static final double kMaxAccelerationMetersPerSecondSquared = 2; 
-
-      public static final double kRamseteB = 2;
-      public static final double kRamseteZeta = 0.7;
-
-      public static final double NUMBER_OF_PATHWAYS = 14; //list of pathways #ed
-   }
-
-    public static final double MAX_VELOCITY = 7000; //Maximum for Velocity ControlMode (Initial Test Starting Pt) 
   }
   public static final class AutoConstants {
     public static final double climbPowerLimit = 0.52;
@@ -155,5 +123,37 @@ public final class Constants {
     public static final double LINEAR_D = 0;
     public static final double ANGULAR_P = 0.05; // 0.05
     public static final double ANGULAR_D = 0;
+  }
+
+  public static final class SysIDConstants {
+    public static final double ticksPerMeter = 17483.3; // Average from three tests from both encoders
+
+    public static final double leftEncoderTicksPerMeter = 18850; //17362, 92% is 
+    public static final double rightEncoderTicksPerMeter = 18850;
+
+    //volt constraints
+    public static final double ksVolts = 2; 
+    public static final double kvVoltSecondsPerMeter = 2.5; 
+    public static final double kaVoltSecondsSquaredPerMeter = .25; 
+
+    //PID values
+    public static final double kPDriveVel = 9; 
+    public static final double kIDriveVel = 3; 
+    public static final double kDDriveVel = .1; 
+
+    public static final double kTrackwidthMeters = 0.60008;
+    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
+          kTrackwidthMeters);
+
+    //max speed and acceleration 
+    public static final double kMaxSpeedMetersPerSecond = 3; 
+    public static final double kMaxAccelerationMetersPerSecondSquared = 2; 
+
+    public static final double kRamseteB = 2;
+    public static final double kRamseteZeta = 0.7;
+
+    public static final double NUMBER_OF_PATHWAYS = 14; //list of pathways #ed
+
+  public static final double MAX_VELOCITY = 7000; //Maximum for Velocity ControlMode (Initial Test Starting Pt) 
   }
 }
