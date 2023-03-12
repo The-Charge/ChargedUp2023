@@ -49,7 +49,7 @@ public class CloseClaw extends InstantCommand {
     // Called once when this command runs
     @Override
     public void initialize() {
-        m_claw.closeClaw();
+        m_claw.closeClaw(true);
     }
 
     @Override
