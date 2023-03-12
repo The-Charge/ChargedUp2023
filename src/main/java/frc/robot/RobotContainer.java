@@ -146,7 +146,7 @@ public class RobotContainer {
         .onTrue(new MoveArmToNeutral(m_magicArm).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
     final JoystickButton openClawBtn = new JoystickButton(armController, XboxController.Button.kRightBumper.value);
-    openClawBtn.onTrue(new OpenClaw(m_claw).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+    openClawBtn.onTrue(new OpenClaw(m_claw, m_magicArm).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
     final JoystickButton closeClawBtn = new JoystickButton(armController, XboxController.Button.kLeftBumper.value);
     closeClawBtn.onTrue(new CloseClaw(m_claw).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
@@ -187,28 +187,22 @@ public class RobotContainer {
     final JoystickButton alignBtn = new JoystickButton(leftJoystick, 1);
     alignBtn.onTrue(new Align(m_drivetrain, m_camera));
     
-    //Claw Buttons
-    final JoystickButton closeClawBtn = new JoystickButton(armController, 5);
-    closeClawBtn.onTrue(new CloseClaw(m_claw).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
-    final JoystickButton openClawBtn = new JoystickButton(armController, 6);
-    openClawBtn.onTrue(new OpenClaw(m_claw, m_arm).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
-
     //Arm State Buttons
     JoystickButton middleButton = new JoystickButton(armController, 10);
-    middleButton.onTrue((new MoveArmToNeutral(m_arm)).withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf));
+    middleButton.onTrue((new MoveArmToNeutral(m_magicArm)).withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf));
 
     JoystickButton frontLowButton = new JoystickButton(armController, 3);
     frontLowButton.onTrue(
-        (new MoveMagicArmToXY(m_arm, 1.0, 0.1)).withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf));
+        (new MoveMagicArmToXY(m_magicArm, 1.0, 0.1)).withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf));
     JoystickButton frontHighButton = new JoystickButton(armController, 4);
     frontHighButton
-        .onTrue((new MoveMagicArmToXY(m_arm, 1.10, .79)).withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf));
+        .onTrue((new MoveMagicArmToXY(m_magicArm, 1.10, .79)).withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf));
     JoystickButton backLowButton = new JoystickButton(armController, 1);
     backLowButton.onTrue(
-        (new MoveMagicArmToXY(m_arm, -1.0, 0.1)).withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf));
+        (new MoveMagicArmToXY(m_magicArm, -1.0, 0.1)).withInterruptBehavior(Command.InterruptionBehavior.kCancelSelf));
     JoystickButton backHighButton = new JoystickButton(armController, 2);
     backHighButton
-        .onTrue((new MoveMagicArmToXY(m_arm, -1.10, .79)).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+        .onTrue((new MoveMagicArmToXY(m_magicArm, -1.10, .79)).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
     SmartDashboard.putData("AutoSelect", m_chooser);
 
