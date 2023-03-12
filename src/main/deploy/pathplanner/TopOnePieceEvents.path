@@ -16,7 +16,10 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
+        "names": [
+          "MoveArmScore",
+          "OpenClaw"
+        ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
@@ -64,7 +67,7 @@
       "isReversal": true,
       "velOverride": null,
       "isLocked": false,
-      "isStopPoint": false,
+      "isStopPoint": true,
       "stopEvent": {
         "names": [
           "MoveArmLow",
@@ -117,7 +120,10 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
+        "names": [
+          "MoveArmScore",
+          "OpenClaw"
+        ],
         "executionBehavior": "sequential",
         "waitBehavior": "before",
         "waitTime": 0.25
@@ -127,5 +133,13 @@
   "maxVelocity": 3.0,
   "maxAcceleration": 2.0,
   "isReversed": null,
-  "markers": []
+  "markers": [
+    {
+      "position": 0.2036363636363438,
+      "names": [
+        "CloseClaw",
+        "MoveArmNeutral"
+      ]
+    }
+  ]
 }
