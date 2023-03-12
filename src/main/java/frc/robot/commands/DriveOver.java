@@ -66,7 +66,6 @@ public class DriveOver extends CommandBase {
         m_drivetrain.run(0, 0);
         status++;
       }
-      ;
     }
     if (status > 3) {
       status++;
