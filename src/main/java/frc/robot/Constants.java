@@ -30,8 +30,8 @@ public final class Constants {
     // RightFront
     public static final int kRightMotor1Port = 3;
     // RightRear
-
     public static final int kRightMotor2Port = 2;
+    
     public static final int shifterChannel = 1;
     public static final int clawChannel = 2;
 

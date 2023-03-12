@@ -13,7 +13,6 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants.VisionConstants;
-import frc.robot.commands.*;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
@@ -21,7 +20,6 @@ import org.photonvision.common.hardware.VisionLEDMode;
 
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -76,9 +74,6 @@ public class Camera extends SubsystemBase {
                     Units.degreesToRadians(res.getBestTarget().getPitch()));
 
             Transform3d pose = res.getBestTarget().getBestCameraToTarget();
-
-            // Get the "best target"
-            var bestTarget = res.getBestTarget();
 
             // Target" ID onto smartdash
             SmartDashboard.putNumber("Range", range);
