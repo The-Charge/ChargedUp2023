@@ -36,9 +36,9 @@ public final class Constants {
     public static final double climbPowerLimit = 0.52;
     public static final double climbPowerForwardBias = 0.3;
     public static final double climbPowerBackwardBias = -0.3;
-    public static final double climbPitchGain = 0.08;
+    public static final double climbPitchGain = 0.05;
     public static final double climbPitchDerivativeGain = 0.6;
-    public static final double fastClimbTicks = 22600;
+    public static final double fastClimbTicks = 20000;
     public static final double headingGain = 0.02;
   }
   public static final class ArmConstants {
@@ -46,29 +46,24 @@ public final class Constants {
     public static final int elbowCAN_ID = 14;
     public static final double shoulderL = 0.9906;
     public static final double elbowL = 0.9144;
+    public static final double shoulderAngleToSafeSwingElbowThrough = 0.395;
     public static final double shoulderHeight = 11 * 0.0254;
-    public static final double shoulderWeight = 3;
-    public static final double elbowMotorWeight = 1;
-    public static final double elbowWeight = 4;
     public static final double elbowperMotorTick = 6.28 / 4096;
     public static final double shoulderperMotorTick = 6.28 / 4096;
-    public static final int numberOfState = 5;
-    public static final double shoulderPowerLimit = 0.6;
-    public static double[] targetShoulder = { 0, -0.46, -0.42, 0.46, 0.42 };
-    public static double[] targetElbow = { 0, 1.02, 2.00, -1.02, -2.0 };
-    public static double[] targetX = { 0.000, 0.93, 1.32, -0.93, -1.32 };
-    public static double[] targetY = { 0.076, 0.12, 0.91, 0.12, 0.91 };
-    public static double[] xRange = { 0.2, 0.3, 0.23, 0.3, 0.23 };
-    public static double[] yRange = { 0.2, 0.2, 0.20, 0.2, 0.20 };
-    public static double[] shoulderRestVoltage = { 0, 0, 0, 0, 0 };
-    public static double[] elbowRestVoltage = { 0, 0, 0, 0, 0 };
+    public static final double shoulderScoreDegree = 55.0;
+    public static final double hiGoalX = 1.54;
+    public static final double hiGoalY = 1.09;
+    public static final double midGoalX = 1.15;
+    public static final double midGoalY = 0.79;
+    public static final double stationX = 0.91;
+    public static final double stationY = 0.87;
   }
 
   public static final class robotLimit {
     public static final double height = (78-2) * 0.0254;
     public static final double widthFromCenter = 66 * 0.0254;
     public static final double robotLength = 44 * 0.0254;
-    public static final double shoulderRange = Units.degreesToRadians(70);
+    public static final double shoulderRange = Units.degreesToRadians(60);
     public static final double elbowRange = (175.0 / 180.0) * 3.1415;
   }
 

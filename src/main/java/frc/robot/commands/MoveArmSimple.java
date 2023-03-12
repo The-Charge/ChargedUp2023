@@ -15,7 +15,7 @@ public class MoveArmSimple extends CommandBase {
   private double targetX;
   private double targetY;
   private boolean joyStickMoved = false;
-
+  private double deltaScale = 175.;
   public MoveArmSimple(MagicArm subsystem) {
     m_arm = subsystem;
     addRequirements(m_arm);
@@ -34,17 +34,17 @@ public class MoveArmSimple extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double xSpeed = -RobotContainer.getInstance().getArmJoystick().getRawAxis(1) / 175; //.getleftJoystick().getY() / 250;
-    double ySpeed = -RobotContainer.getInstance().getArmJoystick().getRawAxis(3) / 175; //.getrightJoystick().getY() / 250;
-    if (Math.abs(xSpeed) < 0.0004)
+    double xSpeed = -RobotContainer.getInstance().getArmJoystick().getRawAxis(1)/deltaScale;//.getleftJoystick().getY() / 250;
+    double ySpeed = -RobotContainer.getInstance().getArmJoystick().getRawAxis(3)/deltaScale; //.getrightJoystick().getY() / 250;
+    if (Math.abs(xSpeed) < (.1/deltaScale))
       xSpeed = 0;
     else
       joyStickMoved = true;
-    if (Math.abs(ySpeed) < 0.0004)
+    if (Math.abs(ySpeed) < (0.1/deltaScale))
       ySpeed = 0;
     else
       joyStickMoved = true;
-    if (Math.abs(xSpeed) < 0.0004 && Math.abs(ySpeed) < 0.0004 && joyStickMoved) {
+    if (Math.abs(xSpeed) < (0.1/deltaScale) && Math.abs(ySpeed) < (0.1/deltaScale) && joyStickMoved) {
       double[] xy = m_arm.getXY();
       targetX = xy[0];
       targetY = xy[1];
