@@ -72,6 +72,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
+        RobotContainer.getInstance().m_drivetrain.setCoast();
+        RobotContainer.getInstance().m_arm.setCoastMode();
     }
 
     @Override
