@@ -50,7 +50,7 @@ public class MagicArm extends SubsystemBase {
 
     /* Configure Talon SRX Output and Sensor direction accordingly */
     // shldrMtr.setSensorPhase(false);
-    shldrMtr.setInverted(true);
+    shldrMtr.setInverted(false);
     elbowMtr.setInverted(true);
 
     /* Set relevant frame periods to be at least as fast as periodic rate */
@@ -95,7 +95,7 @@ public class MagicArm extends SubsystemBase {
     int shldrTick = shldrMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 23;
     if (shldrTick > 2048) shldrTick -= 4096;
     else if (shldrTick < -2048) shldrTick += 4096;
-    shldrMtr.setSelectedSensorPosition(-shldrTick, MagicArmCnsts.kPIDLoopIdxShldr, MagicArmCnsts.kTimeoutMs);
+    shldrMtr.setSelectedSensorPosition(shldrTick, MagicArmCnsts.kPIDLoopIdxShldr, MagicArmCnsts.kTimeoutMs);
     int elbowTick = elbowMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1804;
     if (elbowTick > 2048) shldrTick -= 4096;
     else if (elbowTick < -2048) elbowTick += 4096;
