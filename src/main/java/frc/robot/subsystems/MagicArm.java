@@ -92,8 +92,9 @@ public class MagicArm extends SubsystemBase {
 
     // Need the code from Mr. Curry to set relative sensor values from abosulte
     // sensor values
+
     /* Zero the sensor once on robot boot up */
-    int shldrTick = shldrMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1603;
+    int shldrTick = shldrMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1599;
     if (shldrTick > 2048) shldrTick -= 4096;
     else if (shldrTick < -2048) shldrTick += 4096;
     shldrMtr.setSelectedSensorPosition(shldrTick, MagicArmCnsts.kPIDLoopIdxShldr, MagicArmCnsts.kTimeoutMs);
@@ -106,6 +107,7 @@ public class MagicArm extends SubsystemBase {
     elbowMtr.setNeutralMode(NeutralMode.Brake);
   }
   public void setCoastMode(){
+    
     elbowMtr.setNeutralMode(NeutralMode.Coast);
   }
 

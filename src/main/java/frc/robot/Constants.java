@@ -79,7 +79,7 @@ public final class Constants {
      * Gains used in Motion Magic, to be adjusted accordingly
      * Gains(kp, ki, kd, kf, izone, peak output);
      */
-    public static final Gains kGainsShldr = new Gains(8.0, 0.0001, 100.0, 0.1, 0, 1.0);
+    public static final Gains kGainsShldr = new Gains(5.0, 0.0001, 100.0, 0.1, 0, 1.0);
     public static final Gains kGainsElbow = new Gains(7.0, 0.0001, 70.0, 0.1, 0, 1.0);
   }
 
