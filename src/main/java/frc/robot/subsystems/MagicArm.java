@@ -10,6 +10,7 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.MagicArmCnsts;
 import frc.robot.Constants.robotLimit;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -49,8 +50,8 @@ public class MagicArm extends SubsystemBase {
     elbowMtr.configNeutralDeadband(0.005, MagicArmCnsts.kTimeoutMs);
 
     /* Configure Talon SRX Output and Sensor direction accordingly */
-    // shldrMtr.setSensorPhase(false);
-    shldrMtr.setInverted(true);
+    shldrMtr.setSensorPhase(true);
+    shldrMtr.setInverted(false);
     elbowMtr.setInverted(true);
 
     /* Set relevant frame periods to be at least as fast as periodic rate */
@@ -92,11 +93,11 @@ public class MagicArm extends SubsystemBase {
     // Need the code from Mr. Curry to set relative sensor values from abosulte
     // sensor values
     /* Zero the sensor once on robot boot up */
-    int shldrTick = shldrMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 23;
+    int shldrTick = shldrMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1603;
     if (shldrTick > 2048) shldrTick -= 4096;
     else if (shldrTick < -2048) shldrTick += 4096;
-    shldrMtr.setSelectedSensorPosition(-shldrTick, MagicArmCnsts.kPIDLoopIdxShldr, MagicArmCnsts.kTimeoutMs);
-    int elbowTick = elbowMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1804;
+    shldrMtr.setSelectedSensorPosition(shldrTick, MagicArmCnsts.kPIDLoopIdxShldr, MagicArmCnsts.kTimeoutMs);
+    int elbowTick = elbowMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1804; //1804
     if (elbowTick > 2048) shldrTick -= 4096;
     else if (elbowTick < -2048) elbowTick += 4096;
     elbowMtr.setSelectedSensorPosition(-elbowTick, MagicArmCnsts.kPIDLoopIdxElbow, MagicArmCnsts.kTimeoutMs);

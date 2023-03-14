@@ -8,28 +8,35 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.MagicArm;
 
-public class ScoreHighCone extends CommandBase {
+public class ManualHighCone extends CommandBase {
   private MagicArm m_arm;
   private double m_xMultiplier;
+  private boolean canMove = true;
 
-  /** Creates a new ScoreHighCone. */
-  public ScoreHighCone(MagicArm subsystem, boolean _isScoreFront) {
-    if(_isScoreFront) m_xMultiplier = 1;
+  /** Creates a new ManualHighCone. */
+  public ManualHighCone(MagicArm subsystem, boolean _isBackScore) {
+    if(_isBackScore) m_xMultiplier = 1;
     else m_xMultiplier = -1;
     m_arm = subsystem;
-    addRequirements(m_arm);
-  }
+    addRequirements(m_arm);}
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {  
+  public void initialize() {
+    double[] xy = m_arm.getXY();
+    canMove = (Math.abs(xy[0]) > ArmConstants.hiGoalX - 0.1 && xy[1] > ArmConstants.hiGoalY-0.1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Math.abs(m_arm.getElbowAngle())<2.3) m_arm.runElbow(-m_xMultiplier*(2.8));
-    else m_arm.run(m_xMultiplier*ArmConstants.shoulderScoreDegree/180.0*Math.PI, -m_xMultiplier*Math.PI);
+    if (canMove) {
+      if(Math.abs(m_arm.getElbowAngle()) < Math.PI)m_arm.runElbow(-m_xMultiplier*(Math.PI+0.4));
+      else{
+        m_arm.run(m_xMultiplier*ArmConstants.shoulderScoreDegree/180.0*Math.PI, -m_xMultiplier*Math.PI);
+        canMove = false;
+      }
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +46,6 @@ public class ScoreHighCone extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(m_arm.getShoulderAngle()) > ArmConstants.shoulderScoreDegree/180.0*Math.PI - 0.04;
+    return canMove;
   }
 }
