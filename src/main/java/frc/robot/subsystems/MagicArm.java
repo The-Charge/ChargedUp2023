@@ -82,23 +82,30 @@ public class MagicArm extends SubsystemBase {
     elbowMtr.config_kD(MagicArmCnsts.kSlotIdxElbow, MagicArmCnsts.kGainsElbow.kD, MagicArmCnsts.kTimeoutMs);
 
     /* Set acceleration and vcruise velocity - see documentation */
-    shldrMtr.configMotionCruiseVelocity(40, MagicArmCnsts.kTimeoutMs);
+    shldrMtr.configMotionCruiseVelocity(75, MagicArmCnsts.kTimeoutMs);
     shldrMtr.configMotionAcceleration(100, MagicArmCnsts.kTimeoutMs);
     shldrMtr.configMotionSCurveStrength(5, MagicArmCnsts.kTimeoutMs);
-    elbowMtr.configMotionCruiseVelocity(80, MagicArmCnsts.kTimeoutMs);
+    elbowMtr.configMotionCruiseVelocity(100, MagicArmCnsts.kTimeoutMs);
     elbowMtr.configMotionAcceleration(45, MagicArmCnsts.kTimeoutMs);
     elbowMtr.configMotionSCurveStrength(7, MagicArmCnsts.kTimeoutMs);
 
     // Need the code from Mr. Curry to set relative sensor values from abosulte
     // sensor values
     /* Zero the sensor once on robot boot up */
-    int shldrTick = -(shldrMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 23);
-    shldrMtr.setSelectedSensorPosition(shldrTick, MagicArmCnsts.kPIDLoopIdxShldr, MagicArmCnsts.kTimeoutMs);
-    int elbowTick = -(elbowMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1804);
-    elbowMtr.setSelectedSensorPosition(elbowTick, MagicArmCnsts.kPIDLoopIdxElbow, MagicArmCnsts.kTimeoutMs);
+    int shldrTick = shldrMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 23;
+    if (shldrTick > 2048) shldrTick -= 4096;
+    else if (shldrTick < -2048) shldrTick += 4096;
+    shldrMtr.setSelectedSensorPosition(-shldrTick, MagicArmCnsts.kPIDLoopIdxShldr, MagicArmCnsts.kTimeoutMs);
+    int elbowTick = elbowMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1804;
+    if (elbowTick > 2048) shldrTick -= 4096;
+    else if (elbowTick < -2048) elbowTick += 4096;
+    elbowMtr.setSelectedSensorPosition(-elbowTick, MagicArmCnsts.kPIDLoopIdxElbow, MagicArmCnsts.kTimeoutMs);
 
     shldrMtr.setNeutralMode(NeutralMode.Brake);
     elbowMtr.setNeutralMode(NeutralMode.Brake);
+  }
+  public void setCoastMode(){
+    elbowMtr.setNeutralMode(NeutralMode.Coast);
   }
 
   /**
@@ -130,7 +137,7 @@ public class MagicArm extends SubsystemBase {
       return MathUtil.clamp(_y, 0,
           ArmConstants.shoulderL - (Math.sqrt(ArmConstants.elbowL * ArmConstants.elbowL - _x * _x)));
     } else
-      return MathUtil.clamp(_y, -ArmConstants.shoulderHeight + 0.02, robotLimit.height);
+      return MathUtil.clamp(_y, -ArmConstants.shoulderHeight + 0.02, robotLimit.height - ArmConstants.shoulderHeight);
   }
 
   /**
@@ -245,6 +252,10 @@ public class MagicArm extends SubsystemBase {
     elbowMtr.set(ControlMode.MotionMagic, _elbowAngl / ArmConstants.elbowperMotorTick);
   }
 
+  public void runElbow(double _elbowAngl){
+    elbowMtr.set(ControlMode.MotionMagic, _elbowAngl / ArmConstants.elbowperMotorTick);
+  }
+
   public double getElbowAngle() {
     return elbowAngl;
   }
@@ -308,7 +319,7 @@ public class MagicArm extends SubsystemBase {
   public void moveTowardNeutral(){
     if(Math.abs(elbowAngl) > 2.3)run(shldrAngl, 0); //if the arm tip is above the limit, lower the elbow only
     else{
-      if (Math.abs(shldrAngl) < 0.1)run(0,0); //if the shoulder is at 0, lower the elbow to 0
+      if (Math.abs(shldrAngl) < ArmConstants.shoulderAngleToSafeSwingElbowThrough)run(0,0); //if the shoulder is at 0, lower the elbow to 0
       else run(0, elbowAngl); //if the shoulder is not at 0, move only the shoulder to 0
     }
   }
@@ -331,7 +342,7 @@ public class MagicArm extends SubsystemBase {
           moveTowardXYFromNeutral(_x, _y); // the current and the desired arm tip positions at the same side of the
                                            // robot
         else {
-          if (Math.abs(shldrAngl) < 0.05)
+          if (Math.abs(shldrAngl) < ArmConstants.shoulderAngleToSafeSwingElbowThrough)
             run(0, angles[1]); // optimization to avoid the elbow slow down at the neutral position
           else
             moveTowardNeutral(); // move to neutral position if optimization cannot be safely performed.
