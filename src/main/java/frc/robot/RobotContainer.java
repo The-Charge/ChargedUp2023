@@ -122,8 +122,8 @@ public class RobotContainer {
             new SequentialCommandGroup(
                 new DriveOver(m_drivetrain, 0.7, 10, 0), 
                 new TurnNRelative(m_drivetrain, 180),
-                new DriveForward(m_drivetrain, 0.7, 10, 0),
-                new Climb(m_drivetrain, 0))),
+                new DriveForward(m_drivetrain, 0.7, 10, -180),
+                new Climb(m_drivetrain, -180))),
         new ClawSafety(m_claw, m_arm)));
     m_chooser.addOption("DriveAndClimb", driveAndClimb);
     m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());

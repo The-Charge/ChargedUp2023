@@ -39,7 +39,7 @@ public final class Constants {
     public static final double climbPitchGain = 0.05;
     public static final double climbPitchDerivativeGain = 0.6;
     public static final double fastClimbTicks = 20000;
-    public static final double headingGain = 0.02;
+    public static final double headingGain = 0.01;
   }
   public static final class ArmConstants {
     public static final int shoulderCAN_ID = 1;
