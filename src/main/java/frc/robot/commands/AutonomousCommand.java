@@ -188,30 +188,6 @@ public class AutonomousCommand extends CommandBase {
                 Constants.SysIDConstants.kMaxAccelerationMetersPerSecondSquared);
     }
 
-    public SequentialCommandGroup driveAndClimbCommand() {
-        return new SequentialCommandGroup(
-                new ResetHeading(m_driveTrain),
-                new ResetPitch(m_driveTrain),
-                new DriveForward(m_driveTrain, .7, 10, 0),
-                new Climb(m_driveTrain, 0));
-    }
-
-    public SequentialCommandGroup driveOverCommand() {
-        return new SequentialCommandGroup(
-                new ResetHeading(m_driveTrain),
-                new ResetPitch(m_driveTrain),
-                new DriveOver(m_driveTrain, .7, 0, 0));
-    }
-
-    public SequentialCommandGroup driverOverBackClimbCommand() {
-        return new SequentialCommandGroup(
-                new ResetHeading(m_driveTrain),
-                new ResetPitch(m_driveTrain),
-                new DriveOver(m_driveTrain, .7, 10, 0),
-                new DriveForward(m_driveTrain, -.7, 10, 0),
-                new Climb(m_driveTrain, 0));
-    }
-
     public SequentialCommandGroup scoreHighConeCommand() {
         return new SequentialCommandGroup(
                 new ResetHeading(m_driveTrain),
