@@ -52,7 +52,7 @@ public class MagicArm extends SubsystemBase {
     /* Configure Talon SRX Output and Sensor direction accordingly */
     shldrMtr.setSensorPhase(true);
     shldrMtr.setInverted(false);
-    elbowMtr.setInverted(true);
+    elbowMtr.setInverted(false);
 
     /* Set relevant frame periods to be at least as fast as periodic rate */
     shldrMtr.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, MagicArmCnsts.kTimeoutMs);
@@ -92,21 +92,24 @@ public class MagicArm extends SubsystemBase {
 
     // Need the code from Mr. Curry to set relative sensor values from abosulte
     // sensor values
+
     /* Zero the sensor once on robot boot up */
-    int shldrTick = shldrMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1603;
+    int shldrTick = shldrMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1599;
     if (shldrTick > 2048) shldrTick -= 4096;
     else if (shldrTick < -2048) shldrTick += 4096;
-    shldrMtr.setSelectedSensorPosition(shldrTick, MagicArmCnsts.kPIDLoopIdxShldr, MagicArmCnsts.kTimeoutMs);
+    shldrMtr.setSelectedSensorPosition(-shldrTick, MagicArmCnsts.kPIDLoopIdxShldr, MagicArmCnsts.kTimeoutMs);
     int elbowTick = elbowMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1804; //1804
     if (elbowTick > 2048) shldrTick -= 4096;
     else if (elbowTick < -2048) elbowTick += 4096;
-    elbowMtr.setSelectedSensorPosition(-elbowTick, MagicArmCnsts.kPIDLoopIdxElbow, MagicArmCnsts.kTimeoutMs);
+    elbowMtr.setSelectedSensorPosition(elbowTick, MagicArmCnsts.kPIDLoopIdxElbow, MagicArmCnsts.kTimeoutMs);
 
     shldrMtr.setNeutralMode(NeutralMode.Brake);
     elbowMtr.setNeutralMode(NeutralMode.Brake);
   }
   public void setCoastMode(){
+    
     elbowMtr.setNeutralMode(NeutralMode.Coast);
+    shldrMtr.setNeutralMode(NeutralMode.Coast);
   }
 
   /**
@@ -275,11 +278,12 @@ public class MagicArm extends SubsystemBase {
     SmartDashboard.putNumber("ShoulderEncoder", shldrTicks);
     SmartDashboard.putNumber("currentShoulderAngle", shldrAngl / 3.14 * 180.0);
     SmartDashboard.putNumber("currentElbowAngle", elbowAngl / 3.14 * 180.0);
+    SmartDashboard.putBoolean("Arm In Bot", isArmTipInsideRobotX());
   }
 
   public boolean isArmTipInsideRobotX() {
     double[] xy = getXY();
-    return Math.abs(xy[0]+0.1) < robotLimit.robotLength / 2;
+    return Math.abs(xy[0]-0.1) < robotLimit.robotLength / 2;
   }
 
   /**
