@@ -109,6 +109,7 @@ public class MagicArm extends SubsystemBase {
   public void setCoastMode(){
     
     elbowMtr.setNeutralMode(NeutralMode.Coast);
+    shldrMtr.setNeutralMode(NeutralMode.Coast);
   }
 
   /**
