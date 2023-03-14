@@ -24,12 +24,12 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
   public static final class DriveConstants {
-    public static final int kLeftMotor1Port = 16; // LeftFront
-    public static final int kLeftMotor2Port = 17; // LeftRear
-    public static final int kRightMotor1Port = 3; // RightFront
-    public static final int kRightMotor2Port = 2; // RightRear
-    public static final int shifterChannel = 1; // Shifter
-    public static final int clawChannel = 2; // Claw
+    public static final int kLeftMotor1Port = 16;
+    public static final int kLeftMotor2Port = 17;
+    public static final int kRightMotor1Port = 3;
+    public static final int kRightMotor2Port = 2;
+    public static final int shifterChannel = 1;
+    public static final int clawChannel = 2;
   }
   public static final class AutoConstants {
     public static final double climbPowerLimit = 0.52;
@@ -116,14 +116,15 @@ public final class Constants {
     // 31,7
     public static final double LINEAR_P = 1;
     public static final double LINEAR_D = 0;
-    public static final double ANGULAR_P = 0.05; // 0.05
+    public static final double ANGULAR_P = 0.05; 
     public static final double ANGULAR_D = 0;
   }
 
   public static final class SysIDConstants {
-    public static final double ticksPerMeter = 17483.3; // Average from three tests from both encoders
+    // Average from three tests from both encoders
+    public static final double ticksPerMeter = 17483.3; 
 
-    public static final double leftEncoderTicksPerMeter = 18850; //17362, 92% is 
+    public static final double leftEncoderTicksPerMeter = 18850;
     public static final double rightEncoderTicksPerMeter = 18850;
 
     //volt constraints
@@ -147,8 +148,10 @@ public final class Constants {
     public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;
 
-    public static final double NUMBER_OF_PATHWAYS = 14; //list of pathways #ed
+    // List of pathways #ed
+    public static final double NUMBER_OF_PATHWAYS = 20; 
 
-  public static final double MAX_VELOCITY = 7000; //Maximum for Velocity ControlMode (Initial Test Starting Pt) 
+    // Maximum for Velocity ControlMode (Initial Test Starting Pt) 
+  public static final double MAX_VELOCITY = 7000; 
   }
 }
