@@ -12,7 +12,6 @@ public class Climb extends CommandBase {
   private final Drivetrain m_drivetrain;
   private double m_offset = 0;
   /**
-   *
    * @param subsystem The subsystem used by this command.
    */
 

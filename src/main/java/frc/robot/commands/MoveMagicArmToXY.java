@@ -33,9 +33,9 @@ public class MoveMagicArmToXY extends CommandBase {
   @Override
   public void execute() {
     canMove = m_arm.moveTowardXY(m_X, m_Y) &&
-      Math.abs(RobotContainer.getInstance().getArmJoystick().getRawAxis(1)) < 0.2 &&
-      Math.abs(RobotContainer.getInstance().getArmJoystick().getRawAxis(3)) < 0.2 &&
-      System.currentTimeMillis() - startTime < m_timeOut;
+        Math.abs(RobotContainer.getInstance().getArmJoystick().getRawAxis(1)) < 0.2 &&
+        Math.abs(RobotContainer.getInstance().getArmJoystick().getRawAxis(3)) < 0.2 &&
+        System.currentTimeMillis() - startTime < m_timeOut;
   }
 
   // Called once the command ends or is interrupted.
@@ -48,6 +48,6 @@ public class MoveMagicArmToXY extends CommandBase {
   @Override
   public boolean isFinished() {
     double[] xy = m_arm.getXY();
-    return(((xy[0]-m_X)*(xy[0]-m_X) + (xy[1]-m_Y)*(xy[1]-m_Y) < 0.0008) || (!canMove));
+    return (((xy[0] - m_X) * (xy[0] - m_X) + (xy[1] - m_Y) * (xy[1] - m_Y) < 0.0008) || (!canMove));
   }
 }
