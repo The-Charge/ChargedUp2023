@@ -201,24 +201,24 @@ public class AutonomousCommand extends CommandBase {
         return new SequentialCommandGroup(
                 new ResetHeading(m_driveTrain),
                 new ResetPitch(m_driveTrain),
-                new DriveForward(m_driveTrain, .7, 10),
-                new Climb(m_driveTrain));
+                new DriveForward(m_driveTrain, .7, 10, 0),
+                new Climb(m_driveTrain, 0));
     }
 
     public SequentialCommandGroup driveOverCommand() {
         return new SequentialCommandGroup(
                 new ResetHeading(m_driveTrain),
                 new ResetPitch(m_driveTrain),
-                new DriveOver(m_driveTrain, .7, 0));
+                new DriveOver(m_driveTrain, .7, 0, 0));
     }
 
     public SequentialCommandGroup driverOverBackClimbCommand() {
         return new SequentialCommandGroup(
                 new ResetHeading(m_driveTrain),
                 new ResetPitch(m_driveTrain),
-                new DriveOver(m_driveTrain, .7, 10),
-                new DriveForward(m_driveTrain, -.7, 10),
-                new Climb(m_driveTrain));
+                new DriveOver(m_driveTrain, .7, 10, 0),
+                new DriveForward(m_driveTrain, -.7, 10, 0),
+                new Climb(m_driveTrain, 0));
     }
 
     public SequentialCommandGroup scoreHighConeCommand() {
@@ -232,7 +232,7 @@ public class AutonomousCommand extends CommandBase {
                 new CloseClaw(m_claw),
                 new ParallelCommandGroup(
                         new MoveArmToNeutral(m_arm),
-                        new SequentialCommandGroup(new DriveForward(m_driveTrain, 0.7, 10), new Climb(m_driveTrain))));
+                        new SequentialCommandGroup(new DriveForward(m_driveTrain, 0.7, 10, 0), new Climb(m_driveTrain, 0))));
     }
 
     public SequentialCommandGroup scoreHighBallCommand() {
@@ -246,7 +246,7 @@ public class AutonomousCommand extends CommandBase {
                 new CloseClaw(m_claw),
                 new ParallelCommandGroup(
                         new MoveArmToNeutral(m_arm),
-                        new SequentialCommandGroup(new DriveForward(m_driveTrain, 0.7, 10), new Climb(m_driveTrain))));
+                        new SequentialCommandGroup(new DriveForward(m_driveTrain, 0.7, 10, 0), new Climb(m_driveTrain, 0))));
     }
 
     // Called every time the scheduler runs while the command is scheduled.
