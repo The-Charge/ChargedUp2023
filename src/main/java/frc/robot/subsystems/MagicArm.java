@@ -10,6 +10,7 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.MagicArmCnsts;
 import frc.robot.Constants.robotLimit;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
