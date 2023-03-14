@@ -116,7 +116,7 @@ public class AutonomousCommand extends CommandBase {
 
                 HashMap<String, Command> eventMap = new HashMap<>();
                 // Scores Current game piece
-                eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, true));
+                eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, false));
                 eventMap.put("OpenClaw", new OpenClaw(m_claw, true));
                 /**
                  * Centers gravity for accurate autonomous pathing and
@@ -135,7 +135,7 @@ public class AutonomousCommand extends CommandBase {
                 eventMap.put("MoveArmNeutral", new MoveArmToNeutral(m_arm));
 
                 // Scores previously grabbed piece
-                eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, true));
+                eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, false));
                 eventMap.put("OpenClaw", new OpenClaw(m_claw, true));
                 m_driveTrain.resetOdometry(new Pose2d());
                 /**

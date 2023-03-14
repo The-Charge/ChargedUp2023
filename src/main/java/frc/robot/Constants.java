@@ -151,7 +151,7 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
 
     // List of pathways #ed
-    public static final double NUMBER_OF_PATHWAYS = 17; 
+    public static final double NUMBER_OF_PATHWAYS = 18; 
 
     // Maximum for Velocity ControlMode (Initial Test Starting Pt) 
   public static final double MAX_VELOCITY = 7000; 
