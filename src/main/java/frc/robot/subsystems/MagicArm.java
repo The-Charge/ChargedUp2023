@@ -278,6 +278,7 @@ public class MagicArm extends SubsystemBase {
     SmartDashboard.putNumber("ShoulderEncoder", shldrTicks);
     SmartDashboard.putNumber("currentShoulderAngle", shldrAngl / 3.14 * 180.0);
     SmartDashboard.putNumber("currentElbowAngle", elbowAngl / 3.14 * 180.0);
+    SmartDashboard.putBoolean("Arm In Bot", isArmTipInsideRobotX());
   }
 
   public boolean isArmTipInsideRobotX() {

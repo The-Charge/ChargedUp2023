@@ -59,12 +59,18 @@ public class Claw extends SubsystemBase {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-    public void openClaw() {
+    public void openClaw(boolean force) {
         isOpen = true;
+        if (force) {
+            clawSolenoid.set(true);
+        }
     }
 
-    public void closeClaw() { 
+    public void closeClaw(boolean force) { 
         isOpen = false;
+        if (force) {
+            clawSolenoid.set(false);
+        }
     }
 
     public void moveClaw(boolean insideRobot) {
@@ -75,5 +81,13 @@ public class Claw extends SubsystemBase {
         else {
             clawSolenoid.set(false);
         }
+    }
+
+    public void forceOpenClaw() {
+        clawSolenoid.set(true);
+    }
+
+    public void forceCloseClaw() {
+        clawSolenoid.set(false);
     }
 }
