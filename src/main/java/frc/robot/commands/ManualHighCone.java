@@ -12,19 +12,24 @@ public class ManualHighCone extends CommandBase {
   private MagicArm m_arm;
   private double m_xMultiplier;
   private boolean canMove = true;
+  private long startTime = 0;
+  private long m_timeOut;
 
   /** Creates a new ManualHighCone. */
-  public ManualHighCone(MagicArm subsystem, boolean _isBackScore) {
+  public ManualHighCone(MagicArm subsystem, boolean _isBackScore, long _timeOutMs) {
     if(_isBackScore) m_xMultiplier = 1;
     else m_xMultiplier = -1;
     m_arm = subsystem;
-    addRequirements(m_arm);}
+    addRequirements(m_arm);
+    m_timeOut = _timeOutMs;
+  }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     double[] xy = m_arm.getXY();
     canMove = (Math.abs(xy[0]) > ArmConstants.hiGoalX - 0.1 && xy[1] > ArmConstants.hiGoalY-0.1);
+    startTime = System.currentTimeMillis();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,6 +51,10 @@ public class ManualHighCone extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return canMove;
+    if (Math.abs(m_arm.getShoulderAngle()) > ArmConstants.shoulderScoreDegree - .05){
+      return true;
+    } else if((System.currentTimeMillis() - startTime) > m_timeOut){
+      return true;
+    } return false;
   }
 }

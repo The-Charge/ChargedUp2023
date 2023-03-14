@@ -12,7 +12,6 @@ public class Climb extends CommandBase {
   private final Drivetrain m_drivetrain;
   private double m_offset = 0;
   /**
-   *
    * @param subsystem The subsystem used by this command.
    */
 
@@ -39,7 +38,7 @@ public class Climb extends CommandBase {
     lastPitch = thisPitch;
     if(thisPitch < -1){
       volt = volt + AutoConstants.climbPowerBackwardBias;
-      timesAtLevel = 0;
+      timesAtLevel = 0; 
     }else if (thisPitch > 1){
       volt = volt + AutoConstants.climbPowerForwardBias;
       timesAtLevel = 0;

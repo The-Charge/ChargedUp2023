@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -23,22 +24,20 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
   public static final class DriveConstants {
-    public static final int kLeftMotor1Port = 16; // LeftFront
-    public static final int kLeftMotor2Port = 17; // LeftRear
-    public static final int kRightMotor1Port = 3; // RightFront
-    public static final int kRightMotor2Port = 2; // RightRear
-    public static final int shifterChannel = 1; // Shifter
-    public static final int clawChannel = 2; // Claw
-
-    public static final double MAX_VELOCITY = 7000; //Maximum for Velocity ControlMode (Initial Test Starting Pt) 
+    public static final int kLeftMotor1Port = 16;
+    public static final int kLeftMotor2Port = 17;
+    public static final int kRightMotor1Port = 3;
+    public static final int kRightMotor2Port = 2;
+    public static final int shifterChannel = 1;
+    public static final int clawChannel = 2;
   }
   public static final class AutoConstants {
-    public static final double climbPowerLimit = 0.52;
+    public static final double climbPowerLimit = 0.1;
     public static final double climbPowerForwardBias = 0.3;
     public static final double climbPowerBackwardBias = -0.3;
     public static final double climbPitchGain = 0.05;
-    public static final double climbPitchDerivativeGain = 0.6;
-    public static final double fastClimbTicks = 20000;
+    public static final double climbPitchDerivativeGain = 0.1;
+    public static final double fastClimbTicks = 1000;
     public static final double headingGain = 0.01;
   }
   public static final class ArmConstants {
@@ -119,7 +118,42 @@ public final class Constants {
     // 31,7
     public static final double LINEAR_P = 1;
     public static final double LINEAR_D = 0;
-    public static final double ANGULAR_P = 0.5; // 0.05
+    public static final double ANGULAR_P = 0.05; 
     public static final double ANGULAR_D = 0;
+  }
+
+  public static final class SysIDConstants {
+    // Average from three tests from both encoders
+    public static final double ticksPerMeter = 17483.3; 
+
+    public static final double leftEncoderTicksPerMeter = 18850;
+    public static final double rightEncoderTicksPerMeter = 18850;
+
+    //volt constraints
+    public static final double ksVolts = 2; 
+    public static final double kvVoltSecondsPerMeter = 2.5; 
+    public static final double kaVoltSecondsSquaredPerMeter = .25; 
+
+    //PID values
+    public static final double kPDriveVel = 9; 
+    public static final double kIDriveVel = 3; 
+    public static final double kDDriveVel = .1; 
+
+    public static final double kTrackwidthMeters = 0.60008;
+    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
+          kTrackwidthMeters);
+
+    //max speed and acceleration 
+    public static final double kMaxSpeedMetersPerSecond = 3; 
+    public static final double kMaxAccelerationMetersPerSecondSquared = 2; 
+
+    public static final double kRamseteB = 2;
+    public static final double kRamseteZeta = 0.7;
+
+    // List of pathways #ed
+    public static final double NUMBER_OF_PATHWAYS = 18; 
+
+    // Maximum for Velocity ControlMode (Initial Test Starting Pt) 
+  public static final double MAX_VELOCITY = 7000; 
   }
 }

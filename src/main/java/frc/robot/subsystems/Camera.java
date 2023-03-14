@@ -59,7 +59,8 @@ public class Camera extends SubsystemBase {
         // dash.
         // https://docs.photonvision.org/en/latest/docs/getting-started/pipeline-tuning/reflectiveAndShape/contour-filtering.html#contour-grouping-and-sorting
         var res = frontCamera.getLatestResult();
-        if (res.hasTargets()) { // if targets sighted
+        // if targets sighted
+        if (res.hasTargets()) {
             // double range =
             // PhotonUtils.calculateDistanceToTargetMeters(Constants.CAMERA_HEIGHT_METERS,
             // Units.inchesToMeters(21), Constants.CAMERA_PITCH_RADIANS,
@@ -70,10 +71,12 @@ public class Camera extends SubsystemBase {
                     Units.degreesToRadians(res.getBestTarget().getPitch()));
 
             Transform3d pose = res.getBestTarget().getBestCameraToTarget();
-            var bestTarget = res.getBestTarget(); // get the "best target"
+            // Get the "best target"
+            var bestTarget = res.getBestTarget();
 
-            // SmartDashboard.putNumber("ID", bestTarget.getFiducialId()); //put "best
-            // target" ID onto smartdash
+            // Put "besttarget" ID onto smartdash
+            // SmartDashboard.putNumber("ID", bestTarget.getFiducialId());
+
             SmartDashboard.putNumber("Range", range);
             SmartDashboard.putNumber("X", pose.getX());
             SmartDashboard.putNumber("X adjusted", pose.getX() - Units.inchesToMeters(14.5));
@@ -94,8 +97,7 @@ public class Camera extends SubsystemBase {
 
     }
 
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
+    // Put methods for controlling this subsystem here. Call these from Commands.
     public void setFrontCamera(int index) {
         frontCamera.setPipelineIndex(index);
     }
@@ -106,7 +108,7 @@ public class Camera extends SubsystemBase {
     }
 
     public PhotonCamera getFrontCamera() {
-        // return camera object for command manipulation
+        // Return camera object for command manipulation
         return frontCamera;
     }
 }
