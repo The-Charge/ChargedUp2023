@@ -245,13 +245,13 @@ public class RobotContainer {
     backScore.onTrue(manualHighBack);
     JoystickButton frontScore = new JoystickButton(armController, 8);
     frontScore.onTrue(manualHighFront);
-    POVButton armBackHighButton = new POVButton(leftJoystick, 0);
+    POVButton armBackHighButton = new POVButton(armController, 0);
     armBackHighButton.onTrue(armBackHigh);
-    POVButton armBackLowButton = new POVButton(leftJoystick, 180);
+    POVButton armBackLowButton = new POVButton(armController, 180);
     armBackLowButton.onTrue(armBackLow);
-    POVButton armBackMidButton = new POVButton(leftJoystick, 270);
+    POVButton armBackMidButton = new POVButton(armController, 270);
     armBackMidButton.onTrue(armBackMid);
-    POVButton armBackCollectButton = new POVButton(leftJoystick, 90);
+    POVButton armBackCollectButton = new POVButton(armController, 90);
     armBackCollectButton.onTrue(armBackStation);
 
     /*In case it gets deleted

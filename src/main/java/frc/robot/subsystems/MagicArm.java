@@ -52,7 +52,7 @@ public class MagicArm extends SubsystemBase {
     /* Configure Talon SRX Output and Sensor direction accordingly */
     shldrMtr.setSensorPhase(true);
     shldrMtr.setInverted(false);
-    elbowMtr.setInverted(true);
+    elbowMtr.setInverted(false);
 
     /* Set relevant frame periods to be at least as fast as periodic rate */
     shldrMtr.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, MagicArmCnsts.kTimeoutMs);
@@ -97,11 +97,11 @@ public class MagicArm extends SubsystemBase {
     int shldrTick = shldrMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1599;
     if (shldrTick > 2048) shldrTick -= 4096;
     else if (shldrTick < -2048) shldrTick += 4096;
-    shldrMtr.setSelectedSensorPosition(shldrTick, MagicArmCnsts.kPIDLoopIdxShldr, MagicArmCnsts.kTimeoutMs);
+    shldrMtr.setSelectedSensorPosition(-shldrTick, MagicArmCnsts.kPIDLoopIdxShldr, MagicArmCnsts.kTimeoutMs);
     int elbowTick = elbowMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1804; //1804
     if (elbowTick > 2048) shldrTick -= 4096;
     else if (elbowTick < -2048) elbowTick += 4096;
-    elbowMtr.setSelectedSensorPosition(-elbowTick, MagicArmCnsts.kPIDLoopIdxElbow, MagicArmCnsts.kTimeoutMs);
+    elbowMtr.setSelectedSensorPosition(elbowTick, MagicArmCnsts.kPIDLoopIdxElbow, MagicArmCnsts.kTimeoutMs);
 
     shldrMtr.setNeutralMode(NeutralMode.Brake);
     elbowMtr.setNeutralMode(NeutralMode.Brake);
@@ -282,7 +282,7 @@ public class MagicArm extends SubsystemBase {
 
   public boolean isArmTipInsideRobotX() {
     double[] xy = getXY();
-    return Math.abs(xy[0]+0.1) < robotLimit.robotLength / 2;
+    return Math.abs(xy[0]-0.1) < robotLimit.robotLength / 2;
   }
 
   /**
