@@ -42,7 +42,7 @@ public final class Constants {
     public static final double headingGain = 0.02;
   }
   public static final class ArmConstants {
-    public static final int shoulderCAN_ID = 15;
+    public static final int shoulderCAN_ID = 1;
     public static final int elbowCAN_ID = 14;
     public static final double shoulderL = 0.9906;
     public static final double elbowL = 0.9144;
@@ -55,8 +55,10 @@ public final class Constants {
     public static final double hiGoalY = 1.09;
     public static final double midGoalX = 1.15;
     public static final double midGoalY = 0.79;
-    public static final double stationX = 0.91;
+    public static final double stationX = 0.74;
     public static final double stationY = 0.87;
+    public static final double pickUpX = 0.9;
+    public static final double pickUpY = -0.12;
   }
 
   public static final class robotLimit {

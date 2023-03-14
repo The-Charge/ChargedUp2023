@@ -10,14 +10,15 @@ public class Climb extends CommandBase {
   private int timesAtLevel = 0;
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Drivetrain m_drivetrain;
+  private double m_offset = 0;
   /**
    *
    * @param subsystem The subsystem used by this command.
    */
 
-  public Climb(Drivetrain subsystem) {
+  public Climb(Drivetrain subsystem, double headingOffset) {
     m_drivetrain = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
+    m_offset = headingOffset;
     addRequirements(subsystem);
   }
 
@@ -32,7 +33,7 @@ public class Climb extends CommandBase {
   @Override
   public void execute() {
     double thisPitch = m_drivetrain.getPitch();
-    double thisHeading = m_drivetrain.getHeading() * AutoConstants.headingGain / 2;
+    double thisHeading = (m_drivetrain.getHeading() + m_offset) * AutoConstants.headingGain / 2;
     double volt = thisPitch*AutoConstants.climbPitchGain + 
                   (thisPitch-lastPitch)*AutoConstants.climbPitchDerivativeGain;
     lastPitch = thisPitch;
