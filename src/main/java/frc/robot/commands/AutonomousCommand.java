@@ -111,7 +111,7 @@ public class AutonomousCommand extends CommandBase {
         HashMap<String, Command> eventMap = new HashMap<>();
 
         // Scores Current game piece
-        eventMap.put("MoveArmScore", new MoveMagicArmToXY(m_arm, -1.10, .79));
+        eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, true));
         eventMap.put("OpenClaw", new OpenClaw(m_claw, m_arm));
         /**
          * Centers gravity for accurate autonomous pathing and
@@ -120,7 +120,7 @@ public class AutonomousCommand extends CommandBase {
         eventMap.put("MoveArmNeutral", new MoveArmToNeutral(m_arm));
 
         // Picks up game piece
-        eventMap.put("MoveArmLow", new MoveMagicArmToXY(m_arm, 1.0, 0.1));
+        eventMap.put("MoveArmLow", new MoveMagicArmToXY(m_arm, 1.0, 0.1, 0));
         eventMap.put("CloseClaw", new CloseClaw(m_claw));
 
         /**
@@ -130,7 +130,7 @@ public class AutonomousCommand extends CommandBase {
         eventMap.put("MoveArmNeutral", new MoveArmToNeutral(m_arm));
 
         // Scores previously grabbed piece
-        eventMap.put("MoveArmScore", new MoveMagicArmToXY(m_arm, -1.10, .79));
+        eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, true));
         eventMap.put("OpenClaw", new OpenClaw(m_claw, m_arm));
 
 
