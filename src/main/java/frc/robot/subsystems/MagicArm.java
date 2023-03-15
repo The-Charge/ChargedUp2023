@@ -251,7 +251,7 @@ public class MagicArm extends SubsystemBase {
          */
         angles[0] = -angles[0];
 
-      if (angles[0] > 0)
+      if (_x < 0)// was (angles[0] > 0), it does not allow Z configureation, changed to allow this, need testing.
         /**
          * Forcing the elbow and the shoulder in the same quadrant, also takes care of
          * The elbow in the 2nd quad math

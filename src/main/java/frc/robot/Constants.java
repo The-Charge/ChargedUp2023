@@ -32,11 +32,11 @@ public final class Constants {
     public static final int clawChannel = 2;
   }
   public static final class AutoConstants {
-    public static final double climbPowerLimit = 0.55;
+    public static final double climbPowerLimit = 0.6; //was 0.55;
     public static final double climbPowerForwardBias = 0.3;
     public static final double climbPowerBackwardBias = -0.3;
-    public static final double climbPitchGain = 0.05;
-    public static final double climbPitchDerivativeGain = 0.6;
+    public static final double climbPitchGain = 0.018;
+    public static final double climbPitchDerivativeGain = 0.18; //was 0.6;
     public static final double fastClimbTicks = 25000;
     public static final double headingGain = 0.02;
   }

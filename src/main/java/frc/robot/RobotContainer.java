@@ -188,9 +188,9 @@ public class RobotContainer {
         .withInterruptBehavior(InterruptionBehavior.kCancelSelf);
     Command armBackStation = (new MoveMagicArmToXY(m_arm, -ArmConstants.stationX, ArmConstants.stationY, 5000))
         .withInterruptBehavior(InterruptionBehavior.kCancelSelf);
-    Command manualHighFront = (new ManualHighCone(m_arm, false))
+    Command manualHighFront = (new ManualHighCone(m_arm, false, 3000))
         .withInterruptBehavior(InterruptionBehavior.kCancelSelf);
-    Command manualHighBack = (new ManualHighCone(m_arm, true)).withInterruptBehavior(InterruptionBehavior.kCancelSelf);
+    Command manualHighBack = (new ManualHighCone(m_arm, true,3000)).withInterruptBehavior(InterruptionBehavior.kCancelSelf);
     /*
      * JoystickButton middleButton = new JoystickButton(armController, 10);
      * middleButton.onTrue(armNeutral);
