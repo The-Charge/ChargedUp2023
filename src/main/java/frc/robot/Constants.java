@@ -36,7 +36,7 @@ public final class Constants {
     public static final double climbPowerForwardBias = 0.3;
     public static final double climbPowerBackwardBias = -0.3;
     public static final double climbPitchGain = 0.018;
-    public static final double climbPitchDerivativeGain = 0.18; //was 0.6;
+    public static final double climbPitchDerivativeGain = 0.1; //was 0.6;
     public static final double fastClimbTicks = 25000;
     public static final double headingGain = 0.02;
   }

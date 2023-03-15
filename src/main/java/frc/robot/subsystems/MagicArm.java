@@ -110,6 +110,10 @@ public class MagicArm extends SubsystemBase {
 
     shldrMtr.setNeutralMode(NeutralMode.Brake);
     elbowMtr.setNeutralMode(NeutralMode.Brake);
+  
+    // use motion magic to set the arms in place.
+    shldrMtr.set(ControlMode.MotionMagic, -shldrTick);
+    elbowMtr.set(ControlMode.MotionMagic, elbowTick);
   }
   public void setCoastMode(){
     
