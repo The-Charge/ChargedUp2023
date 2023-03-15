@@ -16,6 +16,7 @@ public class MoveArmSimple extends CommandBase {
   private double targetY;
   private boolean joyStickMoved = false;
   private double deltaScale = 175.;
+
   public MoveArmSimple(MagicArm subsystem) {
     m_arm = subsystem;
     addRequirements(m_arm);
@@ -36,19 +37,24 @@ public class MoveArmSimple extends CommandBase {
   public void execute() {
     double axDifference = RobotContainer.getInstance().getArmJoystick().getRawAxis(0);
     axDifference -= RobotContainer.getInstance().getArmJoystick().getRawAxis(2);
-    if (axDifference > 1.8) deltaScale = 250;
-    else if (axDifference < -1.8) deltaScale = 175;
-    double xSpeed = RobotContainer.getInstance().getArmJoystick().getRawAxis(1)/deltaScale;//.getleftJoystick().getY() / 250;
-    double ySpeed = -RobotContainer.getInstance().getArmJoystick().getRawAxis(3)/deltaScale; //.getrightJoystick().getY() / 250;
-    if (Math.abs(xSpeed) < (0.1/deltaScale))
+    if (axDifference > 1.8) {
+      deltaScale = 250;
+    } else if (axDifference < -1.8) {
+      deltaScale = 175;
+    }
+    double xSpeed = RobotContainer.getInstance().getArmJoystick().getRawAxis(1) / deltaScale;
+    double ySpeed = -RobotContainer.getInstance().getArmJoystick().getRawAxis(3) / deltaScale;
+    if (Math.abs(xSpeed) < (0.1 / deltaScale)) {
       xSpeed = 0;
-    else
+    } else {
       joyStickMoved = true;
-    if (Math.abs(ySpeed) < (0.1/deltaScale))
+    }
+    if (Math.abs(ySpeed) < (0.1 / deltaScale)) {
       ySpeed = 0;
-    else
+    } else {
       joyStickMoved = true;
-    if (Math.abs(xSpeed) < (0.1/deltaScale) && Math.abs(ySpeed) < (0.1/deltaScale) && joyStickMoved) {
+    }
+    if (Math.abs(xSpeed) < (0.1 / deltaScale) && Math.abs(ySpeed) < (0.1 / deltaScale) && joyStickMoved) {
       double[] xy = m_arm.getXY();
       targetX = xy[0];
       targetY = xy[1];

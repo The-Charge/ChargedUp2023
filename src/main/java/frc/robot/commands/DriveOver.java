@@ -39,8 +39,9 @@ public class DriveOver extends CommandBase {
     thisPitch = m_drivetrain.getPitch();
     double thisHeading = (m_drivetrain.getHeading() + m_offset) * AutoConstants.headingGain;
     if (status == 0) {
-      if (Math.abs(thisPitch) > m_stopPitch)
+      if (Math.abs(thisPitch) > m_stopPitch) {
         status = 1;
+      }
     } else if (status == 1) {
       if (Math.abs(thisPitch) < 2) {
         status = 2;
@@ -69,12 +70,13 @@ public class DriveOver extends CommandBase {
         m_drivetrain.run(0, 0);
         status++;
       }
-      ;
     }
-    if (status > 3)
+    if (status > 3) {
       status++;
-    if (status > 10)
+    }
+    if (status > 10) {
       return true;
+    }
     return false;
   }
 }

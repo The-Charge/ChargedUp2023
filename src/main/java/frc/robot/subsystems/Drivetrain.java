@@ -132,9 +132,11 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("IMU_Yaw", navx.getYaw());
     SmartDashboard.putNumber("IMU_Pitch", pitch);
 
-    // Displays encoder ticks
-    // SmartDashboard.putNumber("Left Encoder", getLeftEncoder());
-    // SmartDashboard.putNumber("Right Encoder", getRightEncoder());
+    /**
+     * Displays encoder ticks
+     * SmartDashboard.putNumber("Left Encoder", getLeftEncoder());
+     * SmartDashboard.putNumber("Right Encoder", getRightEncoder());
+     */
 
     // Displays distance based on encoders
     SmartDashboard.putNumber("Left Distance", getLeftEncoderDistance());
@@ -225,14 +227,14 @@ public class Drivetrain extends SubsystemBase {
    * left.set(l * DriveConstants.MAX_VELOCITY);
    * right.set(r * DriveConstants.MAX_VELOCITY);
    * }
+   *
+   * public void setControlMode(ControlMode mode) {
+   * leftFrontMotor.set(mode, 0);
+   * leftRearMotor.set(mode, 0);
+   * rightFrontMotor.set(mode, 0);
+   * rightRearMotor.set(mode, 0);
+   * }
    */
-
-  // public void setControlMode(ControlMode mode) {
-  // leftFrontMotor.set(mode, 0);
-  // leftRearMotor.set(mode, 0);
-  // rightFrontMotor.set(mode, 0);
-  // rightRearMotor.set(mode, 0);
-  // }
 
   public double getLeftEncoder() {
     return leftFrontMotor.getSelectedSensorPosition();
@@ -340,14 +342,16 @@ public class Drivetrain extends SubsystemBase {
 
   public void setHalfSpeed() {
     isHalfSpeed = !isHalfSpeed;
-    if (isQuarterSpeed && isHalfSpeed) { // Is not QuarterSpeed
+    if (isQuarterSpeed && isHalfSpeed) {
+      // Is not QuarterSpeed
       isQuarterSpeed = false;
     }
   }
 
   public void setQuarterSpeed() {
     isQuarterSpeed = !isQuarterSpeed;
-    if (isHalfSpeed && isQuarterSpeed) { // Is not HalfSpeed
+    if (isHalfSpeed && isQuarterSpeed) {
+      // Is not HalfSpeed
       isHalfSpeed = false;
     }
   }

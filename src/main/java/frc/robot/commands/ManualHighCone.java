@@ -17,17 +17,21 @@ public class ManualHighCone extends CommandBase {
 
   /** Creates a new ManualHighCone. */
   public ManualHighCone(MagicArm subsystem, boolean _isBackScore, long _timeOutMS) {
-    if(_isBackScore) m_xMultiplier = 1;
-    else m_xMultiplier = -1;
+    if (_isBackScore) {
+      m_xMultiplier = 1;
+    } else {
+      m_xMultiplier = -1;
+    }
     m_arm = subsystem;
     m_timeOut = _timeOutMS;
-    addRequirements(m_arm);}
+    addRequirements(m_arm);
+  }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     double[] xy = m_arm.getXY();
-    canMove = (Math.abs(xy[0]) > ArmConstants.hiGoalX - 0.2 && xy[1] > ArmConstants.hiGoalY-0.2);
+    canMove = (Math.abs(xy[0]) > ArmConstants.hiGoalX - 0.2 && xy[1] > ArmConstants.hiGoalY - 0.2);
     startTime = System.currentTimeMillis();
   }
 
@@ -35,21 +39,23 @@ public class ManualHighCone extends CommandBase {
   @Override
   public void execute() {
     if (canMove) {
-      if(Math.abs(m_arm.getElbowAngle()) < Math.PI)m_arm.runElbow(-m_xMultiplier*(Math.PI+0.4));
-      else{
-        m_arm.run(m_xMultiplier*ArmConstants.shoulderScoreDegree/180.0*Math.PI, -m_xMultiplier*Math.PI);
+      if (Math.abs(m_arm.getElbowAngle()) < Math.PI) {
+        m_arm.runElbow(-m_xMultiplier * (Math.PI + 0.4));
+      } else {
+        m_arm.run(m_xMultiplier * ArmConstants.shoulderScoreDegree / 180.0 * Math.PI, -m_xMultiplier * Math.PI);
       }
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (!canMove || Math.abs(m_arm.getShoulderAngle()) > (ArmConstants.shoulderScoreDegree - 0.04) || 
-      (System.currentTimeMillis() - startTime > m_timeOut));
+    return (!canMove || Math.abs(m_arm.getShoulderAngle()) > (ArmConstants.shoulderScoreDegree - 0.04) ||
+        (System.currentTimeMillis() - startTime > m_timeOut));
   }
 }

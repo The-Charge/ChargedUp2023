@@ -73,22 +73,34 @@ public class Camera extends SubsystemBase {
             Transform3d pose = res.getBestTarget().getBestCameraToTarget();
             // Get the "best target"
             var bestTarget = res.getBestTarget();
-
-            // Put "besttarget" ID onto smartdash
-            // SmartDashboard.putNumber("ID", bestTarget.getFiducialId());
-
-            // SmartDashboard.putNumber("Range", range);
-            // SmartDashboard.putNumber("X", pose.getX());
-            // SmartDashboard.putNumber("X adjusted", pose.getX() - Units.inchesToMeters(14.5));
-            // SmartDashboard.putNumber("Y", pose.getY());
-            // SmartDashboard.putNumber("Rotation dif", Units.radiansToDegrees(pose.getRotation().getAngle()));
-            // SmartDashboard.putNumber("Pose Ambiguity", res.getBestTarget().getPoseAmbiguity());
-            // SmartDashboard.putNumber("Pipeline Index", frontCamera.getPipelineIndex());
+            /**
+             * Put "besttarget" ID onto smartdash
+             * SmartDashboard.putNumber("ID", bestTarget.getFiducialId());
+             *
+             * SmartDashboard.putNumber("Range", range);
+             * SmartDashboard.putNumber("X", pose.getX());
+             * SmartDashboard.putNumber("X adjusted", pose.getX() -
+             * Units.inchesToMeters(14.5));
+             *
+             * SmartDashboard.putNumber("Y", pose.getY());
+             * SmartDashboard.putNumber("Rotation dif",
+             * Units.radiansToDegrees(pose.getRotation().getAngle()));
+             *
+             * SmartDashboard.putNumber("Pose Ambiguity",
+             * res.getBestTarget().getPoseAmbiguity());
+             *
+             * SmartDashboard.putNumber("Pipeline Index", frontCamera.getPipelineIndex());
+             */
         } else {
-            // SmartDashboard.putNumber("ID", -1); // no target found
-            // SmartDashboard.putNumber("Range", -1);
+            /**
+             * SmartDashboard.putNumber("ID", -1); // no target found
+             * SmartDashboard.putNumber("Range", -1);
+             */
         }
-        // SmartDashboard.putBoolean("Has AprilTag Target", frontCamera.getLatestResult().hasTargets());
+        /**
+         * SmartDashboard.putBoolean("Has AprilTag Target",
+         * frontCamera.getLatestResult().hasTargets());
+         */
     }
 
     @Override

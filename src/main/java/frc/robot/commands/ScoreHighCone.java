@@ -12,7 +12,7 @@ public class ScoreHighCone extends CommandBase {
   private MagicArm m_arm;
   private double m_xMultiplier;
 
-  /** Creates a new ScoreHighCone. */
+  /* Creates a new ScoreHighCone. */
   public ScoreHighCone(MagicArm subsystem, boolean _isScoreFront) {
     if (_isScoreFront) {
       m_xMultiplier = 1;
