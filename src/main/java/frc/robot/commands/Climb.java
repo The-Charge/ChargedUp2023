@@ -43,7 +43,7 @@ public class Climb extends CommandBase {
       volt = volt + AutoConstants.climbPowerForwardBias;
       timesAtLevel = 0;
     }else timesAtLevel++;
-    MathUtil.clamp(volt, -AutoConstants.climbPowerLimit, AutoConstants.climbPowerLimit);
+    volt = MathUtil.clamp(volt, -AutoConstants.climbPowerLimit, AutoConstants.climbPowerLimit);
     m_drivetrain.run(volt + thisHeading, volt - thisHeading);
     SmartDashboard.putBoolean("climb", true);
     SmartDashboard.putNumber("volt", volt);

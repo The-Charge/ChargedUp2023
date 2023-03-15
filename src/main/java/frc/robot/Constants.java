@@ -32,12 +32,12 @@ public final class Constants {
     public static final int clawChannel = 2;
   }
   public static final class AutoConstants {
-    public static final double climbPowerLimit = 0.52;
+    public static final double climbPowerLimit = 0.55;
     public static final double climbPowerForwardBias = 0.3;
     public static final double climbPowerBackwardBias = -0.3;
     public static final double climbPitchGain = 0.05;
     public static final double climbPitchDerivativeGain = 0.6;
-    public static final double fastClimbTicks = 20000;
+    public static final double fastClimbTicks = 25000;
     public static final double headingGain = 0.02;
   }
   public static final class ArmConstants {
@@ -50,14 +50,14 @@ public final class Constants {
     public static final double elbowperMotorTick = 6.28 / 4096;
     public static final double shoulderperMotorTick = 6.28 / 4096;
     public static final double shoulderScoreDegree = 55.0;
-    public static final double hiGoalX = 1.54;
-    public static final double hiGoalY = 1.09;
+    public static final double hiGoalX = 1.44;
+    public static final double hiGoalY = 1.19;
     public static final double midGoalX = 1.15;
-    public static final double midGoalY = 0.79;
-    public static final double stationX = 0.74;
+    public static final double midGoalY = 0.85;
+    public static final double stationX = 0.73;
     public static final double stationY = 0.87;
     public static final double pickUpX = 0.9;
-    public static final double pickUpY = -0.12;
+    public static final double pickUpY = -0.21;
   }
 
   public static final class robotLimit {

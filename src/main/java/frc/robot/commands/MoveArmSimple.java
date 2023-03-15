@@ -38,7 +38,7 @@ public class MoveArmSimple extends CommandBase {
     axDifference -= RobotContainer.getInstance().getArmJoystick().getRawAxis(2);
     if (axDifference > 1.8) deltaScale = 250;
     else if (axDifference < -1.8) deltaScale = 175;
-    double xSpeed = -RobotContainer.getInstance().getArmJoystick().getRawAxis(1)/deltaScale;//.getleftJoystick().getY() / 250;
+    double xSpeed = RobotContainer.getInstance().getArmJoystick().getRawAxis(1)/deltaScale;//.getleftJoystick().getY() / 250;
     double ySpeed = -RobotContainer.getInstance().getArmJoystick().getRawAxis(3)/deltaScale; //.getrightJoystick().getY() / 250;
     if (Math.abs(xSpeed) < (0.1/deltaScale))
       xSpeed = 0;
