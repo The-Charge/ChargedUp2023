@@ -92,8 +92,8 @@ public class MagicArm extends SubsystemBase {
     shldrMtr.configMotionAcceleration(100, MagicArmCnsts.kTimeoutMs);
     shldrMtr.configMotionSCurveStrength(5, MagicArmCnsts.kTimeoutMs);
     elbowMtr.configMotionCruiseVelocity(100, MagicArmCnsts.kTimeoutMs);
-    elbowMtr.configMotionAcceleration(45, MagicArmCnsts.kTimeoutMs);
-    elbowMtr.configMotionSCurveStrength(7, MagicArmCnsts.kTimeoutMs);
+    elbowMtr.configMotionAcceleration(500, MagicArmCnsts.kTimeoutMs);
+    elbowMtr.configMotionSCurveStrength(3, MagicArmCnsts.kTimeoutMs);
 
     // Need the code from Mr. Curry to set relative sensor values from abosulte
     // sensor values

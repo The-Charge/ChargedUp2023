@@ -14,8 +14,6 @@ package frc.robot.commands;
 
 import java.util.HashMap;
 
-import javax.lang.model.util.ElementScanner14;
-
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -32,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.MagicArm;
@@ -107,7 +106,7 @@ public class AutonomousCommand extends CommandBase {
             case "Score High Cone":
                 return scoreHighConeCommand();
             case "Score High Ball":
-                return scoreHighBallCommand();
+                return climbCommand();
             default:
                 PathPlannerTrajectory examplePath = PathPlanner.loadPath(
                         RobotContainer.getInstance().getSelectedPath(),
@@ -118,6 +117,7 @@ public class AutonomousCommand extends CommandBase {
                 // Scores Current game piece
                 eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, false));
                 eventMap.put("OpenClaw", new OpenClaw(m_claw, true));
+                eventMap.put("MoveArmIntermediate", new MoveMagicArmToXY(m_arm, 0.91, 1.65, 500));
                 /**
                  * Centers gravity for accurate autonomous pathing and
                  * Makes next event quicker
@@ -125,7 +125,8 @@ public class AutonomousCommand extends CommandBase {
                 eventMap.put("MoveArmNeutral", new MoveArmToNeutral(m_arm));
 
                 // Picks up game piece
-                eventMap.put("MoveArmLow", new MoveMagicArmToXY(m_arm, 1.0, 0.1, 0));
+                eventMap.put("MoveArmFrontLow",
+                        new MoveMagicArmToXY(m_arm, -ArmConstants.pickUpX, ArmConstants.pickUpY, 8000));
                 eventMap.put("CloseClaw", new CloseClaw(m_claw, true));
 
                 /**
@@ -170,22 +171,18 @@ public class AutonomousCommand extends CommandBase {
 
     private void getSmartDashValues() {
         // Get Volt constraints for SysID
-        ksVolts = SmartDashboard.getNumber("ksVolts", Constants.SysIDConstants.ksVolts);
-        kvVoltSecondsPerMeter = SmartDashboard.getNumber("kvVoltSecondsPerMeter",
-                Constants.SysIDConstants.kvVoltSecondsPerMeter);
-        kaVoltSecondsSquaredPerMeter = SmartDashboard.getNumber("kaVoltSecondsSquaredPerMeter",
-                Constants.SysIDConstants.kaVoltSecondsSquaredPerMeter);
+        ksVolts = Constants.SysIDConstants.ksVolts;
+        kvVoltSecondsPerMeter = Constants.SysIDConstants.kvVoltSecondsPerMeter;
+        kaVoltSecondsSquaredPerMeter = Constants.SysIDConstants.kaVoltSecondsSquaredPerMeter;
 
         // Get PID values for SysID
-        kPDriveVel = SmartDashboard.getNumber("kPDriveVel", Constants.SysIDConstants.kPDriveVel);
-        kIDriveVel = SmartDashboard.getNumber("kIDriveVel", Constants.SysIDConstants.kIDriveVel);
-        kDDriveVel = SmartDashboard.getNumber("kDDriveVel", Constants.SysIDConstants.kDDriveVel);
+        kPDriveVel = Constants.SysIDConstants.kPDriveVel;
+        kIDriveVel = Constants.SysIDConstants.kIDriveVel;
+        kDDriveVel = Constants.SysIDConstants.kDDriveVel;
 
         // Get max speed and acceleration for SysID
-        kMaxSpeedMetersPerSecond = SmartDashboard.getNumber("kMaxSpeedMetersPerSecond",
-                Constants.SysIDConstants.kMaxSpeedMetersPerSecond);
-        kMaxAccelerationMetersPerSecondSquared = SmartDashboard.getNumber("kMaxAccelerationMetersPerSecondSquared",
-                Constants.SysIDConstants.kMaxAccelerationMetersPerSecondSquared);
+        kMaxSpeedMetersPerSecond = Constants.SysIDConstants.kMaxSpeedMetersPerSecond;
+        kMaxAccelerationMetersPerSecondSquared = Constants.SysIDConstants.kMaxAccelerationMetersPerSecondSquared;
     }
 
     public SequentialCommandGroup scoreHighConeCommand() {
@@ -204,7 +201,7 @@ public class AutonomousCommand extends CommandBase {
                                 new Climb(m_driveTrain, 0))));
     }
 
-    public SequentialCommandGroup scoreHighBallCommand() {
+    public SequentialCommandGroup climbCommand() {
         return new SequentialCommandGroup(new ResetHeading(m_driveTrain), new ResetPitch(m_driveTrain),
                 new DriveForward(m_driveTrain, 0.7, 10, 0),
                 new Climb(m_driveTrain, 0));

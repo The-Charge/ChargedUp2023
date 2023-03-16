@@ -56,13 +56,13 @@ public class TurnNRelative extends CommandBase {
     public void initialize() {
         double degreesInitial = m_drivetrain.getHeading();
         finalDegrees = degreesInitial + degreesToTurn;
-        SmartDashboard.putNumber("Initial degree", degreesInitial);
-        SmartDashboard.putNumber("final degree", finalDegrees);
+        // SmartDashboard.putNumber("Initial degree", degreesInitial);
+        // SmartDashboard.putNumber("final degree", finalDegrees);
 
         controller = new PIDController(0.01, 0.00, 0.0);
         controller.setTolerance(10.0);
         controller.setSetpoint(finalDegrees);
-        SmartDashboard.putNumber("Setpoint", finalDegrees);
+        // SmartDashboard.putNumber("Setpoint", finalDegrees);
         m_drivetrain.setControlMode(ControlMode.PercentOutput);
     }
 
@@ -70,45 +70,12 @@ public class TurnNRelative extends CommandBase {
     @Override
     public void execute() {
         double output = controller.calculate(m_drivetrain.getHeading());
-        // MathUtil.clamp(output, -0.5, 0.5);
         int sign = (int) Math.signum(output);
         double minSpeed = 0.75;
         output = sign * Math.max(minSpeed, Math.abs(output));
-        SmartDashboard.putNumber("output", output);
-        SmartDashboard.putNumber("Angle", m_drivetrain.getHeading());
+        // SmartDashboard.putNumber("output", output);
+        // SmartDashboard.putNumber("Angle", m_drivetrain.getHeading());
         m_drivetrain.run(-1 * output, output);
-
-        /**
-         * double leftSpeed = 0, rightSpeed = 0; // Individual left/right speeds
-         * double speed = 0; // Overall speed variable
-         * 
-         * if (finalDegrees - m_drivetrain.getHeading() < 15) { // lower speed
-         * speed = .7;
-         * } else if (finalDegrees - m_drivetrain.getHeading() < 25) { // slowing speed
-         * speed = .8;
-         * } else { // higher speed
-         * speed = .9;
-         * }
-         * if (finalDegrees - m_drivetrain.getHeading() > 0) { // check which turn
-         * direction
-         * leftSpeed = speed;
-         * rightSpeed = -1 * speed;
-         * SmartDashboard.putString("Direction", "Right");
-         * } else if (finalDegrees - m_drivetrain.getHeading() > 0) {
-         * leftSpeed = -1 * speed;
-         * rightSpeed = speed;
-         * SmartDashboard.putString("Direction", "Left");
-         * } else {
-         * leftSpeed = 0;
-         * rightSpeed = 0;
-         * SmartDashboard.putString("Direction", "None");
-         * }
-         * 
-         * m_drivetrain.run(leftSpeed, rightSpeed);
-         * SmartDashboard.putNumber("Distance to travel", finalDegrees -
-         * m_drivetrain.getHeading());
-         * SmartDashboard.putNumber("Speed", speed);
-         */
     }
 
     // Called once the command ends or is interrupted.

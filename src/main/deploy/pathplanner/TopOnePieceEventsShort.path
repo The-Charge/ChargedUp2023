@@ -18,7 +18,9 @@
       "stopEvent": {
         "names": [
           "MoveArmScore",
-          "OpenClaw"
+          "OpenClaw",
+          "MoveArmIntermediate",
+          "MoveArmNeutral"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -66,7 +68,9 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
+        "names": [
+          "MoveArmFrontLow"
+        ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0.25

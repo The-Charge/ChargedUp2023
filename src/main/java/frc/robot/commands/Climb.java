@@ -38,7 +38,6 @@ public class Climb extends CommandBase {
     double volt = thisPitch * AutoConstants.climbPitchGain +
         (thisPitch - lastPitch) * AutoConstants.climbPitchDerivativeGain;
     lastPitch = thisPitch;
-
     if (thisPitch < -1) {
       volt = volt + AutoConstants.climbPowerBackwardBias;
       timesAtLevel = 0;

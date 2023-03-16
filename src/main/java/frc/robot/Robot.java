@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
 
         // Comment out for comp.
-        PathPlannerServer.startServer(5811); 
+        // PathPlannerServer.startServer(5811);
 
         ValueModifier();
     }
@@ -60,22 +60,22 @@ public class Robot extends TimedRobot {
          * Value modifier is for testing, disable or comment out in comp.
          * Put volt constants into temp constants
          */
-        SmartDashboard.putNumber("ksVolts", Constants.SysIDConstants.ksVolts);
-        SmartDashboard.putNumber("kvVoltSecondsPerMeter",
-                Constants.SysIDConstants.kvVoltSecondsPerMeter);
-        SmartDashboard.putNumber("kaVoltSecondsSquaredPerMeter",
-                Constants.SysIDConstants.kaVoltSecondsSquaredPerMeter);
+        // SmartDashboard.putNumber("ksVolts", Constants.SysIDConstants.ksVolts);
+        // SmartDashboard.putNumber("kvVoltSecondsPerMeter",
+        //         Constants.SysIDConstants.kvVoltSecondsPerMeter);
+        // SmartDashboard.putNumber("kaVoltSecondsSquaredPerMeter",
+        //         Constants.SysIDConstants.kaVoltSecondsSquaredPerMeter);
 
-        // Put PID values into temp constants
-        SmartDashboard.putNumber("kPDriveVel", Constants.SysIDConstants.kPDriveVel);
-        SmartDashboard.putNumber("kIDriveVel", Constants.SysIDConstants.kIDriveVel);
-        SmartDashboard.putNumber("kDDriveVel", Constants.SysIDConstants.kDDriveVel);
+        // // Put PID values into temp constants
+        // SmartDashboard.putNumber("kPDriveVel", Constants.SysIDConstants.kPDriveVel);
+        // SmartDashboard.putNumber("kIDriveVel", Constants.SysIDConstants.kIDriveVel);
+        // SmartDashboard.putNumber("kDDriveVel", Constants.SysIDConstants.kDDriveVel);
 
-        // Put max speed and acceleration into temp constants
-        SmartDashboard.putNumber("kMaxSpeedMetersPerSecond",
-                Constants.SysIDConstants.kMaxSpeedMetersPerSecond);
-        SmartDashboard.putNumber("kMaxAccelerationMetersPerSecondSquared",
-                Constants.SysIDConstants.kMaxAccelerationMetersPerSecondSquared);
+        // // Put max speed and acceleration into temp constants
+        // SmartDashboard.putNumber("kMaxSpeedMetersPerSecond",
+        //         Constants.SysIDConstants.kMaxSpeedMetersPerSecond);
+        // SmartDashboard.putNumber("kMaxAccelerationMetersPerSecondSquared",
+        //         Constants.SysIDConstants.kMaxAccelerationMetersPerSecondSquared);
 
     }
 
@@ -162,7 +162,7 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().cancelAll();
     }
 
-     // This function is called periodically during test mode.
+    // This function is called periodically during test mode.
     @Override
     public void testPeriodic() {
     }
