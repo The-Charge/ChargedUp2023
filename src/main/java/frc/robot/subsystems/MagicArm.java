@@ -258,7 +258,7 @@ public class MagicArm extends SubsystemBase {
       angles[1] = Math.acos((shoulder2 + elbow2 - thirdSide2) / 2 / ArmConstants.elbowL / ArmConstants.shoulderL);
 
       // Convert angle from +x axis to the shoulder motor angle
-      angles[0] = Math.abs(Math.PI / 2 - oppositeElbowAngle - Math.atan(_y / Math.abs(_x)));
+      angles[0] = (Math.PI / 2 - oppositeElbowAngle - Math.atan(_y / Math.abs(_x))); //got rid of Math.abs to allow Z configuration.
 
       if (_x > 0) {
         /**
