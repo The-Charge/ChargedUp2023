@@ -109,6 +109,7 @@ public class RobotContainer {
     pathFileNames[2] = "Score High Cone";
     pathFileNames[3] = "BottomOnePiece";
     pathFileNames[4] = "Score High Ball";
+    pathFileNames[5] = "Drive Forward 2M";
 
     String[] pathNames = new String[Constants.SysIDConstants.NUMBER_OF_PATHWAYS];
 
@@ -117,6 +118,7 @@ public class RobotContainer {
     pathNames[2] = "Middle Auton (Charge Station)";
     pathNames[3] = "Bottom Auton";
     pathNames[4] = "Climb Charge Station";
+    pathNames[5] = "Forward 2M";
     // Adds path options to sendable chooser
     for (int x = 0; x < pathFileNames.length; x++) {
       m_pathSendableChooser.addOption(pathNames[x], pathFileNames[x]);

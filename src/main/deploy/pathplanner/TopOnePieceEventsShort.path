@@ -19,8 +19,7 @@
         "names": [
           "MoveArmScore",
           "OpenClaw",
-          "MoveArmIntermediate",
-          "MoveArmNeutral"
+          "MoveArmIntermediate"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -77,5 +76,12 @@
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 0.20363636363634385,
+      "names": [
+        "MoveArmNeutral"
+      ]
+    }
+  ]
 }
