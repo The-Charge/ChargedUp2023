@@ -74,7 +74,7 @@ public class DriveOver extends CommandBase {
     if (status > 3) {
       status++;
     }
-    if (status > 10) {
+    if (status > 30) {
       return true;
     }
     return false;

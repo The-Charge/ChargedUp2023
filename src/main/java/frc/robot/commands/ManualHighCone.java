@@ -40,7 +40,7 @@ public class ManualHighCone extends CommandBase {
   public void execute() {
     if (canMove) {
       if (Math.abs(m_arm.getElbowAngle()) < Math.PI) {
-        m_arm.runElbow(-m_xMultiplier * (Math.PI + 0.4));
+        m_arm.runElbow(-m_xMultiplier * (Math.PI + 0.1));
       } else {
         m_arm.run(m_xMultiplier * ArmConstants.shoulderScoreDegree / 180.0 * Math.PI, -m_xMultiplier * Math.PI);
       }

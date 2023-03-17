@@ -33,7 +33,7 @@ public final class Constants {
   }
 
   public static final class AutoConstants {
-    public static final double climbPowerLimit = 0.6; // was 0.55;
+    public static final double climbPowerLimit = 0.57; // was 0.55;
     public static final double climbPowerForwardBias = 0.3;
     public static final double climbPowerBackwardBias = -0.3;
     public static final double climbPitchGain = 0.018;
@@ -56,7 +56,7 @@ public final class Constants {
     public static final double hiGoalY = 1.19;
     public static final double midGoalX = 1.15;
     public static final double midGoalY = 0.85;
-    public static final double stationX = 0.73;
+    public static final double stationX = 0.63;
     public static final double stationY = 0.87;
     public static final double pickUpX = 0.9;
     public static final double pickUpY = -0.21;
