@@ -18,8 +18,7 @@
       "stopEvent": {
         "names": [
           "MoveArmScore",
-          "OpenClaw",
-          "MoveArmIntermediate"
+          "OpenClaw"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -76,5 +75,12 @@
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 0.20363636363635623,
+      "names": [
+        "MoveArmNeutral"
+      ]
+    }
+  ]
 }
