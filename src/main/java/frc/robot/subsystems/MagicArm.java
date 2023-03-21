@@ -199,7 +199,9 @@ public class MagicArm extends SubsystemBase {
     double shoulderHorizen = Math.PI / 2 + _shoulderAngle;
     // Find the angle between + axis and the elbow
     double elbowHorizen = -Math.PI / 2 + _elbowAngle + _shoulderAngle;
+    //calculating for the x position
     xy[0] = Math.cos(shoulderHorizen) * ArmConstants.shoulderL + Math.cos(elbowHorizen) * ArmConstants.elbowL;
+    // Calculating for the y position
     xy[1] = Math.sin(shoulderHorizen) * ArmConstants.shoulderL + Math.sin(elbowHorizen) * ArmConstants.elbowL;
     return xy;
   }
@@ -251,10 +253,10 @@ public class MagicArm extends SubsystemBase {
     } else {
       double shoulder2 = ArmConstants.shoulderL * ArmConstants.shoulderL;
       double elbow2 = ArmConstants.elbowL * ArmConstants.elbowL;
-      // Law of cosine
+      // Law of cosine to solve for the angle which is created with the third side with the sholder
       double oppositeElbowAngle = Math.acos((thirdSide2 + shoulder2 - elbow2) / 2 / ArmConstants.shoulderL / thirdSide);
 
-      // 2nd application of law of cosine
+      // 2nd application of law of cosine to solve for the elbow angle
       angles[1] = Math.acos((shoulder2 + elbow2 - thirdSide2) / 2 / ArmConstants.elbowL / ArmConstants.shoulderL);
 
       // Convert angle from +x axis to the shoulder motor angle

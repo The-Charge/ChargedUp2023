@@ -31,7 +31,7 @@ public class ScoreHighCone extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Math.abs(m_arm.getElbowAngle()) < 2.3) {
+    if (Math.abs(m_arm.getElbowAngle()) < 1.7) {
       m_arm.runElbow(-m_xMultiplier * (2.8));
     } else {
       m_arm.run(m_xMultiplier * ArmConstants.shoulderScoreDegree / 180.0 * Math.PI, -m_xMultiplier * Math.PI);
@@ -46,6 +46,6 @@ public class ScoreHighCone extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(m_arm.getShoulderAngle()) > ArmConstants.shoulderScoreDegree / 180.0 * Math.PI - 0.04;
+    return Math.abs(m_arm.getShoulderAngle()) > ArmConstants.shoulderScoreDegree / 180.0 * Math.PI - 0.05;
   }
 }

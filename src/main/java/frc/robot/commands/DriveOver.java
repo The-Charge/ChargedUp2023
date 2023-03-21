@@ -67,14 +67,14 @@ public class DriveOver extends CommandBase {
   public boolean isFinished() {
     if (status == 3) {
       if (Math.abs(thisPitch) < 1) {
-        m_drivetrain.run(0, 0);
+        m_drivetrain.run(m_speed/10.0, m_speed/10.0);
         status++;
       }
     }
     if (status > 3) {
       status++;
     }
-    if (status > 10) {
+    if (status > 50) {
       return true;
     }
     return false;

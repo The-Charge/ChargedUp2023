@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoConstants;
 
@@ -35,8 +34,8 @@ public class Climb extends CommandBase {
   public void execute() {
     double thisPitch = m_drivetrain.getPitch();
     double thisHeading = (m_drivetrain.getHeading() + m_offset) * AutoConstants.headingGain / 2;
-    double volt = thisPitch * AutoConstants.climbPitchGain +
-        (thisPitch - lastPitch) * AutoConstants.climbPitchDerivativeGain;
+    double deltaPictch = thisPitch- lastPitch;
+    double volt = thisPitch * AutoConstants.climbPitchGain + deltaPictch * AutoConstants.climbPitchDerivativeGain;
     lastPitch = thisPitch;
     if (thisPitch < -1) {
       volt = volt + AutoConstants.climbPowerBackwardBias;
@@ -48,9 +47,8 @@ public class Climb extends CommandBase {
       timesAtLevel++;
     }
     volt = MathUtil.clamp(volt, -AutoConstants.climbPowerLimit, AutoConstants.climbPowerLimit);
+    if (Math.abs(deltaPictch) > AutoConstants.fallPitchPerCycle) volt = 0;    
     m_drivetrain.run(volt + thisHeading, volt - thisHeading);
-    SmartDashboard.putBoolean("climb", true);
-    SmartDashboard.putNumber("volt", volt);
   }
 
   // Called once the command ends or is interrupted.
@@ -61,7 +59,6 @@ public class Climb extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // SmartDashboard.putNumber("timesAtLevel", timesAtLevel);
     return (timesAtLevel > 50);
   }
 }

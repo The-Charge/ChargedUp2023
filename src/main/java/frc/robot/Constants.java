@@ -1,4 +1,4 @@
-// Copyright (c) FIRST and other WPILib contributors.
+  // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
@@ -40,26 +40,27 @@ public final class Constants {
     public static final double climbPitchDerivativeGain = 0.1; //was 0.6;
     public static final double fastClimbTicks = 25000;
     public static final double headingGain = 0.02;
+    public static final double fallPitchPerCycle = 1;
   }
 
   public static final class ArmConstants {
     public static final int shoulderCAN_ID = 1;
     public static final int elbowCAN_ID = 14;
-    public static final double shoulderL = 0.9906;
-    public static final double elbowL = 0.9144;
-    public static final double shoulderAngleToSafeSwingElbowThrough = 0.395;
+    public static final double shoulderL = 39.0 * 0.0254;
+    public static final double elbowL = 37.0 * 0.0254;
+    public static final double shoulderAngleToSafeSwingElbowThrough = 22.6 / 180.0 * 3.1415926;
     public static final double shoulderHeight = 11 * 0.0254;
-    public static final double elbowperMotorTick = 6.28 / 4096;
-    public static final double shoulderperMotorTick = 6.28 / 4096;
+    public static final double elbowperMotorTick = 3.1415926 * 2 / 4096;
+    public static final double shoulderperMotorTick = 3.1415926 * 2 / 4096;
     public static final double shoulderScoreDegree = 55.0;
-    public static final double hiGoalX = 1.44;
-    public static final double hiGoalY = 1.19;
-    public static final double midGoalX = 1.15;
-    public static final double midGoalY = 0.85;
-    public static final double stationX = 0.73;
-    public static final double stationY = 0.87;
-    public static final double pickUpX = 0.9;
-    public static final double pickUpY = -0.21;
+    public static final double hiGoalX = 59.7 * 0.0254;
+    public static final double hiGoalY = 46.5 * 0.0254;
+    public static final double midGoalX = 45.3 * 0.0254;
+    public static final double midGoalY = 33.5 * 0.0254;
+    public static final double stationX = 29.2 * 0.0254;
+    public static final double stationY = 34.2 * 0.0254;
+    public static final double pickUpX = 35.4 * 0.0254;
+    public static final double pickUpY = -8.7 * 0.0254;
   }
 
   public static final class robotLimit {
