@@ -14,6 +14,7 @@ public class ScoreHighCone extends CommandBase {
 
   /* Creates a new ScoreHighCone. */
   public ScoreHighCone(MagicArm subsystem, boolean _isScoreFront) {
+    // Multiplier takes care of angle difference of front side and back side of robot
     if (_isScoreFront) {
       m_xMultiplier = 1;
     } else {
@@ -31,9 +32,11 @@ public class ScoreHighCone extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // Waits until the elbow before running shoulder
     if (Math.abs(m_arm.getElbowAngle()) < 1.7) {
       m_arm.runElbow(-m_xMultiplier * (2.8));
     } else {
+      // Move arm if elbow in right position
       m_arm.run(m_xMultiplier * ArmConstants.shoulderScoreDegree / 180.0 * Math.PI, -m_xMultiplier * Math.PI);
     }
   }

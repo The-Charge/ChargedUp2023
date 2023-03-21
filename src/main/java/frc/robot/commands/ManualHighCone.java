@@ -17,6 +17,7 @@ public class ManualHighCone extends CommandBase {
 
   /** Creates a new ManualHighCone. */
   public ManualHighCone(MagicArm subsystem, boolean _isBackScore, long _timeOutMS) {
+    // Telling which direction should turn to score
     if (_isBackScore) {
       m_xMultiplier = 1;
     } else {
@@ -31,6 +32,7 @@ public class ManualHighCone extends CommandBase {
   @Override
   public void initialize() {
     double[] xy = m_arm.getXY();
+    // Checking to see if the arm is at right position to start the scoring program
     canMove = (Math.abs(xy[0]) > ArmConstants.hiGoalX - 0.2 && xy[1] > ArmConstants.hiGoalY - 0.2);
     startTime = System.currentTimeMillis();
   }
@@ -39,9 +41,12 @@ public class ManualHighCone extends CommandBase {
   @Override
   public void execute() {
     if (canMove) {
+      // In radians, testing if arm is straight
       if (Math.abs(m_arm.getElbowAngle()) < Math.PI - 0.1) {
+        // Move elbow if not straight
         m_arm.runElbow(-m_xMultiplier * (Math.PI + 0.2));
       } else {
+        // If elbow is straight, do the score command
         m_arm.run(m_xMultiplier * ArmConstants.shoulderScoreDegree / 180.0 * Math.PI, -m_xMultiplier * Math.PI);
       }
     }

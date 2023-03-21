@@ -64,13 +64,16 @@ public class MoveArmSimple extends CommandBase {
   public void execute() {
     double axDifference = RobotContainer.getInstance().getArmController().getRawAxis(0);
     axDifference -= RobotContainer.getInstance().getArmController().getRawAxis(2);
+    // If the joystick is pulled outside, goes regular speed
     if (axDifference > 1.8) {
       deltaScale = 250;
+      // If the joystick is pulled inside, goes half speed
     } else if (axDifference < -1.8) {
       deltaScale = 175;
     }
     double xSpeed = RobotContainer.getInstance().getArmController().getRawAxis(1) / deltaScale;
     double ySpeed = -RobotContainer.getInstance().getArmController().getRawAxis(3) / deltaScale;
+    // Deadband 
     if (Math.abs(xSpeed) < (0.1 / deltaScale)) {
       xSpeed = 0;
     } else {
@@ -81,6 +84,7 @@ public class MoveArmSimple extends CommandBase {
     } else {
       joyStickMoved = true;
     }
+    // If both deadband, read where the arm is initially
     if (Math.abs(xSpeed) < (0.1 / deltaScale) && Math.abs(ySpeed) < (0.1 / deltaScale) && joyStickMoved) {
       double[] xy = m_magicArm.getXY();
       targetX = xy[0];

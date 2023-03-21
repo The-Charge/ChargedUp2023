@@ -44,6 +44,8 @@ public final class Constants {
   }
 
   public static final class ArmConstants {
+    // All constants are in inches, the multiplier of .0254 is to convert back to meters used for calculations
+    // Angles are in degrees
     public static final int shoulderCAN_ID = 1;
     public static final int elbowCAN_ID = 14;
     public static final double shoulderL = 39.0 * 0.0254;
