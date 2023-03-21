@@ -37,6 +37,7 @@ public class DriveForward extends CommandBase {
   public void execute() {
     thisPitch = m_drivetrain.getPitch();
     double thisHeading = (m_drivetrain.getHeading() + m_Offset) * AutoConstants.headingGain;
+    
     if (Math.abs(thisPitch) > m_stopPitch && !isTimeMode) {
       startTick = m_drivetrain.getLeftEncoder();
       isTimeMode = true;

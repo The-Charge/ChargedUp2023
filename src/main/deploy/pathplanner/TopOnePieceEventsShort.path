@@ -18,9 +18,7 @@
       "stopEvent": {
         "names": [
           "MoveArmScore",
-          "OpenClaw",
-          "MoveArmIntermediate",
-          "MoveArmNeutral"
+          "OpenClaw"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -54,11 +52,11 @@
     },
     {
       "anchorPoint": {
-        "x": 6.258626181187717,
+        "x": 6.25,
         "y": 4.576612149195342
       },
       "prevControl": {
-        "x": 5.585334693424672,
+        "x": 5.576708512236955,
         "y": 4.576612149195342
       },
       "nextControl": null,
@@ -77,5 +75,12 @@
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 0.20363636363635623,
+      "names": [
+        "MoveArmNeutral"
+      ]
+    }
+  ]
 }

@@ -203,7 +203,8 @@ public class AutonomousCommand extends CommandBase {
 
     public SequentialCommandGroup climbCommand() {
         return new SequentialCommandGroup(new ResetHeading(m_driveTrain), new ResetPitch(m_driveTrain),
-                new DriveForward(m_driveTrain, 0.7, 10, 0),
+                new DriveOver(m_driveTrain, -0.8, 10, 0),
+                new DriveForward(m_driveTrain, 0.8, 10, 0),
                 new Climb(m_driveTrain, 0));
     }
 

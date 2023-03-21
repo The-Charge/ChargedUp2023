@@ -49,6 +49,8 @@ public class Robot extends TimedRobot {
         m_robotContainer = RobotContainer.getInstance();
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
 
+        RobotContainer.getInstance().m_drivetrain.setBrake();
+        
         // Comment out for comp.
         // PathPlannerServer.startServer(5811);
 
@@ -62,9 +64,9 @@ public class Robot extends TimedRobot {
          */
         // SmartDashboard.putNumber("ksVolts", Constants.SysIDConstants.ksVolts);
         // SmartDashboard.putNumber("kvVoltSecondsPerMeter",
-        //         Constants.SysIDConstants.kvVoltSecondsPerMeter);
+        // Constants.SysIDConstants.kvVoltSecondsPerMeter);
         // SmartDashboard.putNumber("kaVoltSecondsSquaredPerMeter",
-        //         Constants.SysIDConstants.kaVoltSecondsSquaredPerMeter);
+        // Constants.SysIDConstants.kaVoltSecondsSquaredPerMeter);
 
         // // Put PID values into temp constants
         // SmartDashboard.putNumber("kPDriveVel", Constants.SysIDConstants.kPDriveVel);
@@ -73,10 +75,9 @@ public class Robot extends TimedRobot {
 
         // // Put max speed and acceleration into temp constants
         // SmartDashboard.putNumber("kMaxSpeedMetersPerSecond",
-        //         Constants.SysIDConstants.kMaxSpeedMetersPerSecond);
+        // Constants.SysIDConstants.kMaxSpeedMetersPerSecond);
         // SmartDashboard.putNumber("kMaxAccelerationMetersPerSecondSquared",
-        //         Constants.SysIDConstants.kMaxAccelerationMetersPerSecondSquared);
-
+        // Constants.SysIDConstants.kMaxAccelerationMetersPerSecondSquared);
     }
 
     /**
@@ -107,7 +108,7 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledInit() {
         RobotContainer.getInstance().m_drivetrain.setCoast();
-        RobotContainer.getInstance().m_arm.setCoastMode();
+        RobotContainer.getInstance().m_magicArm.setCoastMode();
     }
 
     @Override

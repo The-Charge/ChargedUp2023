@@ -33,7 +33,7 @@ public final class Constants {
   }
 
   public static final class AutoConstants {
-    public static final double climbPowerLimit = 0.6; // was 0.55;
+    public static final double climbPowerLimit = 0.57; // was 0.55;
     public static final double climbPowerForwardBias = 0.3;
     public static final double climbPowerBackwardBias = -0.3;
     public static final double climbPitchGain = 0.018;
@@ -115,7 +115,9 @@ public final class Constants {
     public static final double fieldWidth = Units.inchesToMeters(315.5);
 
     public static final Transform3d robotToCamera = new Transform3d(
-        new Translation3d(0.31, 0.07, Units.inchesToMeters(4.6)), new Rotation3d(0, 16.7, 0));
+        new Translation3d(0.31, 0.07, Units.inchesToMeters(4.6)),
+        new Rotation3d(0, 16.7, 0));
+
     public static final Transform3d cameraToRobot = robotToCamera.inverse();
 
     // 31,7
@@ -154,7 +156,7 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
 
     // List of pathways #ed
-    public static final int NUMBER_OF_PATHWAYS = 5;
+    public static final int NUMBER_OF_PATHWAYS = 6;
 
     // Maximum for Velocity ControlMode (Initial Test Starting Pt)
     public static final double MAX_VELOCITY = 7000;
