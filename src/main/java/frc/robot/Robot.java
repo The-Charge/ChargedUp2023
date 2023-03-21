@@ -49,6 +49,8 @@ public class Robot extends TimedRobot {
         m_robotContainer = RobotContainer.getInstance();
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
 
+        RobotContainer.getInstance().m_drivetrain.setBrake();
+        
         // Comment out for comp.
         // PathPlannerServer.startServer(5811);
 
@@ -76,7 +78,6 @@ public class Robot extends TimedRobot {
         // Constants.SysIDConstants.kMaxSpeedMetersPerSecond);
         // SmartDashboard.putNumber("kMaxAccelerationMetersPerSecondSquared",
         // Constants.SysIDConstants.kMaxAccelerationMetersPerSecondSquared);
-
     }
 
     /**
@@ -107,7 +108,7 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledInit() {
         RobotContainer.getInstance().m_drivetrain.setCoast();
-        RobotContainer.getInstance().m_arm.setCoastMode();
+        RobotContainer.getInstance().m_magicArm.setCoastMode();
     }
 
     @Override

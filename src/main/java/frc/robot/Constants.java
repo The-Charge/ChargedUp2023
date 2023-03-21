@@ -114,7 +114,9 @@ public final class Constants {
     public static final double fieldWidth = Units.inchesToMeters(315.5);
 
     public static final Transform3d robotToCamera = new Transform3d(
-        new Translation3d(0.31, 0.07, Units.inchesToMeters(4.6)), new Rotation3d(0, 16.7, 0));
+        new Translation3d(0.31, 0.07, Units.inchesToMeters(4.6)),
+        new Rotation3d(0, 16.7, 0));
+
     public static final Transform3d cameraToRobot = robotToCamera.inverse();
 
     // 31,7
