@@ -12,7 +12,7 @@ public class DriveOver extends CommandBase {
   private double thisPitch;
   private double m_offset = 0;
   private int status = 0;
-  
+
   /**
    * 0 is flat starting state, 1 for up, 2 for flat top, 3 for down, 4 for flat
    * end.
@@ -38,7 +38,7 @@ public class DriveOver extends CommandBase {
   public void execute() {
     thisPitch = m_drivetrain.getPitch();
     double thisHeading = (m_drivetrain.getHeading() + m_offset) * AutoConstants.headingGain;
-    
+
     if (status == 0) {
       if (Math.abs(thisPitch) > m_stopPitch) {
         status = 1;
@@ -68,7 +68,7 @@ public class DriveOver extends CommandBase {
   public boolean isFinished() {
     if (status == 3) {
       if (Math.abs(thisPitch) < 1) {
-        m_drivetrain.run(m_speed/10.0, m_speed/10.0);
+        m_drivetrain.run(m_speed / 10.0, m_speed / 10.0);
         status++;
       }
     }

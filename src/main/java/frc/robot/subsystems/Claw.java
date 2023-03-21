@@ -60,7 +60,7 @@ public class Claw extends SubsystemBase {
             clawSolenoid.set(true);
         }
     }
-    
+
     public void closeClaw(boolean force) {
         isOpen = false;
         if (force) {
@@ -80,6 +80,10 @@ public class Claw extends SubsystemBase {
         }
     }
 
+    /*
+     * Force methods for autonomous.
+     * 
+     */
     public void forceOpenClaw() {
         clawSolenoid.set(true);
     }

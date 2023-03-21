@@ -101,71 +101,15 @@ public class AutonomousCommand extends CommandBase {
          * This will load the file "Example Path.path" and generate it with a max
          * Velocity of 4 m/s and a max acceleration of 3 m/s^2
          */
-
         switch (RobotContainer.getInstance().getSelectedPath()) {
-            case "Score High Cone":
-                return scoreHighConeCommand();
-            case "Score High Ball":
+            case "Charge Station with Score":
+                return scoreHighConeChargeStationCommand();
+            case "Charge Station":
                 return climbCommand();
+            case "Score Cone Only":
+                return scoreHighConeCommand();
             default:
-                PathPlannerTrajectory examplePath = PathPlanner.loadPath(
-                        RobotContainer.getInstance().getSelectedPath(),
-                        new PathConstraints(kMaxSpeedMetersPerSecond,
-                                kMaxAccelerationMetersPerSecondSquared));
-
-                HashMap<String, Command> eventMap = new HashMap<>();
-                // Scores Current game piece
-                eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, false));
-                eventMap.put("OpenClaw", new OpenClaw(m_claw, true));
-                eventMap.put("MoveArmIntermediate", new MoveMagicArmToXY(m_arm, 0.91, 1.65, 500));
-                /**
-                 * Centers gravity for accurate autonomous pathing and
-                 * Makes next event quicker
-                 */
-                eventMap.put("MoveArmNeutral", new MoveArmToNeutral(m_arm));
-
-                // Picks up game piece
-                eventMap.put("MoveArmFrontLow",
-                        new MoveMagicArmToXY(m_arm, -ArmConstants.pickUpX, ArmConstants.pickUpY, 8000));
-                eventMap.put("CloseClaw", new CloseClaw(m_claw, true));
-
-                /**
-                 * Centers gravity for accurate autonomous pathing and
-                 * Makes next event quicker again
-                 */
-                eventMap.put("MoveArmNeutral", new MoveArmToNeutral(m_arm));
-
-                // Scores previously grabbed piece
-                eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, false));
-                eventMap.put("OpenClaw", new OpenClaw(m_claw, true));
-                m_driveTrain.resetOdometry(new Pose2d());
-                /**
-                 * Create the AutoBuilder. This only needs to be created once when robot code
-                 * Starts, not every time you want to create an auto command. A good place to
-                 * Put this is in RobotContainer along with your subsystems.
-                 */
-                RamseteAutoBuilder autoBuilder = new RamseteAutoBuilder(
-                        m_driveTrain::getPose,
-                        m_driveTrain::resetOdometry,
-                        new RamseteController(Constants.SysIDConstants.kRamseteB,
-                                Constants.SysIDConstants.kRamseteZeta),
-                        Constants.SysIDConstants.kDriveKinematics,
-                        new SimpleMotorFeedforward(
-                                ksVolts,
-                                kvVoltSecondsPerMeter,
-                                kaVoltSecondsSquaredPerMeter),
-                        m_driveTrain::getWheelSpeeds,
-                        new PIDConstants(kPDriveVel, kIDriveVel, kDDriveVel),
-                        m_driveTrain::tankDriveVolts,
-                        eventMap,
-                        true,
-                        m_driveTrain);
-
-                Command fullAuto = autoBuilder.fullAuto(examplePath);
-
-                // Run path following command, then stop at the end.
-                return new SequentialCommandGroup(
-                        fullAuto.andThen(() -> m_driveTrain.tankDriveVolts(0, 0)));
+                return pathPlannerComand();
         }
     }
 
@@ -185,7 +129,7 @@ public class AutonomousCommand extends CommandBase {
         kMaxAccelerationMetersPerSecondSquared = Constants.SysIDConstants.kMaxAccelerationMetersPerSecondSquared;
     }
 
-    public SequentialCommandGroup scoreHighConeCommand() {
+    public SequentialCommandGroup scoreHighConeChargeStationCommand() {
         return new SequentialCommandGroup(
                 new ResetHeading(m_driveTrain),
                 new ResetPitch(m_driveTrain),
@@ -202,10 +146,76 @@ public class AutonomousCommand extends CommandBase {
     }
 
     public SequentialCommandGroup climbCommand() {
+        // Turns 180 after climbing over to account for potentially inactive arm
         return new SequentialCommandGroup(new ResetHeading(m_driveTrain), new ResetPitch(m_driveTrain),
                 new DriveOver(m_driveTrain, -0.8, 10, 0),
-                new DriveForward(m_driveTrain, 0.8, 10, 0),
-                new Climb(m_driveTrain, 0));
+                new DriveForward(m_driveTrain, 0.8, 10, 180),
+                new Climb(m_driveTrain, 180));
+    }
+
+    public SequentialCommandGroup scoreHighConeCommand() {
+        return new SequentialCommandGroup(new ScoreHighCone(m_arm, true));
+    }
+
+    public SequentialCommandGroup pathPlannerComand() {
+        PathPlannerTrajectory examplePath = PathPlanner.loadPath(
+                RobotContainer.getInstance().getSelectedPath(),
+                new PathConstraints(kMaxSpeedMetersPerSecond,
+                        kMaxAccelerationMetersPerSecondSquared));
+
+        HashMap<String, Command> eventMap = new HashMap<>();
+        // Scores Current game piece
+        eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, false));
+        eventMap.put("OpenClaw", new OpenClaw(m_claw, true));
+        eventMap.put("MoveArmIntermediate", new MoveMagicArmToXY(m_arm, 0.91, 1.65, 500));
+        /**
+         * Centers gravity for accurate autonomous pathing and
+         * Makes next event quicker
+         */
+        eventMap.put("MoveArmNeutral", new MoveArmToNeutral(m_arm));
+
+        // Picks up game piece
+        eventMap.put("MoveArmFrontLow",
+                new MoveMagicArmToXY(m_arm, -ArmConstants.pickUpX, ArmConstants.pickUpY, 8000));
+        eventMap.put("CloseClaw", new CloseClaw(m_claw, true));
+
+        /**
+         * Centers gravity for accurate autonomous pathing and
+         * Makes next event quicker again
+         */
+        eventMap.put("MoveArmNeutral", new MoveArmToNeutral(m_arm));
+
+        // Scores previously grabbed piece
+        eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, false));
+        eventMap.put("OpenClaw", new OpenClaw(m_claw, true));
+        m_driveTrain.resetOdometry(new Pose2d());
+        /**
+         * Create the AutoBuilder. This only needs to be created once when robot code
+         * Starts, not every time you want to create an auto command. A good place to
+         * Put this is in RobotContainer along with your subsystems.
+         */
+        RamseteAutoBuilder autoBuilder = new RamseteAutoBuilder(
+                m_driveTrain::getPose,
+                m_driveTrain::resetOdometry,
+                new RamseteController(Constants.SysIDConstants.kRamseteB,
+                        Constants.SysIDConstants.kRamseteZeta),
+                Constants.SysIDConstants.kDriveKinematics,
+                new SimpleMotorFeedforward(
+                        ksVolts,
+                        kvVoltSecondsPerMeter,
+                        kaVoltSecondsSquaredPerMeter),
+                m_driveTrain::getWheelSpeeds,
+                new PIDConstants(kPDriveVel, kIDriveVel, kDDriveVel),
+                m_driveTrain::tankDriveVolts,
+                eventMap,
+                true,
+                m_driveTrain);
+
+        Command fullAuto = autoBuilder.fullAuto(examplePath);
+
+        // Run path following command, then stop at the end.
+        return new SequentialCommandGroup(
+                fullAuto.andThen(() -> m_driveTrain.tankDriveVolts(0, 0)));
     }
 
     // Called every time the scheduler runs while the command is scheduled.

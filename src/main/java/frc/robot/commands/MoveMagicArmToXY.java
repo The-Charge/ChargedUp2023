@@ -32,7 +32,6 @@ public class MoveMagicArmToXY extends CommandBase {
     private long startTime = 0;
     private long m_timeOut;
 
-
     public MoveMagicArmToXY(MagicArm subsystem, double _x, double _y, long _timeOutMs) {
         m_X = _x;
         m_Y = _y;
@@ -60,7 +59,7 @@ public class MoveMagicArmToXY extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-      canMove = false;
+        canMove = false;
     }
 
     // Returns true when the command should end.

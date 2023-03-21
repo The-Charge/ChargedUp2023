@@ -1,4 +1,4 @@
-  // Copyright (c) FIRST and other WPILib contributors.
+// Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
@@ -37,7 +37,7 @@ public final class Constants {
     public static final double climbPowerForwardBias = 0.3;
     public static final double climbPowerBackwardBias = -0.3;
     public static final double climbPitchGain = 0.018;
-    public static final double climbPitchDerivativeGain = 0.1; //was 0.6;
+    public static final double climbPitchDerivativeGain = 0.1; // was 0.6;
     public static final double fastClimbTicks = 25000;
     public static final double headingGain = 0.02;
     public static final double fallPitchPerCycle = 1;
@@ -158,7 +158,7 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
 
     // List of pathways #ed
-    public static final int NUMBER_OF_PATHWAYS = 6;
+    public static final int NUMBER_OF_PATHWAYS = 9;
 
     // Maximum for Velocity ControlMode (Initial Test Starting Pt)
     public static final double MAX_VELOCITY = 7000;
