@@ -62,15 +62,15 @@ public class MoveArmSimple extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double axDifference = RobotContainer.getInstance().getArmJoystick().getRawAxis(0);
-    axDifference -= RobotContainer.getInstance().getArmJoystick().getRawAxis(2);
+    double axDifference = RobotContainer.getInstance().getArmController().getRawAxis(0);
+    axDifference -= RobotContainer.getInstance().getArmController().getRawAxis(2);
     if (axDifference > 1.8) {
       deltaScale = 250;
     } else if (axDifference < -1.8) {
       deltaScale = 175;
     }
-    double xSpeed = RobotContainer.getInstance().getArmJoystick().getRawAxis(1) / deltaScale;
-    double ySpeed = -RobotContainer.getInstance().getArmJoystick().getRawAxis(3) / deltaScale;
+    double xSpeed = RobotContainer.getInstance().getArmController().getRawAxis(1) / deltaScale;
+    double ySpeed = -RobotContainer.getInstance().getArmController().getRawAxis(3) / deltaScale;
     if (Math.abs(xSpeed) < (0.1 / deltaScale)) {
       xSpeed = 0;
     } else {
@@ -82,7 +82,7 @@ public class MoveArmSimple extends CommandBase {
       joyStickMoved = true;
     }
     if (Math.abs(xSpeed) < (0.1 / deltaScale) && Math.abs(ySpeed) < (0.1 / deltaScale) && joyStickMoved) {
-      double[] xy = m_arm.getXY();
+      double[] xy = m_magicArm.getXY();
       targetX = xy[0];
       targetY = xy[1];
       joyStickMoved = false;

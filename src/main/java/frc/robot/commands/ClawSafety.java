@@ -57,8 +57,8 @@ public class ClawSafety extends CommandBase {
     @Override
     public void execute() {
         // If robot arm is within the no-go zone
-        SmartDashboard.putBoolean("Is in robot", m_arm.isArmTipInsideRobotX());
-        m_claw.moveClaw(m_arm.isArmTipInsideRobotX());
+        SmartDashboard.putBoolean("Is in robot", m_magicArm.isArmTipInsideRobotX());
+        m_claw.moveClaw(m_magicArm.isArmTipInsideRobotX());
     }
 
     // Called once the command ends or is interrupted.

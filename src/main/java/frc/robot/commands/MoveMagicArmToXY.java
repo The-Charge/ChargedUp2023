@@ -51,8 +51,8 @@ public class MoveMagicArmToXY extends CommandBase {
     @Override
     public void execute() {
         canMove = m_magicArm.moveTowardXY(m_X, m_Y) &&
-                Math.abs(RobotContainer.getInstance().getarmController().getRawAxis(1)) < 0.2 &&
-                Math.abs(RobotContainer.getInstance().getarmController().getRawAxis(3)) < 0.2 &&
+                Math.abs(RobotContainer.getInstance().getArmController().getRawAxis(1)) < 0.2 &&
+                Math.abs(RobotContainer.getInstance().getArmController().getRawAxis(3)) < 0.2 &&
                 System.currentTimeMillis() - startTime < m_timeOut;
     }
 
