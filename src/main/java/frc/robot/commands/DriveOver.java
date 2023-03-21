@@ -10,15 +10,18 @@ public class DriveOver extends CommandBase {
   private double m_speed;
   private final double m_stopPitch;
   private double thisPitch;
+  private double m_offset = 0;
   private int status = 0;
+  
   /**
    * 0 is flat starting state, 1 for up, 2 for flat top, 3 for down, 4 for flat
    * end.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DriveOver(Drivetrain subsystem, double speed, double stopPitch) {
+  public DriveOver(Drivetrain subsystem, double speed, double stopPitch, double headingOffset) {
     m_drivetrain = subsystem;
+    m_offset = headingOffset;
     m_speed = speed;
     m_stopPitch = stopPitch;
     addRequirements(subsystem);
@@ -34,10 +37,12 @@ public class DriveOver extends CommandBase {
   @Override
   public void execute() {
     thisPitch = m_drivetrain.getPitch();
-    double thisHeading = m_drivetrain.getHeading() * AutoConstants.headingGain;
+    double thisHeading = (m_drivetrain.getHeading() + m_offset) * AutoConstants.headingGain;
+    
     if (status == 0) {
-      if (Math.abs(thisPitch) > m_stopPitch)
+      if (Math.abs(thisPitch) > m_stopPitch) {
         status = 1;
+      }
     } else if (status == 1) {
       if (Math.abs(thisPitch) < 2) {
         status = 2;
@@ -63,14 +68,14 @@ public class DriveOver extends CommandBase {
   public boolean isFinished() {
     if (status == 3) {
       if (Math.abs(thisPitch) < 1) {
-        m_drivetrain.run(0, 0);
+        m_drivetrain.run(m_speed/100, m_speed/100); 
         status++;
       }
     }
     if (status > 3) {
       status++;
     }
-    if (status > 50) {
+    if (status > 20) {
       return true;
     }
     return false;

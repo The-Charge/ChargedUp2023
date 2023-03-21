@@ -14,8 +14,12 @@ package frc.robot;
 
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
+
+import com.pathplanner.lib.server.PathPlannerServer;
+
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -38,20 +42,49 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        // Instantiate our RobotContainer. This will perform all our button bindings,
-        // and put our
-        // autonomous chooser on the dashboard.
+        /**
+         * Instantiate our RobotContainer. This will perform all our button bindings,
+         * And put our autonomous chooser on the dashboard.
+         */
         m_robotContainer = RobotContainer.getInstance();
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
 
         RobotContainer.getInstance().m_drivetrain.setBrake();
+        
+        // Comment out for comp.
+        // PathPlannerServer.startServer(5811);
+
+        ValueModifier();
+    }
+
+    private void ValueModifier() {
+        /**
+         * Value modifier is for testing, disable or comment out in comp.
+         * Put volt constants into temp constants
+         */
+        // SmartDashboard.putNumber("ksVolts", Constants.SysIDConstants.ksVolts);
+        // SmartDashboard.putNumber("kvVoltSecondsPerMeter",
+        // Constants.SysIDConstants.kvVoltSecondsPerMeter);
+        // SmartDashboard.putNumber("kaVoltSecondsSquaredPerMeter",
+        // Constants.SysIDConstants.kaVoltSecondsSquaredPerMeter);
+
+        // // Put PID values into temp constants
+        // SmartDashboard.putNumber("kPDriveVel", Constants.SysIDConstants.kPDriveVel);
+        // SmartDashboard.putNumber("kIDriveVel", Constants.SysIDConstants.kIDriveVel);
+        // SmartDashboard.putNumber("kDDriveVel", Constants.SysIDConstants.kDDriveVel);
+
+        // // Put max speed and acceleration into temp constants
+        // SmartDashboard.putNumber("kMaxSpeedMetersPerSecond",
+        // Constants.SysIDConstants.kMaxSpeedMetersPerSecond);
+        // SmartDashboard.putNumber("kMaxAccelerationMetersPerSecondSquared",
+        // Constants.SysIDConstants.kMaxAccelerationMetersPerSecondSquared);
     }
 
     /**
      * This function is called every robot packet, no matter the mode. Use this for
-     * items like
-     * diagnostics that you want ran during disabled, autonomous, teleoperated and
-     * test.
+     * Items like
+     * Diagnostics that you want ran during disabled, autonomous, teleoperated and
+     * Test.
      *
      * <p>
      * This runs after the mode specific periodic functions, but before
@@ -59,13 +92,13 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        // Runs the Scheduler. This is responsible for polling buttons, adding
-        // newly-scheduled
-        // commands, running already-scheduled commands, removing finished or
-        // interrupted commands,
-        // and running subsystem periodic() methods. This must be called from the
-        // robot's periodic
-        // block in order for anything in the Command-based framework to work.
+        /**
+         * Runs the Scheduler. This is responsible for polling buttons, adding
+         * Newly-scheduled commands, running already-scheduled commands,
+         * Removing finished or interrupted commands, and running subsystem
+         * Periodic() methods. This must be called from the robot's periodic
+         * Block in order for anything in the Command-based framework to work.
+         */
         CommandScheduler.getInstance().run();
     }
 
@@ -92,7 +125,7 @@ public class Robot extends TimedRobot {
 
         RobotContainer.getInstance().m_drivetrain.setBrake();
 
-        // schedule the autonomous command (example)
+        // Schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
         }
@@ -130,9 +163,7 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().cancelAll();
     }
 
-    /**
-     * This function is called periodically during test mode.
-     */
+    // This function is called periodically during test mode.
     @Override
     public void testPeriodic() {
     }

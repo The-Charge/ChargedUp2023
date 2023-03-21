@@ -88,7 +88,7 @@ public class Align extends CommandBase {
             SmartDashboard.putNumber("Range", range);
             // Calculate and feed speed values into runArcade in Drivetrain
             forwardSpeed = -forwardController.calculate(range, GOAL_RANGE_METERS);
-            rotationSpeed = 0;
+            rotationSpeed = turnController.calculate(result.getBestTarget().getYaw(), 0);
             bestTargetYaw = Math.abs(result.getBestTarget().getYaw());
             SmartDashboard.putNumber("forward", forwardSpeed);
             SmartDashboard.putNumber("Rotation", rotationSpeed);
@@ -111,7 +111,7 @@ public class Align extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if (Math.abs(GOAL_RANGE_METERS - range) < 0.05) {
+        if (bestTargetYaw < 0.5 && Math.abs(GOAL_RANGE_METERS - range) < 0.05) {
             return true;
         }
         return false;

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -23,34 +24,26 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
   public static final class DriveConstants {
-    // LeftFront
     public static final int kLeftMotor1Port = 16;
-    // LeftRear
     public static final int kLeftMotor2Port = 17;
-    // RightFront
-    public static final int kRightMotor1Port = 3;
-    // RightRear
-    public static final int kRightMotor2Port = 2;
-
+    public static final int kRightMotor1Port = 2;
+    public static final int kRightMotor2Port = 3;
     public static final int shifterChannel = 1;
     public static final int clawChannel = 2;
-
-    // Maximum for Velocity ControlMode (Initial Test Starting Pt)
-    public static final double MAX_VELOCITY = 7000;
   }
 
   public static final class AutoConstants {
-    public static final double climbPowerLimit = 0.52;
+    public static final double climbPowerLimit = 0.57; // was 0.55;
     public static final double climbPowerForwardBias = 0.3;
     public static final double climbPowerBackwardBias = -0.3;
-    public static final double climbPitchGain = 0.05;
-    public static final double climbPitchDerivativeGain = 0.6;
-    public static final double fastClimbTicks = 20000;
+    public static final double climbPitchGain = 0.018;
+    public static final double climbPitchDerivativeGain = 0.1; //was 0.6;
+    public static final double fastClimbTicks = 25000;
     public static final double headingGain = 0.02;
   }
 
   public static final class ArmConstants {
-    public static final int shoulderCAN_ID = 15;
+    public static final int shoulderCAN_ID = 1;
     public static final int elbowCAN_ID = 14;
     public static final double shoulderL = 0.9906;
     public static final double elbowL = 0.9144;
@@ -59,12 +52,14 @@ public final class Constants {
     public static final double elbowperMotorTick = 6.28 / 4096;
     public static final double shoulderperMotorTick = 6.28 / 4096;
     public static final double shoulderScoreDegree = 55.0;
-    public static final double hiGoalX = 1.54;
-    public static final double hiGoalY = 1.09;
+    public static final double hiGoalX = 1.44;
+    public static final double hiGoalY = 1.19;
     public static final double midGoalX = 1.15;
-    public static final double midGoalY = 0.79;
-    public static final double stationX = 0.91;
+    public static final double midGoalY = 0.85;
+    public static final double stationX = 0.655;
     public static final double stationY = 0.87;
+    public static final double pickUpX = 0.9;
+    public static final double pickUpY = -0.21;
   }
 
   public static final class robotLimit {
@@ -85,11 +80,8 @@ public final class Constants {
      * Gains used in Motion Magic, to be adjusted accordingly
      * Gains(kp, ki, kd, kf, izone, peak output);
      */
-    public static final Gains kGainsShldr = 
-      new Gains(8.0, 0.0001, 100.0, 0.1, 0, 1.0);
-
-    public static final Gains kGainsElbow = 
-      new Gains(7.0, 0.0001, 70.0, 0.1, 0, 1.0);
+    public static final Gains kGainsShldr = new Gains(5.0, 0.0001, 100.0, 0.1, 0, 1.0);
+    public static final Gains kGainsElbow = new Gains(7.0, 0.0001, 70.0, 0.1, 0, 1.0);
   }
 
   public static class Gains {
@@ -130,7 +122,42 @@ public final class Constants {
     // 31,7
     public static final double LINEAR_P = 1;
     public static final double LINEAR_D = 0;
-    public static final double ANGULAR_P = 0.05; // 0.05
+    public static final double ANGULAR_P = 0.05;
     public static final double ANGULAR_D = 0;
+  }
+
+  public static final class SysIDConstants {
+    // Average from three tests from both encoders
+    public static final double ticksPerMeter = 17483.3;
+
+    public static final double leftEncoderTicksPerMeter = 18850;
+    public static final double rightEncoderTicksPerMeter = 18850;
+
+    // volt constraints
+    public static final double ksVolts = 2;
+    public static final double kvVoltSecondsPerMeter = 2.5;
+    public static final double kaVoltSecondsSquaredPerMeter = .25;
+
+    // PID values
+    public static final double kPDriveVel = 9;
+    public static final double kIDriveVel = 3;
+    public static final double kDDriveVel = .1;
+
+    public static final double kTrackwidthMeters = 0.60008;
+    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
+        kTrackwidthMeters);
+
+    // max speed and acceleration
+    public static final double kMaxSpeedMetersPerSecond = 3;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 2;
+
+    public static final double kRamseteB = 2;
+    public static final double kRamseteZeta = 0.7;
+
+    // List of pathways #ed
+    public static final int NUMBER_OF_PATHWAYS = 6;
+
+    // Maximum for Velocity ControlMode (Initial Test Starting Pt)
+    public static final double MAX_VELOCITY = 7000;
   }
 }

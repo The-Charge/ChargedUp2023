@@ -12,13 +12,15 @@ public class DriveForward extends CommandBase {
   private double startTick = 0;
   private boolean isTimeMode = false;
   private double thisPitch = 0;
+  private double m_Offset = 0;
 
   /**
-   *
    * @param subsystem The subsystem used by this command.
+   * 
    */
-  public DriveForward(Drivetrain subsystem, double speed, double stopPitch) {
+  public DriveForward(Drivetrain subsystem, double speed, double stopPitch, double headingOffset) {
     m_drivetrain = subsystem;
+    m_Offset = headingOffset;
     m_speed = speed;
     m_stopPitch = stopPitch;
     addRequirements(subsystem);
@@ -34,7 +36,8 @@ public class DriveForward extends CommandBase {
   @Override
   public void execute() {
     thisPitch = m_drivetrain.getPitch();
-    double thisHeading = m_drivetrain.getHeading() * AutoConstants.headingGain;
+    double thisHeading = (m_drivetrain.getHeading() + m_Offset) * AutoConstants.headingGain;
+    
     if (Math.abs(thisPitch) > m_stopPitch && !isTimeMode) {
       startTick = m_drivetrain.getLeftEncoder();
       isTimeMode = true;

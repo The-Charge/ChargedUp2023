@@ -46,7 +46,6 @@ public class ReverseDrive extends InstantCommand {
     @Override
     public void initialize() {
         m_drivetrain.setReversed();
-        ;
     }
 
     @Override
