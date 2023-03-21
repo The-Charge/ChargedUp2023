@@ -398,7 +398,7 @@ public class MagicArm extends SubsystemBase {
           // Only move the elbow if the arm tip has not cleared the robot,
           if (Math.abs(xy[0]) < robotLimit.robotLength / 2) {
             run(shldrAngl, angles[1]);
-          } else if (xy[1] < -ArmConstants.shoulderHeight + 0.02) {
+          } else if (xy[1] < -ArmConstants.shoulderHeight + 0.04) {
             /**
              * Move the elbow and raise the shoulder a little if the arm
              * Tip is at the ground
