@@ -18,7 +18,6 @@ import frc.robot.Constants.MagicArmCnsts;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.robotLimit;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -131,7 +130,7 @@ public class MagicArm extends SubsystemBase {
     shldrMtr.setSelectedSensorPosition(-shldrTick, MagicArmCnsts.kPIDLoopIdxShldr, MagicArmCnsts.kTimeoutMs);
 
     int elbowTick = (elbowMtr.getSensorCollection().getPulseWidthPosition() % 4096) - 1804;
-    
+
     if (elbowTick > 2048) {
       shldrTick -= 4096;
     } else if (elbowTick < -2048) {
@@ -221,10 +220,10 @@ public class MagicArm extends SubsystemBase {
     double[] xy = new double[2];
     // Find the angle between x axis and the shoulder
     double shoulderHorizen = Math.PI / 2 + _shoulderAngle;
-    
+
     // Find the angle between + axis and the elbow
     double elbowHorizen = -Math.PI / 2 + _elbowAngle + _shoulderAngle;
-    //calculating for the x position
+    // calculating for the x position
     xy[0] = Math.cos(shoulderHorizen) * ArmConstants.shoulderL + Math.cos(elbowHorizen) * ArmConstants.elbowL;
     // Calculating for the y position
     xy[1] = Math.sin(shoulderHorizen) * ArmConstants.shoulderL + Math.sin(elbowHorizen) * ArmConstants.elbowL;
@@ -283,14 +282,16 @@ public class MagicArm extends SubsystemBase {
     } else {
       double shoulder2 = ArmConstants.shoulderL * ArmConstants.shoulderL;
       double elbow2 = ArmConstants.elbowL * ArmConstants.elbowL;
-      // Law of cosine to solve for the angle which is created with the third side with the sholder
+      // Law of cosine to solve for the angle which is created with the third side
+      // with the sholder
       double oppositeElbowAngle = Math.acos((thirdSide2 + shoulder2 - elbow2) / 2 / ArmConstants.shoulderL / thirdSide);
 
       // 2nd application of law of cosine to solve for the elbow angle
       angles[1] = Math.acos((shoulder2 + elbow2 - thirdSide2) / 2 / ArmConstants.elbowL / ArmConstants.shoulderL);
 
       // Convert angle from +x axis to the shoulder motor angle
-      angles[0] = (Math.PI / 2 - oppositeElbowAngle - Math.atan(_y / Math.abs(_x))); //got rid of Math.abs to allow Z configuration.
+      angles[0] = (Math.PI / 2 - oppositeElbowAngle - Math.atan(_y / Math.abs(_x))); // got rid of Math.abs to allow Z
+                                                                                     // configuration.
 
       if (_x > 0) {
         /**
@@ -371,7 +372,7 @@ public class MagicArm extends SubsystemBase {
   public boolean isArmTipInsideRobotX() {
     double[] xy = getXY();
 
-    if(xy[1] > 0.5){
+    if (xy[1] > 0.5) {
       return false;
     }
     return Math.abs(xy[0] - 0.1) < robotLimit.robotLength / 2;
@@ -416,6 +417,7 @@ public class MagicArm extends SubsystemBase {
       return false;
     }
   }
+
   /**
    * To lower the arm tip to the neutral position: shoulder up, elbow down
    */

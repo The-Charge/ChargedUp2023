@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
 
         RobotContainer.getInstance().m_drivetrain.setBrake();
-        
+
         // Comment out for comp.
         // PathPlannerServer.startServer(5811);
 
