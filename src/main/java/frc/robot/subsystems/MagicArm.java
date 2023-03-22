@@ -189,7 +189,7 @@ public class MagicArm extends SubsystemBase {
   }
 
   public double getLimitY(double _x, double _y) {
-    if (Math.abs(_x) < robotLimit.robotLength / 2 + 0.1) {
+    if (Math.abs(_x) < robotLimit.robotLength / 2) {
       return MathUtil.clamp(_y, 0,
           ArmConstants.shoulderL - (Math.sqrt(ArmConstants.elbowL * ArmConstants.elbowL - _x * _x)));
     } else {
@@ -376,7 +376,7 @@ public class MagicArm extends SubsystemBase {
     if (xy[1] > 0.5) {
       return false;
     }
-    return Math.abs(xy[0]) < robotLimit.robotLength / 2;
+    return Math.abs(xy[0]) < robotLimit.robotLength / 2 + 0.15;
   }
 
   /**

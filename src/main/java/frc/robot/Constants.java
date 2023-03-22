@@ -61,7 +61,7 @@ public final class Constants {
     public static final double hiGoalY = 47.0 * InchToMeter;
     public static final double midGoalX = 45.3 * InchToMeter;
     public static final double midGoalY = 33.5 * InchToMeter;
-    public static final double stationX = 29.2 * InchToMeter;
+    public static final double stationX = 31.2 * InchToMeter;
     public static final double stationY = 34.2 * InchToMeter;
     public static final double pickUpX = 35.4 * InchToMeter;
     public static final double pickUpY = -8.7 * InchToMeter;
@@ -70,7 +70,7 @@ public final class Constants {
   public static final class robotLimit {
     public static final double height = (78 - 2) * 0.0254;
     public static final double widthFromCenter = 66 * 0.0254;
-    public static final double robotLength = 53 * 0.0254;
+    public static final double robotLength = 44 * 0.0254;
     public static final double shoulderRange = Units.degreesToRadians(60);
     public static final double elbowRange = (175.0 / 180.0) * 3.1415;
   }
