@@ -57,8 +57,8 @@ public final class Constants {
     public static final double elbowperMotorTick = Math.PI * 2 / 4096;
     public static final double shoulderperMotorTick = Math.PI * 2 / 4096;
     public static final double shoulderScoreDegree = 55.0;
-    public static final double hiGoalX = 59.7 * InchToMeter;
-    public static final double hiGoalY = 46.5 * InchToMeter;
+    public static final double hiGoalX = 59.6 * InchToMeter;
+    public static final double hiGoalY = 47.0 * InchToMeter;
     public static final double midGoalX = 45.3 * InchToMeter;
     public static final double midGoalY = 33.5 * InchToMeter;
     public static final double stationX = 29.2 * InchToMeter;
