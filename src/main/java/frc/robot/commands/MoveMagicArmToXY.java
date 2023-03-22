@@ -49,6 +49,7 @@ public class MoveMagicArmToXY extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        // Move arm 
         canMove = m_magicArm.moveTowardXY(m_X, m_Y) &&
                 Math.abs(RobotContainer.getInstance().getArmController().getRawAxis(1)) < 0.2 &&
                 Math.abs(RobotContainer.getInstance().getArmController().getRawAxis(3)) < 0.2 &&
@@ -65,6 +66,7 @@ public class MoveMagicArmToXY extends CommandBase {
     @Override
     public boolean isFinished() {
         double[] xy = m_magicArm.getXY();
+        // Returns xy is in the deadband
         return (((xy[0] - m_X) * (xy[0] - m_X) + (xy[1] - m_Y) * (xy[1] - m_Y) < 0.0008) || (!canMove));
     }
 

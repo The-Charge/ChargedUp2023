@@ -283,8 +283,7 @@ public class MagicArm extends SubsystemBase {
     } else {
       double shoulder2 = ArmConstants.shoulderL * ArmConstants.shoulderL;
       double elbow2 = ArmConstants.elbowL * ArmConstants.elbowL;
-      // Law of cosine to solve for the angle which is created with the third side
-      // with the sholder
+      // Law of cosine to solve for the angle which is created with the third side with the shoulder in triangle
       double oppositeElbowAngle = Math.acos((thirdSide2 + shoulder2 - elbow2) / 2 / ArmConstants.shoulderL / thirdSide);
 
       // 2nd application of law of cosine to solve for the elbow angle
@@ -303,7 +302,7 @@ public class MagicArm extends SubsystemBase {
       }
       /**
        * Was (angles[0] > 0), it does not allow Z configureation, changed to allow
-       * This, need testing.
+       * This need testing.
        */
       if (_x < 0) {
         /**
@@ -372,10 +371,11 @@ public class MagicArm extends SubsystemBase {
 
   public boolean isArmTipInsideRobotX() {
     double[] xy = getXY();
-
-    if (xy[1] > 0.5) {
+    // Tells if the y position is too high to be in the robot
+    if(xy[1] > 0.5){
       return false;
     }
+    // Tells if the tip is inside the robot.
     return Math.abs(xy[0] - 0.1) < robotLimit.robotLength / 2;
   }
 
@@ -399,7 +399,7 @@ public class MagicArm extends SubsystemBase {
           // Only move the elbow if the arm tip has not cleared the robot,
           if (Math.abs(xy[0]) < robotLimit.robotLength / 2) {
             run(shldrAngl, angles[1]);
-          } else if (xy[1] < -ArmConstants.shoulderHeight + 0.02) {
+          } else if (xy[1] < -ArmConstants.shoulderHeight + 0.04) {
             /**
              * Move the elbow and raise the shoulder a little if the arm
              * Tip is at the ground

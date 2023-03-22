@@ -42,33 +42,37 @@ public final class Constants {
     public static final double headingGain = 0.02;
     public static final double fallPitchPerCycle = 1;
   }
+  public static final double InchToMeter = 0.0254;
+  public static final double degreeToRadian = 1 / (180.0 * Math.PI);
 
   public static final class ArmConstants {
+    // All constants are in inches, the multiplier of .0254 is to convert back to meters used for calculations
+    // Angles are in degrees
     public static final int shoulderCAN_ID = 1;
     public static final int elbowCAN_ID = 13;
-    public static final double shoulderL = 39.0 * 0.0254;
-    public static final double elbowL = 37.0 * 0.0254;
-    public static final double shoulderAngleToSafeSwingElbowThrough = 22.6 / 180.0 * 3.1415926;
-    public static final double shoulderHeight = 11 * 0.0254;
+    public static final double shoulderL = 39.0 * InchToMeter;
+    public static final double elbowL = 37.0 * InchToMeter;
+    public static final double shoulderAngleToSafeSwingElbowThrough = 22.6 * degreeToRadian;
+    public static final double shoulderHeight = 11 * InchToMeter;
     public static final double elbowperMotorTick = 3.1415926 * 2 / 4096;
     public static final double shoulderperMotorTick = 3.1415926 * 2 / 4096;
     public static final double shoulderScoreDegree = 55.0;
-    public static final double hiGoalX = 59.7 * 0.0254;
-    public static final double hiGoalY = 46.5 * 0.0254;
-    public static final double midGoalX = 45.3 * 0.0254;
-    public static final double midGoalY = 33.5 * 0.0254;
-    public static final double stationX = 29.2 * 0.0254;
-    public static final double stationY = 34.2 * 0.0254;
-    public static final double pickUpX = 35.4 * 0.0254;
-    public static final double pickUpY = -8.7 * 0.0254;
+    public static final double hiGoalX = 59.7 * InchToMeter;
+    public static final double hiGoalY = 46.5 * InchToMeter;
+    public static final double midGoalX = 45.3 * InchToMeter;
+    public static final double midGoalY = 33.5 * InchToMeter;
+    public static final double stationX = 29.2 * InchToMeter;
+    public static final double stationY = 34.2 * InchToMeter;
+    public static final double pickUpX = 35.4 * InchToMeter;
+    public static final double pickUpY = -8.7 * InchToMeter;
   }
 
   public static final class robotLimit {
-    public static final double height = (78 - 2) * 0.0254;
-    public static final double widthFromCenter = 66 * 0.0254;
-    public static final double robotLength = 44 * 0.0254;
-    public static final double shoulderRange = Units.degreesToRadians(60);
-    public static final double elbowRange = (175.0 / 180.0) * 3.1415;
+    public static final double height = (78 - 2) * InchToMeter;
+    public static final double widthFromCenter = 66 * InchToMeter;
+    public static final double robotLength = 44 * InchToMeter;
+    public static final double shoulderRange = 60 * degreeToRadian;
+    public static final double elbowRange = 175.0 * degreeToRadian;
   }
 
   public static final class MagicArmCnsts {
