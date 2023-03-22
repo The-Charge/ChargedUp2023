@@ -110,10 +110,10 @@ public class MagicArm extends SubsystemBase {
     elbowMtr.config_kD(MagicArmCnsts.kSlotIdxElbow, MagicArmCnsts.kGainsElbow.kD, MagicArmCnsts.kTimeoutMs);
 
     /* Set acceleration and vcruise velocity - see documentation */
-    shldrMtr.configMotionCruiseVelocity(75, MagicArmCnsts.kTimeoutMs);
+    shldrMtr.configMotionCruiseVelocity(100, MagicArmCnsts.kTimeoutMs);
     shldrMtr.configMotionAcceleration(100, MagicArmCnsts.kTimeoutMs);
     shldrMtr.configMotionSCurveStrength(5, MagicArmCnsts.kTimeoutMs);
-    elbowMtr.configMotionCruiseVelocity(100, MagicArmCnsts.kTimeoutMs);
+    elbowMtr.configMotionCruiseVelocity(200, MagicArmCnsts.kTimeoutMs);
     elbowMtr.configMotionAcceleration(100, MagicArmCnsts.kTimeoutMs);
     elbowMtr.configMotionSCurveStrength(3, MagicArmCnsts.kTimeoutMs);
 
