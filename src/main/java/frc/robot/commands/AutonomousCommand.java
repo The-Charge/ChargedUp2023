@@ -154,7 +154,10 @@ public class AutonomousCommand extends CommandBase {
     }
 
     public SequentialCommandGroup scoreHighConeCommand() {
-        return new SequentialCommandGroup(new ScoreHighCone(m_arm, true));
+        return new SequentialCommandGroup(new ScoreHighCone(m_arm, true), 
+        new OpenClaw(m_claw, true),
+        new MoveArmToNeutral(m_arm),
+        new CloseClaw(m_claw, true));
     }
 
     public SequentialCommandGroup pathPlannerComand() {

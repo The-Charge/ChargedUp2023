@@ -45,7 +45,7 @@ public final class Constants {
 
   public static final class ArmConstants {
     public static final int shoulderCAN_ID = 1;
-    public static final int elbowCAN_ID = 14;
+    public static final int elbowCAN_ID = 13;
     public static final double shoulderL = 39.0 * 0.0254;
     public static final double elbowL = 37.0 * 0.0254;
     public static final double shoulderAngleToSafeSwingElbowThrough = 22.6 / 180.0 * 3.1415926;

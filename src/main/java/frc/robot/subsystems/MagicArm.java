@@ -18,6 +18,7 @@ import frc.robot.Constants.MagicArmCnsts;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.robotLimit;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -113,7 +114,7 @@ public class MagicArm extends SubsystemBase {
     shldrMtr.configMotionAcceleration(100, MagicArmCnsts.kTimeoutMs);
     shldrMtr.configMotionSCurveStrength(5, MagicArmCnsts.kTimeoutMs);
     elbowMtr.configMotionCruiseVelocity(100, MagicArmCnsts.kTimeoutMs);
-    elbowMtr.configMotionAcceleration(500, MagicArmCnsts.kTimeoutMs);
+    elbowMtr.configMotionAcceleration(100, MagicArmCnsts.kTimeoutMs);
     elbowMtr.configMotionSCurveStrength(3, MagicArmCnsts.kTimeoutMs);
 
     // Need the code from Mr. Curry to set relative sensor values from abosulte
@@ -129,7 +130,7 @@ public class MagicArm extends SubsystemBase {
     }
     shldrMtr.setSelectedSensorPosition(-shldrTick, MagicArmCnsts.kPIDLoopIdxShldr, MagicArmCnsts.kTimeoutMs);
 
-    int elbowTick = (elbowMtr.getSensorCollection().getPulseWidthPosition() % 4096) - 1804;
+    int elbowTick = (elbowMtr.getSensorCollection().getPulseWidthPosition() % 4096) - 3195; 
 
     if (elbowTick > 2048) {
       shldrTick -= 4096;
@@ -422,17 +423,26 @@ public class MagicArm extends SubsystemBase {
    * To lower the arm tip to the neutral position: shoulder up, elbow down
    */
   public void moveTowardNeutral() {
-    if (Math.abs(elbowAngl) > 2.3) {
-      // If the arm tip is above the limit, lower the elbow only
-      run(shldrAngl, 0);
-    } else {
-      if (Math.abs(shldrAngl) < ArmConstants.shoulderAngleToSafeSwingElbowThrough) {
-        // If the shoulder is at 0, lower the elbow to 0
-        run(0, 0);
-      } else {
-        // If the shoulder is not at 0, move only the shoulder to 0
-        run(0, elbowAngl);
-      }
+    // if (Math.abs(elbowAngl) > 3) {
+    //   // If the arm tip is above the limit, lower the elbow only
+    //   run(shldrAngl, 0);
+    // } else {
+    //   if (Math.abs(shldrAngl) < ArmConstants.shoulderAngleToSafeSwingElbowThrough) {
+    //     // If the shoulder is at 0, lower the elbow to 0
+    //     run(0, 0);
+    //   } else {
+    //     // If the shoulder is not at 0, move only the shoulder to 0
+    //     run(0, elbowAngl);
+    //   }
+    // }
+    if (Math.abs(shldrAngl) < ArmConstants.shoulderAngleToSafeSwingElbowThrough) {
+      run(0, 0);
+    }
+    else if (Math.abs(elbowAngl) < Units.degreesToRadians(57.5)) {
+      run (0, elbowAngl);
+    }
+    else {
+      run(0,0);
     }
   }
 
