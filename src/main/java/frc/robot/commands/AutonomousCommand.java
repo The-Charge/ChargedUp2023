@@ -135,7 +135,7 @@ public class AutonomousCommand extends CommandBase {
                 new ResetPitch(m_driveTrain),
                 new ScoreHighCone(m_arm, true),
                 new OpenClaw(m_claw, true),
-                new MoveMagicArmToXY(m_arm, -0.91, 1.65, 200),
+                new MoveMagicArmToXY(m_arm, -0.91, 1.65, 500),
                 new CloseClaw(m_claw, true),
                 new ParallelCommandGroup(
                         new MoveMagicArmToXY(m_arm, -0.48, 0, 2000),

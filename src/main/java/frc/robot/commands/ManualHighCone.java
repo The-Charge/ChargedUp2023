@@ -40,7 +40,7 @@ public class ManualHighCone extends CommandBase {
   public void execute() {
     if (canMove) {
       if (Math.abs(m_arm.getElbowAngle()) < Math.PI - 0.1) {
-        m_arm.runElbow(-m_xMultiplier * (Math.PI + 0.2));
+        m_arm.runElbow(-m_xMultiplier * (Math.PI + 0.3));
       } else {
         m_arm.run(m_xMultiplier * ArmConstants.shoulderScoreDegree / 180.0 * Math.PI, -m_xMultiplier * Math.PI);
       }
@@ -55,7 +55,7 @@ public class ManualHighCone extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (!canMove || Math.abs(m_arm.getShoulderAngle()) > (ArmConstants.shoulderScoreDegree - 0.04) ||
+    return (!canMove || Math.abs(m_arm.getShoulderAngle()) > (ArmConstants.shoulderScoreDegree - 0.05) ||
         (System.currentTimeMillis() - startTime > m_timeOut));
   }
 }

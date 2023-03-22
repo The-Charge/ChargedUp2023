@@ -376,7 +376,7 @@ public class MagicArm extends SubsystemBase {
     if (xy[1] > 0.5) {
       return false;
     }
-    return Math.abs(xy[0] - 0.1) < robotLimit.robotLength / 2;
+    return Math.abs(xy[0]) < robotLimit.robotLength / 2;
   }
 
   /**
@@ -423,18 +423,6 @@ public class MagicArm extends SubsystemBase {
    * To lower the arm tip to the neutral position: shoulder up, elbow down
    */
   public void moveTowardNeutral() {
-    // if (Math.abs(elbowAngl) > 3) {
-    //   // If the arm tip is above the limit, lower the elbow only
-    //   run(shldrAngl, 0);
-    // } else {
-    //   if (Math.abs(shldrAngl) < ArmConstants.shoulderAngleToSafeSwingElbowThrough) {
-    //     // If the shoulder is at 0, lower the elbow to 0
-    //     run(0, 0);
-    //   } else {
-    //     // If the shoulder is not at 0, move only the shoulder to 0
-    //     run(0, elbowAngl);
-    //   }
-    // }
     if (Math.abs(shldrAngl) < ArmConstants.shoulderAngleToSafeSwingElbowThrough) {
       run(0, 0);
     }

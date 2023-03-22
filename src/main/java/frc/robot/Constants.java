@@ -49,7 +49,7 @@ public final class Constants {
     // All constants are in inches
     // Angles are in degrees
     public static final int shoulderCAN_ID = 1;
-    public static final int elbowCAN_ID = 14;
+    public static final int elbowCAN_ID = 13;
     public static final double shoulderL = 39.0 * InchToMeter;
     public static final double elbowL = 37.0 * InchToMeter;
     public static final double shoulderAngleToSafeSwingElbowThrough = 22.6 * degreeToRadian;
@@ -70,7 +70,7 @@ public final class Constants {
   public static final class robotLimit {
     public static final double height = (78 - 2) * 0.0254;
     public static final double widthFromCenter = 66 * 0.0254;
-    public static final double robotLength = 44 * 0.0254;
+    public static final double robotLength = 53 * 0.0254;
     public static final double shoulderRange = Units.degreesToRadians(60);
     public static final double elbowRange = (175.0 / 180.0) * 3.1415;
   }
