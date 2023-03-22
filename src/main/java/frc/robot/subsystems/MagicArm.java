@@ -188,7 +188,7 @@ public class MagicArm extends SubsystemBase {
   }
 
   public double getLimitY(double _x, double _y) {
-    if (Math.abs(_x) < robotLimit.robotLength / 2) {
+    if (Math.abs(_x) < robotLimit.robotLength / 2 + 0.1) {
       return MathUtil.clamp(_y, 0,
           ArmConstants.shoulderL - (Math.sqrt(ArmConstants.elbowL * ArmConstants.elbowL - _x * _x)));
     } else {

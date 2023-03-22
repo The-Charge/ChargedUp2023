@@ -43,10 +43,10 @@ public final class Constants {
     public static final double fallPitchPerCycle = 1;
   }
   public static final double InchToMeter = 0.0254;
-  public static final double degreeToRadian = 1 / (180.0 * Math.PI);
+  public static final double degreeToRadian = Math.PI / 180.0;
 
   public static final class ArmConstants {
-    // All constants are in inches, the multiplier of .0254 is to convert back to meters used for calculations
+    // All constants are in inches
     // Angles are in degrees
     public static final int shoulderCAN_ID = 1;
     public static final int elbowCAN_ID = 14;
@@ -54,8 +54,8 @@ public final class Constants {
     public static final double elbowL = 37.0 * InchToMeter;
     public static final double shoulderAngleToSafeSwingElbowThrough = 22.6 * degreeToRadian;
     public static final double shoulderHeight = 11 * InchToMeter;
-    public static final double elbowperMotorTick = 3.1415926 * 2 / 4096;
-    public static final double shoulderperMotorTick = 3.1415926 * 2 / 4096;
+    public static final double elbowperMotorTick = Math.PI * 2 / 4096;
+    public static final double shoulderperMotorTick = Math.PI * 2 / 4096;
     public static final double shoulderScoreDegree = 55.0;
     public static final double hiGoalX = 59.7 * InchToMeter;
     public static final double hiGoalY = 46.5 * InchToMeter;
