@@ -108,8 +108,11 @@ public class AutonomousCommand extends CommandBase {
                 return climbCommand();
             case "Score Cone Only":
                 return scoreHighConeCommand();
+            // case "Clear Two Ball":
+            //     return new SequentialCommandGroup(pathPlannerComand("Clear")
+            //     , pathPlannerComand("Clear Part II"));
             default:
-                return pathPlannerComand();
+                return pathPlannerComand(RobotContainer.getInstance().getSelectedPath());
         }
     }
 
@@ -162,9 +165,9 @@ public class AutonomousCommand extends CommandBase {
         new CloseClaw(m_claw, true));
     }
 
-    public SequentialCommandGroup pathPlannerComand() {
+    public SequentialCommandGroup pathPlannerComand(String pathName) {
         PathPlannerTrajectory examplePath = PathPlanner.loadPath(
-                RobotContainer.getInstance().getSelectedPath(),
+                pathName,
                 new PathConstraints(kMaxSpeedMetersPerSecond,
                         kMaxAccelerationMetersPerSecondSquared));
 
@@ -193,6 +196,8 @@ public class AutonomousCommand extends CommandBase {
         // Scores previously grabbed piece
         eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, false));
         eventMap.put("OpenClaw", new OpenClaw(m_claw, true));
+        eventMap.put("TurnNDegrees", new TurnNRelative(m_driveTrain, 180 - m_driveTrain.getHeading()));
+        eventMap.put("WaitSeconds", new WaitNSecs(10000));
         m_driveTrain.resetOdometry(new Pose2d());
         /**
          * Create the AutoBuilder. This only needs to be created once when robot code

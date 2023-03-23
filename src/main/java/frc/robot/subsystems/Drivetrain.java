@@ -64,6 +64,7 @@ public class Drivetrain extends SubsystemBase {
   private double pitch = 0;
   private double gyroOffset;
   private double pitchOffset;
+  private boolean voltNegative;
 
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
@@ -128,11 +129,11 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("IMU_Yaw", navx.getYaw());
     SmartDashboard.putNumber("IMU_Pitch", pitch);
 
-    /**
-     * Displays encoder ticks
-     * SmartDashboard.putNumber("Left Encoder", getLeftEncoder());
-     * SmartDashboard.putNumber("Right Encoder", getRightEncoder());
-     */
+    
+     //Displays encoder ticks
+     SmartDashboard.putNumber("Left Encoder", getLeftEncoder());
+     SmartDashboard.putNumber("Right Encoder", getRightEncoder());
+     
 
     // Displays distance based on encoders
     SmartDashboard.putNumber("Left Distance", getLeftEncoderDistance());
@@ -234,6 +235,9 @@ public class Drivetrain extends SubsystemBase {
    * rightRearMotor.set(mode, 0);
    * }
    */
+  public void setVolt() {
+    voltNegative = !voltNegative;
+  }
 
   public double getLeftEncoder() {
     return leftFrontMotor.getSelectedSensorPosition();
@@ -274,6 +278,11 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
+    if (voltNegative) {
+      double temp = leftVolts;
+      leftVolts = -rightVolts;
+      rightVolts = -temp;
+    }
     left.setVoltage(leftVolts);
     right.setVoltage(rightVolts);
   }

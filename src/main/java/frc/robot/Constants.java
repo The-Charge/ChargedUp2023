@@ -60,8 +60,8 @@ public final class Constants {
     public static final double hiGoalX = 59.6 * InchToMeter;
     public static final double hiGoalY = 47.0 * InchToMeter;
     public static final double midGoalX = 45.3 * InchToMeter;
-    public static final double midGoalY = 33.5 * InchToMeter;
-    public static final double stationX = 31.2 * InchToMeter;
+    public static final double midGoalY = 32.5 * InchToMeter;
+    public static final double stationX = 27.7 * InchToMeter;
     public static final double stationY = 34.2 * InchToMeter;
     public static final double pickUpX = 35.4 * InchToMeter;
     public static final double pickUpY = -8.7 * InchToMeter;
@@ -85,8 +85,8 @@ public final class Constants {
      * Gains used in Motion Magic, to be adjusted accordingly
      * Gains(kp, ki, kd, kf, izone, peak output);
      */
-    public static final Gains kGainsShldr = new Gains(5.0, 0.0001, 100.0, 0.1, 0, 1.0);
-    public static final Gains kGainsElbow = new Gains(3.5, 0.0001, 70.0, 0.1, 0, 1.0);
+    public static final Gains kGainsShldr = new Gains(2.5, 0.0001, 100.0, 0.1, 0, 1.0);
+    public static final Gains kGainsElbow = new Gains(1.7, 0.0001, 70.0, 0.1, 0, 1.0);
   }
 
   public static class Gains {
@@ -107,29 +107,29 @@ public final class Constants {
     }
   }
 
-  public static final class VisionConstants {
-    public static final String cameraName = "IMX219";
+  // public static final class VisionConstants {
+  //   public static final String cameraName = "IMX219";
 
-    public static final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(4.6);
-    public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(16.7);
+  //   public static final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(4.6);
+  //   public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(16.7);
 
-    public static final double nodeSideDistanceMeters = Units.inchesToMeters(6.25 + 0);
+  //   public static final double nodeSideDistanceMeters = Units.inchesToMeters(6.25 + 0);
 
-    public static final double fieldLength = Units.inchesToMeters(651.25);
-    public static final double fieldWidth = Units.inchesToMeters(315.5);
+  //   public static final double fieldLength = Units.inchesToMeters(651.25);
+  //   public static final double fieldWidth = Units.inchesToMeters(315.5);
 
-    public static final Transform3d robotToCamera = new Transform3d(
-        new Translation3d(0.31, 0.07, Units.inchesToMeters(4.6)),
-        new Rotation3d(0, 16.7, 0));
+  //   public static final Transform3d robotToCamera = new Transform3d(
+  //       new Translation3d(0.31, 0.07, Units.inchesToMeters(4.6)),
+  //       new Rotation3d(0, 16.7, 0));
 
-    public static final Transform3d cameraToRobot = robotToCamera.inverse();
+  //   public static final Transform3d cameraToRobot = robotToCamera.inverse();
 
-    // 31,7
-    public static final double LINEAR_P = 1;
-    public static final double LINEAR_D = 0;
-    public static final double ANGULAR_P = 0.05;
-    public static final double ANGULAR_D = 0;
-  }
+  //   // 31,7
+  //   public static final double LINEAR_P = 1;
+  //   public static final double LINEAR_D = 0;
+  //   public static final double ANGULAR_P = 0.05;
+  //   public static final double ANGULAR_D = 0;
+  // }
 
   public static final class SysIDConstants {
     // Average from three tests from both encoders
@@ -160,7 +160,7 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
 
     // List of pathways #ed
-    public static final int NUMBER_OF_PATHWAYS = 9;
+    public static final int NUMBER_OF_PATHWAYS = 11;
 
     // Maximum for Velocity ControlMode (Initial Test Starting Pt)
     public static final double MAX_VELOCITY = 7000;
