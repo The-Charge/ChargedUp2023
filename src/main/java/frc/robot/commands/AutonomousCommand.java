@@ -102,9 +102,9 @@ public class AutonomousCommand extends CommandBase {
          * Velocity of 4 m/s and a max acceleration of 3 m/s^2
          */
         switch (RobotContainer.getInstance().getSelectedPath()) {
-            case "Charge Station with Score":
+            case "Charge Station With Score":
                 return scoreHighConeChargeStationCommand();
-            case "Charge Station":
+            case "Charge Station No Score":
                 return climbCommand();
             case "Score Cone Only":
                 return scoreHighConeCommand();

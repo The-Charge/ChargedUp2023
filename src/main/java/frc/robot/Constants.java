@@ -49,7 +49,7 @@ public final class Constants {
     // All constants are in inches
     // Angles are in degrees
     public static final int shoulderCAN_ID = 1;
-    public static final int elbowCAN_ID = 13;
+    public static final int elbowCAN_ID = 15;
     public static final double shoulderL = 39.0 * InchToMeter;
     public static final double elbowL = 37.0 * InchToMeter;
     public static final double shoulderAngleToSafeSwingElbowThrough = 22.6 * degreeToRadian;
@@ -62,7 +62,7 @@ public final class Constants {
     public static final double midGoalX = 45.3 * InchToMeter;
     public static final double midGoalY = 32.5 * InchToMeter;
     public static final double stationX = 27.7 * InchToMeter;
-    public static final double stationY = 34.2 * InchToMeter;
+    public static final double stationY = 35.2 * InchToMeter;
     public static final double pickUpX = 35.4 * InchToMeter;
     public static final double pickUpY = -8.7 * InchToMeter;
   }
@@ -160,7 +160,7 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
 
     // List of pathways #ed
-    public static final int NUMBER_OF_PATHWAYS = 11;
+    public static final int NUMBER_OF_PATHWAYS = 9;
 
     // Maximum for Velocity ControlMode (Initial Test Starting Pt)
     public static final double MAX_VELOCITY = 7000;
