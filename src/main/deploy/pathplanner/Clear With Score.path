@@ -27,12 +27,12 @@
     },
     {
       "anchorPoint": {
-        "x": 6.25,
-        "y": 4.576612149195342
+        "x": 6.14,
+        "y": 4.672937711260038
       },
       "prevControl": {
-        "x": 5.576708512236955,
-        "y": 4.576612149195342
+        "x": 5.466708512236955,
+        "y": 4.672937711260038
       },
       "nextControl": null,
       "holonomicAngle": 0,
@@ -44,8 +44,7 @@
         "names": [
           "OpenClaw",
           "MoveArmFrontLow",
-          "CloseClaw",
-          "TurnNDegrees"
+          "CloseClaw"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",

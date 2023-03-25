@@ -61,8 +61,8 @@ public final class Constants {
     public static final double hiGoalY = 47.0 * InchToMeter;
     public static final double midGoalX = 45.3 * InchToMeter;
     public static final double midGoalY = 32.5 * InchToMeter;
-    public static final double stationX = 27.7 * InchToMeter;
-    public static final double stationY = 35.2 * InchToMeter;
+    public static final double stationX = 31.7 * InchToMeter;
+    public static final double stationY = 32.7 * InchToMeter;
     public static final double pickUpX = 35.4 * InchToMeter;
     public static final double pickUpY = -8.7 * InchToMeter;
   }
@@ -160,7 +160,7 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
 
     // List of pathways #ed
-    public static final int NUMBER_OF_PATHWAYS = 9;
+    public static final int NUMBER_OF_PATHWAYS = 10;
 
     // Maximum for Velocity ControlMode (Initial Test Starting Pt)
     public static final double MAX_VELOCITY = 7000;

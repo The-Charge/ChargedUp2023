@@ -12,6 +12,8 @@ public class DriveOver extends CommandBase {
   private double thisPitch;
   private double m_offset = 0;
   private int status = 0;
+  public double timeoutMS = 6000;
+  public long currentTime;
 
   /**
    * 0 is flat starting state, 1 for up, 2 for flat top, 3 for down, 4 for flat
@@ -31,6 +33,7 @@ public class DriveOver extends CommandBase {
   @Override
   public void initialize() {
     status = 0;
+    currentTime = System.currentTimeMillis();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -67,7 +70,7 @@ public class DriveOver extends CommandBase {
   @Override
   public boolean isFinished() {
     if (status == 3) {
-      if (Math.abs(thisPitch) < 1) {
+      if (Math.abs(thisPitch) < 4) {
         m_drivetrain.run(m_speed / 10.0, m_speed / 10.0);
         status++;
       }
@@ -76,6 +79,9 @@ public class DriveOver extends CommandBase {
       status++;
     }
     if (status > 50) {
+      return true;
+    }
+    if (currentTime + timeoutMS < System.currentTimeMillis()) {
       return true;
     }
     return false;

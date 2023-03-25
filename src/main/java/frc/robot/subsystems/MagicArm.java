@@ -121,7 +121,7 @@ public class MagicArm extends SubsystemBase {
     // sensor values
 
     /* Zero the sensor once on robot boot up */
-    int shldrTick = shldrMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1610;
+    int shldrTick = shldrMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1623;
 
     if (shldrTick > 2048) {
       shldrTick -= 4096;
@@ -189,7 +189,7 @@ public class MagicArm extends SubsystemBase {
   }
 
   public double getLimitY(double _x, double _y) {
-    if (Math.abs(_x) < robotLimit.robotLength / 2) {
+    if (Math.abs(_x) < robotLimit.robotLength / 2 + 0.1 && _y < 0.7) {
       return MathUtil.clamp(_y, 0,
           ArmConstants.shoulderL - (Math.sqrt(ArmConstants.elbowL * ArmConstants.elbowL - _x * _x)));
     } else {

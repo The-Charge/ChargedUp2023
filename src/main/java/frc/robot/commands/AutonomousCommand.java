@@ -23,6 +23,7 @@ import com.pathplanner.lib.auto.RamseteAutoBuilder;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -106,11 +107,13 @@ public class AutonomousCommand extends CommandBase {
                 return scoreHighConeChargeStationCommand();
             case "Charge Station No Score":
                 return climbCommand();
+            case "Charge Station Two Piece":
+                return scoreHighConeChargeStationTwoPieceCommand();
             case "Score Cone Only":
                 return scoreHighConeCommand();
             // case "Clear Two Ball":
-            //     return new SequentialCommandGroup(pathPlannerComand("Clear")
-            //     , pathPlannerComand("Clear Part II"));
+            // return new SequentialCommandGroup(pathPlannerComand("Clear")
+            // , pathPlannerComand("Clear Part II"));
             default:
                 return pathPlannerComand(RobotContainer.getInstance().getSelectedPath());
         }
@@ -159,10 +162,32 @@ public class AutonomousCommand extends CommandBase {
     }
 
     public SequentialCommandGroup scoreHighConeCommand() {
-        return new SequentialCommandGroup(new ScoreHighCone(m_arm, true), 
-        new OpenClaw(m_claw, true),
-        new MoveArmToNeutral(m_arm),
-        new CloseClaw(m_claw, true));
+        return new SequentialCommandGroup(new ScoreHighCone(m_arm, true),
+                new OpenClaw(m_claw, true),
+                new MoveArmToNeutral(m_arm),
+                new CloseClaw(m_claw, true));
+    }
+
+    public SequentialCommandGroup scoreHighConeChargeStationTwoPieceCommand() {
+        return new SequentialCommandGroup(
+                new ResetHeading(m_driveTrain), // resetter
+                new ResetPitch(m_driveTrain), // resetter
+                new ScoreHighCone(m_arm, true), // score piece
+                new OpenClaw(m_claw, true), // openClaw
+                new MoveMagicArmToXY(m_arm, -0.91, 1.65, 500), // return position
+                new CloseClaw(m_claw, true), // close claw
+                new ParallelCommandGroup(
+                        new SequentialCommandGroup(
+                                new MoveMagicArmToXY(m_arm, ArmConstants.pickUpX, ArmConstants.pickUpY, 3500),
+                                new OpenClaw(m_claw, true)),
+                        new DriveOverDistance(m_driveTrain, -0.8, 10, 0, Units.inchesToMeters(48))), // this is fine
+                        new WaitNSecs(1),
+                        new ParallelCommandGroup(
+                        new CloseClaw(m_claw, true),
+                        new MoveArmToNeutral(m_arm), // gud
+                        new SequentialCommandGroup( // gud
+                                new DriveForward(m_driveTrain, 0.8, 10, 0),
+                                new Climb(m_driveTrain, 0))));
     }
 
     public SequentialCommandGroup pathPlannerComand(String pathName) {

@@ -42,10 +42,10 @@ public class Climb extends CommandBase {
 
     lastPitch = thisPitch;
 
-    if (thisPitch < -1) {
+    if (thisPitch < -2.5) {
       volt = volt + AutoConstants.climbPowerBackwardBias;
       timesAtLevel = 0;
-    } else if (thisPitch > 1) {
+    } else if (thisPitch > 2.5) {
       volt = volt + AutoConstants.climbPowerForwardBias;
       timesAtLevel = 0;
     } else {
