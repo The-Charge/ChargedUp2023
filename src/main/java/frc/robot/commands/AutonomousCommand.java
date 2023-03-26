@@ -24,6 +24,7 @@ import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -107,8 +108,10 @@ public class AutonomousCommand extends CommandBase {
                 return scoreHighConeChargeStationCommand();
             case "Charge Station No Score":
                 return climbCommand();
-            case "Charge Station Two Piece":
-                return scoreHighConeChargeStationTwoPieceCommand();
+            case "Charge Station Two Piece Left":               
+                return scoreHighConeChargeStationTwoPieceCommand(-1);
+            case "Charge Station Two Piece Right":
+                return scoreHighConeChargeStationTwoPieceCommand(1);
             case "Score Cone Only":
                 return scoreHighConeCommand();
             // case "Clear Two Ball":
@@ -168,7 +171,7 @@ public class AutonomousCommand extends CommandBase {
                 new CloseClaw(m_claw, true));
     }
 
-    public SequentialCommandGroup scoreHighConeChargeStationTwoPieceCommand() {
+    public SequentialCommandGroup scoreHighConeChargeStationTwoPieceCommand(double headingOffset) {
         return new SequentialCommandGroup(
                 new ResetHeading(m_driveTrain), // resetter
                 new ResetPitch(m_driveTrain), // resetter
@@ -180,14 +183,15 @@ public class AutonomousCommand extends CommandBase {
                         new SequentialCommandGroup(
                                 new MoveMagicArmToXY(m_arm, ArmConstants.pickUpX, ArmConstants.pickUpY, 3500),
                                 new OpenClaw(m_claw, true)),
-                        new DriveOverDistance(m_driveTrain, -0.8, 10, 0, Units.inchesToMeters(48))), // this is fine
+                        new DriveOverDistance(m_driveTrain, -0.8, 10, headingOffset, Units.inchesToMeters(52))), // this is fine
                         new WaitNSecs(1),
-                        new ParallelCommandGroup(
                         new CloseClaw(m_claw, true),
+                        new ParallelCommandGroup(
                         new MoveArmToNeutral(m_arm), // gud
                         new SequentialCommandGroup( // gud
-                                new DriveForward(m_driveTrain, 0.8, 10, 0),
-                                new Climb(m_driveTrain, 0))));
+                        
+                                new DriveForward(m_driveTrain, 0.8, 10, headingOffset),
+                                new Climb(m_driveTrain, headingOffset))));
     }
 
     public SequentialCommandGroup pathPlannerComand(String pathName) {
@@ -197,6 +201,7 @@ public class AutonomousCommand extends CommandBase {
                         kMaxAccelerationMetersPerSecondSquared));
 
         HashMap<String, Command> eventMap = new HashMap<>();
+
         // Scores Current game piece
         eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, false));
         eventMap.put("OpenClaw", new OpenClaw(m_claw, true));
