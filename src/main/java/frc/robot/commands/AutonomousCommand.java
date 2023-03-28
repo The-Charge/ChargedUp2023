@@ -183,7 +183,7 @@ public class AutonomousCommand extends CommandBase {
                         new SequentialCommandGroup(
                                 new MoveMagicArmToXY(m_arm, ArmConstants.pickUpX, ArmConstants.pickUpY, 3500),
                                 new OpenClaw(m_claw, true)),
-                        new DriveOverDistance(m_driveTrain, -0.8, 10, headingOffset, Units.inchesToMeters(52))), // this is fine
+                        new DriveOverDistance(m_driveTrain, -0.8, 10, headingOffset, Units.inchesToMeters(30.8))), // this is fine
                         new WaitNSecs(1),
                         new CloseClaw(m_claw, true),
                         new ParallelCommandGroup(
