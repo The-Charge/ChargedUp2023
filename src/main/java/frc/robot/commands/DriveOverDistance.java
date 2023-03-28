@@ -1,8 +1,8 @@
 package frc.robot.commands;
 
+import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.Drivetrain;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -16,8 +16,10 @@ public class DriveOverDistance extends CommandBase {
     private int status = 0;
     public double timeoutMS = 8000;
     public long currentTime;
-    public double distance, startTick, startSpeed, m_ticks;
-
+    public double distance, startTick, startSpeed, m_ticks ;
+    public static final double stallPower = 0.34;
+    private double ticksToTravel = 0;
+    private double ticksTravlled = 0;
     /**
      * 0 is flat starting state, 1 for up, 2 for flat top, 3 for down, 4 for flat
      * end.
@@ -26,7 +28,13 @@ public class DriveOverDistance extends CommandBase {
      */
     public DriveOverDistance(Drivetrain subsystem, double speed, double stopPitch, double headingOffset,
             double distanceMeters) {
-        m_ticks = distanceMeters * 18000;
+        ticksToTravel = distanceMeters*Constants.SysIDConstants.ticksPerMeter;
+        /* We will use fraction of ticks left to travel multiplied by speed as the power for driving
+         * motors.  In order to keep the power above stallPower, we need to increase the target ticks
+         * so that when ticksToTravel equals ticksTravelled, the power is at stallPower
+         */
+        double fractionPowerBeforeStall = (Math.abs(speed)-stallPower)/Math.abs(speed);
+        m_ticks = ticksToTravel/fractionPowerBeforeStall;
         m_drivetrain = subsystem;
         m_stopPitch = stopPitch;
         m_offset = headingOffset;
@@ -71,15 +79,11 @@ public class DriveOverDistance extends CommandBase {
         else if (status == 4) {
             if (Math.abs(startTick) < 1) {
                 startTick = m_drivetrain.getLeftEncoder();
-                SmartDashboard.putNumber("StartTick", startTick);
             }
-            m_speed = (m_ticks - Math.abs(m_drivetrain.getLeftEncoder() - startTick)) / m_ticks * startSpeed;
-            SmartDashboard.putNumber("Travel dist", Math.abs(m_drivetrain.getLeftEncoder() - startTick));
-            SmartDashboard.putNumber("Speed", m_speed);
+            ticksTravlled = Math.abs(m_drivetrain.getLeftEncoder() - startTick);
+            m_speed = (m_ticks - ticksTravlled) / m_ticks * startSpeed;
         }
         m_drivetrain.run(m_speed + thisHeading, m_speed - thisHeading);
-        SmartDashboard.putNumber("Status", status);
-        SmartDashboard.putNumber("Left Encoder", m_drivetrain.getLeftEncoder());
     }
 
     // Called once the command ends or is interrupted.
@@ -91,10 +95,6 @@ public class DriveOverDistance extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if (Math.abs(startTick) > 1) {
-            SmartDashboard.putBoolean("driveOverEnded", Math.abs(m_drivetrain.getLeftEncoder() - startTick) > m_ticks * 0.575);
-            return Math.abs(m_drivetrain.getLeftEncoder() - startTick) > m_ticks * 0.575;
-        }
-        return false;
+        return ticksTravlled > ticksToTravel;
     }
 } 
