@@ -29,9 +29,11 @@ public class DriveDegree extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double fractionControl = 1.0;
+    if (m_drivetrain.atHalfSpeed()) fractionControl = 0.5;
     double deltaPower = RobotContainer.getInstance().getrightJoystick().getY() / 2.0;
-    double deltaHeading = RobotContainer.getInstance().getleftJoystick().getX() * 40.0;
-    double headingPower = (m_drivetrain.getHeading() - m_heading + deltaHeading ) * AutoConstants.headingGain;
+    double deltaHeading = RobotContainer.getInstance().getleftJoystick().getX() * 40.0 * fractionControl;
+    double headingPower = (m_drivetrain.getHeading() - m_heading *fractionControl + deltaHeading) * AutoConstants.headingGain;
     double leftPower = m_power + deltaPower;
     double rightPower = leftPower - headingPower;
     leftPower += headingPower;
