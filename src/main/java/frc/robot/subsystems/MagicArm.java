@@ -372,11 +372,15 @@ public class MagicArm extends SubsystemBase {
 
   public boolean isArmTipInsideRobotX() {
     double[] xy = getXY();
+  
 
     if (xy[1] > 0.5) {
+      SmartDashboard.putBoolean("Is in robot", isArmTipInsideRobotX());
       return false;
     }
+    SmartDashboard.putBoolean("Is in robot", isArmTipInsideRobotX());
     return Math.abs(xy[0]) < robotLimit.robotLength / 2 + 0.15;
+    
   }
 
   /**

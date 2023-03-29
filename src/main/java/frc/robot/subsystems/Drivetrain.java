@@ -62,7 +62,7 @@ public class Drivetrain extends SubsystemBase {
   private AHRS navx;
   private boolean isReversed = false, isHalfSpeed = false, isQuarterSpeed = false;
   private double pitch = 0;
-  private double gyroOffset;
+  public double gyroOffset;
   private double pitchOffset;
   private boolean voltNegative;
 

@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DriveOverDistance extends CommandBase {
-    @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
+   // @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
     private final Drivetrain m_drivetrain;
     private double m_speed;
     private final double m_stopPitch;

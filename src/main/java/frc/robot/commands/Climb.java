@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoConstants;
 
@@ -10,8 +11,9 @@ public class Climb extends CommandBase {
   private int timesAtLevel = 0;
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final Drivetrain m_drivetrain;
-
+  private Timer m_timer ;
   private double m_offset = 0;
+
 
   /**
    * @param subsystem The subsystem used by this command.
@@ -27,7 +29,7 @@ public class Climb extends CommandBase {
   @Override
   public void initialize() {
     lastPitch = m_drivetrain.getPitch();
-    timesAtLevel = 0;
+    m_timer.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,15 +46,19 @@ public class Climb extends CommandBase {
 
     if (thisPitch < -2.5) {
       volt = volt + AutoConstants.climbPowerBackwardBias;
-      timesAtLevel = 0;
+      m_timer.stop();
+      m_timer.reset();
+      
     } else if (thisPitch > 2.5) {
       volt = volt + AutoConstants.climbPowerForwardBias;
-      timesAtLevel = 0;
+      m_timer.stop();
+      m_timer.reset();
     } else {
-      timesAtLevel++;
+      m_timer.start();
     }
 
-    volt = MathUtil.clamp(volt, -AutoConstants.climbPowerLimit, AutoConstants.climbPowerLimit);
+    volt = MathUtil.clamp(volt, -AutoConstants.climbPowerLimit, AutoConstants.climbPowerLimit);  //Note_ABC: All of this should be done with PID controllers using heading correction. PID controllers can limit output, have gains
+  
     m_drivetrain.run(volt + thisHeading, volt - thisHeading);
   }
 
@@ -64,6 +70,7 @@ public class Climb extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (timesAtLevel > 40);
+    return m_timer.hasElapsed(.8);
+
   }
 }

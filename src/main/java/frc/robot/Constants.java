@@ -50,7 +50,8 @@ public final class Constants {
     // Angles are in degrees
     public static final int shoulderCAN_ID = 1;
     public static final int elbowCAN_ID = 15;
-    public static final double shoulderL = 39.0 * InchToMeter;
+    public static final double shoulderL = 39.0 * InchToMeter;  //Note_ABC:  We need to fix what units we are using.  The ONLY place we should be using radians is in the base calculations for setting the angles.  Everywhere else it should be in degress.  Also meters should NEVER be used
+    
     public static final double elbowL = 37.0 * InchToMeter;
     public static final double shoulderAngleToSafeSwingElbowThrough = 22.6 * degreeToRadian;
     public static final double shoulderHeight = 11 * InchToMeter;
