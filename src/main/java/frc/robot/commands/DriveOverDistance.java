@@ -61,7 +61,7 @@ public class DriveOverDistance extends CommandBase {
                 status = 1;
             }
         } else if (status == 1) {
-            if (Math.abs(thisPitch) < 2) {
+            if (Math.abs(thisPitch) < 4) {
                 status = 2;
                 m_speed = m_speed * 0.8;
             }

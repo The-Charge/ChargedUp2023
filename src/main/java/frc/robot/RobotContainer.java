@@ -134,11 +134,11 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // final JoystickButton collectBtn = new JoystickButton(rightJoystick, 2);
-    // collectBtn.whileTrue(new DriveDegree(m_drivetrain, -20, -0.5));
+    final JoystickButton collectBtn = new JoystickButton(rightJoystick, 2);
+    collectBtn.whileTrue(new DriveDegree(m_drivetrain, -20, -0.65));
 
-    // final JoystickButton scorePosBut = new JoystickButton(leftJoystick, 2);
-    // scorePosBut.onTrue(new DriveDegree(m_drivetrain, 0, 0.5));
+    final JoystickButton scorePosBut = new JoystickButton(leftJoystick, 2);
+    scorePosBut.onTrue(new DriveDegree(m_drivetrain, 0, 0.65));
 
     final JoystickButton halfSpeedBtn = new JoystickButton(rightJoystick, 1);
     halfSpeedBtn.onTrue(new HalfSpeed(m_drivetrain).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
