@@ -114,8 +114,8 @@ public class Drivetrain extends SubsystemBase {
 
     resetEncoders();
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()),
-        getLeftEncoderDistance(),
-        getRightEncoderDistance());
+        getLeftEncoderDistance_Meters(),
+        getRightEncoderDistance_Meters());
   }
 
   @Override
@@ -136,15 +136,15 @@ public class Drivetrain extends SubsystemBase {
      
 
     // Displays distance based on encoders
-    SmartDashboard.putNumber("Left Distance", getLeftEncoderDistance());
-    SmartDashboard.putNumber("Right Distance", getRightEncoderDistance());
+    SmartDashboard.putNumber("Left Distance", getLeftEncoderDistance_Meters());
+    SmartDashboard.putNumber("Right Distance", getRightEncoderDistance_Meters());
 
     // Displays the corrected angle of the robot
     SmartDashboard.putNumber("Get Heading", getHeading());
     SmartDashboard.putString("Pose", getPose().toString());
     m_odometry.update(Rotation2d.fromDegrees(getHeading()),
-        getLeftEncoderDistance(),
-        getRightEncoderDistance());
+        getLeftEncoderDistance_Meters(),
+        getRightEncoderDistance_Meters());
   }
 
   // This method will be called once per scheduler run when in simulation
@@ -273,8 +273,8 @@ public class Drivetrain extends SubsystemBase {
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(
-        getLeftEncoderVelocity(),
-        getRightEncoderVelocity());
+        getLeftEncoderVelocity_MetersPerSec(),
+        getRightEncoderVelocity_MetersPerSec());
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
@@ -291,7 +291,7 @@ public class Drivetrain extends SubsystemBase {
     zeroHeading();
     resetEncoders();
     m_odometry.resetPosition(
-        Rotation2d.fromDegrees(getHeading()), getLeftEncoderDistance(), getRightEncoderDistance(), pose);
+        Rotation2d.fromDegrees(getHeading()), getLeftEncoderDistance_Meters(), getRightEncoderDistance_Meters(), pose);
   }
 
   public double getHeading() {
@@ -316,23 +316,23 @@ public class Drivetrain extends SubsystemBase {
     rightFrontMotor.setSelectedSensorPosition(0);
   }
 
-  public double getLeftEncoderVelocity() {
+  public double getLeftEncoderVelocity_MetersPerSec() {
     return leftFrontMotor.getSelectedSensorVelocity()
         * hundredMillisecondsToSeconds
         / Constants.SysIDConstants.leftEncoderTicksPerMeter;
   }
 
-  public double getRightEncoderVelocity() {
+  public double getRightEncoderVelocity_MetersPerSec() {
     return rightFrontMotor.getSelectedSensorVelocity()
         * hundredMillisecondsToSeconds
         / Constants.SysIDConstants.rightEncoderTicksPerMeter;
   }
 
-  public double getLeftEncoderDistance() {
+  public double getLeftEncoderDistance_Meters() {
     return getLeftEncoder() / Constants.SysIDConstants.leftEncoderTicksPerMeter;
   }
 
-  public double getRightEncoderDistance() {
+  public double getRightEncoderDistance_Meters() {
     return getRightEncoder() / Constants.SysIDConstants.rightEncoderTicksPerMeter;
   }
 

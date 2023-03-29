@@ -133,11 +133,10 @@ public final class Constants {
   // }
 
   public static final class SysIDConstants {
-    // Average from three tests from both encoders
-    public static final double ticksPerMeter = 17483.3;
-
+   
     public static final double leftEncoderTicksPerMeter = 18850;
     public static final double rightEncoderTicksPerMeter = 18850;
+    public static final double ticksPerMeter = (leftEncoderTicksPerMeter +rightEncoderTicksPerMeter)/2;
 
     // volt constraints
     public static final double ksVolts = 2;
