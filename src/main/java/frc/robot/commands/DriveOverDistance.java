@@ -46,7 +46,7 @@ public class DriveOverDistance extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        thisPitch = m_drivetrain.getPitch();
+        thisPitch = m_drivetrain.getCorrectedPitch();
         double thisHeading = (m_drivetrain.getHeading() + m_offset) * AutoConstants.headingGain;
 
         if (status == 0) {

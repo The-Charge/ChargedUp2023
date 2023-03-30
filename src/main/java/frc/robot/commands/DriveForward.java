@@ -35,7 +35,7 @@ public class DriveForward extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    thisPitch = m_drivetrain.getPitch();
+    thisPitch = m_drivetrain.getCorrectedPitch();
     double thisHeading = (m_drivetrain.getHeading() + m_Offset) * AutoConstants.headingGain;
 
     if (Math.abs(thisPitch) > m_stopPitch && !isTimeMode) {

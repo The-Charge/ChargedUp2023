@@ -61,7 +61,7 @@ public class Drivetrain extends SubsystemBase {
   private DifferentialDrive differentialDrive;
   private AHRS navx;
   private boolean isReversed = false, isHalfSpeed = false, isQuarterSpeed = false;
-  private double pitch = 0;
+  private double correctedPitch = 0;
   public double gyroOffset;
   private double pitchOffset;
   private boolean voltNegative;
@@ -112,7 +112,7 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putBoolean("QuarterSpeed", isQuarterSpeed);
     SmartDashboard.putBoolean("Reversed", isReversed);
 
-    resetEncoders();
+    zeroDriveEncoders();
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()),
         getLeftEncoderDistance_Meters(),
         getRightEncoderDistance_Meters());
@@ -123,11 +123,12 @@ public class Drivetrain extends SubsystemBase {
     // This method will be called once per scheduler run
 
     /* Display 6-axis Processed Angle Data */
-    pitch = -(navx.getPitch() - pitchOffset);
+
 
     SmartDashboard.putBoolean("IMU_Connected", navx.isConnected());
     SmartDashboard.putNumber("IMU_Yaw", navx.getYaw());
-    SmartDashboard.putNumber("IMU_Pitch", pitch);
+    SmartDashboard.putNumber("IMU_Pitch", navx.getPitch());
+    SmartDashboard.putNumber("IMU_Pitch", correctedPitch);
 
     
      //Displays encoder ticks
@@ -188,27 +189,6 @@ public class Drivetrain extends SubsystemBase {
     differentialDrive.tankDrive(l, r);
   }
 
-  public void runArcade(double f, double r) {
-    if (f > 0.6) {
-      f = 0.6;
-    } else if (f < 0.4 && f > 0) {
-      f = 0.4;
-    } else if (f > -0.4 && f < 0) {
-      f = -0.4;
-    }
-
-    if (r > 0.7) {
-      r = 0.7;
-    } else if (r < -0.7) {
-      r = -0.7;
-    } else if (r < 0.5 && r > 0) {
-      r = 0.5;
-    } else if (r > -0.5 && r < 0) {
-      r = -0.5;
-    }
-    differentialDrive.arcadeDrive(-1 * f, -1 * r);
-  }
-
   /**
    * public void runVelocity(double l, double r) {
    * if (isReversed) {
@@ -247,9 +227,7 @@ public class Drivetrain extends SubsystemBase {
     return rightFrontMotor.getSelectedSensorPosition();
   }
 
-  public double getPitch() {
-    return pitch;
-  }
+
 
   public void setBrake() {
     leftFrontMotor.setNeutralMode(NeutralMode.Brake);
@@ -289,29 +267,31 @@ public class Drivetrain extends SubsystemBase {
 
   public void resetOdometry(Pose2d pose) {
     zeroHeading();
-    resetEncoders();
+    zeroDriveEncoders();
     m_odometry.resetPosition(
         Rotation2d.fromDegrees(getHeading()), getLeftEncoderDistance_Meters(), getRightEncoderDistance_Meters(), pose);
   }
 
   public double getHeading() {
-    return navx.getRotation2d().getDegrees() - gyroOffset;
+    return navx.getRotation2d().getDegrees();
   }
 
   public void zeroHeading() {
-    // navx.reset();
-    gyroOffset = navx.getAngle();
+   navx.zeroYaw();
   }
 
-  public void resetPitch() {
+  
+  public void zeroPitch() {
     pitchOffset = navx.getPitch();
+    correctedPitch = -(navx.getPitch() - pitchOffset);
   }
 
-  public void resetHeading() {
-    gyroOffset = navx.getRotation2d().getDegrees();
+
+  public double getCorrectedPitch() {
+    return correctedPitch;
   }
 
-  public void resetEncoders() {
+  public void zeroDriveEncoders() {
     leftFrontMotor.setSelectedSensorPosition(0);
     rightFrontMotor.setSelectedSensorPosition(0);
   }
@@ -356,13 +336,6 @@ public class Drivetrain extends SubsystemBase {
     }
   }
 
-  public void setQuarterSpeed() {
-    isQuarterSpeed = !isQuarterSpeed;
-    // Is not HalfSpeed
-    if (isHalfSpeed && isQuarterSpeed) {
-      isHalfSpeed = false;
-    }
-  }
 
   public void setControlMode(ControlMode mode) {
     leftFrontMotor.set(mode, 0);

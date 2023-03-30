@@ -28,14 +28,13 @@ public class Climb extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    lastPitch = m_drivetrain.getPitch();
-    m_timer.reset();
+      m_timer.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double thisPitch = m_drivetrain.getPitch();
+    double thisPitch = m_drivetrain.getCorrectedPitch();
 
     double thisHeading = (m_drivetrain.getHeading() + m_offset) * AutoConstants.headingGain / 2;
 
