@@ -31,7 +31,7 @@ public class DriveDegree extends CommandBase {
   public void execute() {
     double fractionControl = 1.0;
     if (m_drivetrain.atHalfSpeed()) fractionControl = 0.5;
-    double deltaPower = RobotContainer.getInstance().getrightJoystick().getY() / 2.0;
+    double deltaPower = RobotContainer.getInstance().getrightJoystick().getY() * 0.35;
     double deltaHeading = RobotContainer.getInstance().getleftJoystick().getX() * 40.0 * fractionControl;
     double headingPower = (m_drivetrain.getHeading() - m_heading *fractionControl + deltaHeading) * AutoConstants.headingGain;
     double leftPower = m_power + deltaPower;

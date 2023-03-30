@@ -188,6 +188,10 @@ public class Drivetrain extends SubsystemBase {
     differentialDrive.tankDrive(l, r);
   }
 
+  public boolean atHalfSpeed(){
+    return isHalfSpeed;
+  }
+
   public void runArcade(double f, double r) {
     if (f > 0.6) {
       f = 0.6;
