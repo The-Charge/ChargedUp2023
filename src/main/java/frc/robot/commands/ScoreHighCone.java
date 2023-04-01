@@ -50,6 +50,7 @@ public class ScoreHighCone extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    SmartDashboard.putNumber("Score takes", System.currentTimeMillis()- startMS);
     return Math.abs(m_arm.getShoulderAngle()) > ArmConstants.shoulderScoreDegree / 180.0 * Math.PI - 0.05;
   }
 }

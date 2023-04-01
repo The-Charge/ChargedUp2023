@@ -51,7 +51,7 @@ public class DriveDegree extends CommandBase {
     // Matches the driver perspective.
     double deltaPower = RobotContainer.getInstance().getrightJoystick().getY() * 0.35;
     // Joystick left (-x) adds counterclockwise rotation and steer to the driver's left driving backwards (away from the driver). 
-    double deltaHeading = RobotContainer.getInstance().getleftJoystick().getX() * 40.0;
+    double deltaHeading = RobotContainer.getInstance().getleftJoystick().getX() * 20.0;
     // If driving towards the driver, -x should be clockwise rotation to the left of the driver 
     if (m_power > 0) {
       deltaHeading = -deltaHeading;

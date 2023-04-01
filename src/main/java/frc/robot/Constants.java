@@ -61,8 +61,8 @@ public final class Constants {
     public static final double hiGoalY = 47.0 * InchToMeter;
     public static final double midGoalX = 45.3 * InchToMeter;
     public static final double midGoalY = 32.5 * InchToMeter;
-    public static final double stationX = 31.7 * InchToMeter;
-    public static final double stationY = 32.7 * InchToMeter;
+    public static final double stationX = 28 * InchToMeter;
+    public static final double stationY = 33.5 * InchToMeter;
     public static final double pickUpX = 35.4 * InchToMeter;
     public static final double pickUpY = -8.7 * InchToMeter;
   }

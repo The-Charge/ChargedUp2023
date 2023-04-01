@@ -113,10 +113,10 @@ public class MagicArm extends SubsystemBase {
 
     /* Set acceleration and vcruise velocity - see documentation */
     shldrMtr.configMotionCruiseVelocity(100, MagicArmCnsts.kTimeoutMs);
-    shldrMtr.configMotionAcceleration(100, MagicArmCnsts.kTimeoutMs);
+    shldrMtr.configMotionAcceleration(200, MagicArmCnsts.kTimeoutMs);
     shldrMtr.configMotionSCurveStrength(5, MagicArmCnsts.kTimeoutMs);
     elbowMtr.configMotionCruiseVelocity(200, MagicArmCnsts.kTimeoutMs);
-    elbowMtr.configMotionAcceleration(100, MagicArmCnsts.kTimeoutMs);
+    elbowMtr.configMotionAcceleration(300, MagicArmCnsts.kTimeoutMs);
     elbowMtr.configMotionSCurveStrength(3, MagicArmCnsts.kTimeoutMs);
 
     /* Set the relative sensor according to absolute sensor at neutral on robot boot up */

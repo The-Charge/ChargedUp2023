@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -135,10 +136,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     final JoystickButton collectBtn = new JoystickButton(rightJoystick, 2);
-    collectBtn.whileTrue(new DriveDegree(m_drivetrain, -20, -0.65));
+    collectBtn.whileTrue(new DriveDegree(m_drivetrain, -10, -0.65));
 
     final JoystickButton scorePosBut = new JoystickButton(leftJoystick, 2);
-    scorePosBut.onTrue(new DriveDegree(m_drivetrain, 0, 0.65));
+    scorePosBut.whileTrue(new DriveDegree(m_drivetrain, 0, 0.65));
 
     final JoystickButton halfSpeedBtn = new JoystickButton(rightJoystick, 1);
     halfSpeedBtn.onTrue(new HalfSpeed(m_drivetrain).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
@@ -167,6 +168,9 @@ public class RobotContainer {
 
     final JoystickButton shiftHighBtn = new JoystickButton(rightJoystick, 6);
     shiftHighBtn.onTrue(new ShiftHigh(m_drivetrain).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+
+    final JoystickButton driveDistanceBtn = new JoystickButton(leftJoystick, 12);
+    driveDistanceBtn.onTrue(new SequentialCommandGroup(new ResetHeading(m_drivetrain), new DriveDistance(m_drivetrain, -.8, 0, Units.inchesToMeters(227))));
 
     // final JoystickButton alignBtn = new JoystickButton(leftJoystick, 1);
     // alignBtn.onTrue(new Align(m_drivetrain, m_camera));

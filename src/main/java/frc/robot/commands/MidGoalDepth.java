@@ -41,7 +41,7 @@ public class MidGoalDepth extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double cosine = Math.cos(Units.degreesToRadians(m_driveTrain.getHeading()));
+    double cosine = Math.abs(Math.cos(Units.degreesToRadians(m_driveTrain.getHeading())));
     m_arm.moveTowardXY(armX/cosine, armY);
   }
 
