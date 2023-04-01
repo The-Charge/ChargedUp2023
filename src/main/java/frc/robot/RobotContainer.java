@@ -183,9 +183,9 @@ public class RobotContainer {
         .withInterruptBehavior(InterruptionBehavior.kCancelSelf);
     Command armBackLow = (new MoveMagicArmToXY(m_magicArm, -ArmConstants.pickUpX, ArmConstants.pickUpY, 8000))
         .withInterruptBehavior(InterruptionBehavior.kCancelSelf);
-    Command armFrontMid = (new MoveMagicArmToXY(m_magicArm, ArmConstants.midGoalX, ArmConstants.midGoalY, 8000))
+    Command armFrontMid = (new MidGoalDepth(m_magicArm, m_drivetrain, ArmConstants.midGoalX, ArmConstants.midGoalY))
         .withInterruptBehavior(InterruptionBehavior.kCancelSelf);
-    Command armBackMid = (new MoveMagicArmToXY(m_magicArm, -ArmConstants.midGoalX, ArmConstants.midGoalY, 8000))
+    Command armBackMid = (new MidGoalDepth(m_magicArm, m_drivetrain, -ArmConstants.midGoalX, ArmConstants.midGoalY))
         .withInterruptBehavior(InterruptionBehavior.kCancelSelf);
     Command armFrontHigh = (new MoveMagicArmToXY(m_magicArm, ArmConstants.hiGoalX, ArmConstants.hiGoalY, 8000))
         .withInterruptBehavior(InterruptionBehavior.kCancelSelf);

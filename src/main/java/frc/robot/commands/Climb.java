@@ -34,26 +34,24 @@ public class Climb extends CommandBase {
   @Override
   public void execute() {
     double thisPitch = m_drivetrain.getPitch();
-
-    double thisHeading = (m_drivetrain.getHeading() + m_offset) * AutoConstants.headingGain / 2;
-
-    double volt = thisPitch * AutoConstants.climbPitchGain +
+    // power correction due to heading error
+    double headingPower = (m_drivetrain.getHeading() + m_offset) * AutoConstants.headingGain / 2;
+    double power = thisPitch * AutoConstants.climbPitchGain +
         (thisPitch - lastPitch) * AutoConstants.climbPitchDerivativeGain;
-
     lastPitch = thisPitch;
 
     if (thisPitch < -2.5) {
-      volt = volt + AutoConstants.climbPowerBackwardBias;
+      power = power + AutoConstants.climbPowerBackwardBias;
       timesAtLevel = 0;
     } else if (thisPitch > 2.5) {
-      volt = volt + AutoConstants.climbPowerForwardBias;
+      power = power + AutoConstants.climbPowerForwardBias;
       timesAtLevel = 0;
     } else {
       timesAtLevel++;
     }
 
-    volt = MathUtil.clamp(volt, -AutoConstants.climbPowerLimit, AutoConstants.climbPowerLimit);
-    m_drivetrain.run(volt + thisHeading, volt - thisHeading);
+    power = MathUtil.clamp(power, -AutoConstants.climbPowerLimit, AutoConstants.climbPowerLimit);
+    m_drivetrain.run(power + headingPower, power - headingPower);
   }
 
   // Called once the command ends or is interrupted.

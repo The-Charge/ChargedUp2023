@@ -7,7 +7,6 @@ package frc.robot.commands;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.SysIDConstants;
 import frc.robot.subsystems.Drivetrain;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DriveDistance extends CommandBase {
@@ -23,9 +22,11 @@ public class DriveDistance extends CommandBase {
     private double ticksToTravel = 0;
     private double ticksTravelled = 0;
     /**
-     * Drive at set power and set offset (clockwise +, counterclockwise -) unitl last meter
+     * Drive at set power and set offset (clockwise +, counterclockwise -) until last meter
      * then slow down until distance is reached
      * @param subsystem The subsystem used by this command.
+     * @param _power Driving power
+     * @param _headingOffset Angles in degrees 
      */
     public DriveDistance(Drivetrain subsystem, double _power, double headingOffset,
             double distanceMeters) {
@@ -52,13 +53,13 @@ public class DriveDistance extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double thisHeading = (m_drivetrain.getHeading() + m_offset) * AutoConstants.headingGain;
+        double headingPower = (m_drivetrain.getHeading() + m_offset) * AutoConstants.headingGain;
         ticksTravelled = Math.abs(m_drivetrain.getLeftEncoder() - startTick);
         ticksToTravel = m_ticks - ticksTravelled;
         if (ticksToTravel < SysIDConstants.ticksPerMeter){
           drivePower = ticksToTravel / SysIDConstants.ticksPerMeter * controllablePowerRange + stallPower;     
         }
-        m_drivetrain.run(drivePower + thisHeading, drivePower - thisHeading);
+        m_drivetrain.run(drivePower + headingPower, drivePower - headingPower);
     }
 
     // Called once the command ends or is interrupted.

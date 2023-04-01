@@ -52,7 +52,6 @@ public class MoveArmToNeutral extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double[] xy = m_magicArm.getXY();
-    return (Math.abs(xy[0]) < 0.02);
+    return (Math.abs(m_magicArm.getX()) < 0.04);
   }
 }

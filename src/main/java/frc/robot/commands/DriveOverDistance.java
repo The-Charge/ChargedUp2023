@@ -21,25 +21,28 @@ public class DriveOverDistance extends CommandBase {
     private double ticksToTravel = 0;
     private double ticksTravlled = 0;
     /**
+     * This is ugly since the original is coded during district event.  We cleaned up Math a bit but
+     * still let all the ticks and calcuation from these ticks match the old code to make sure it still
+     * runs the same way.  We will further cleanup once we have a real practice field
      * 0 is flat starting state, 1 for up, 2 for flat top, 3 for down, 4 for flat
      * end.
      *
      * @param subsystem The subsystem used by this command.
      */
-    public DriveOverDistance(Drivetrain subsystem, double speed, double stopPitch, double headingOffset,
+    public DriveOverDistance(Drivetrain subsystem, double power, double stopPitch, double headingOffset,
             double distanceMeters) {
         ticksToTravel = distanceMeters*Constants.SysIDConstants.ticksPerMeter;
         /* We will use fraction of ticks left to travel multiplied by speed as the power for driving
          * motors.  In order to keep the power above stallPower, we need to increase the target ticks
          * so that when ticksToTravel equals ticksTravelled, the power is at stallPower
          */
-        double fractionPowerBeforeStall = (Math.abs(speed)-stallPower)/Math.abs(speed);
+        double fractionPowerBeforeStall = (Math.abs(power)-stallPower)/Math.abs(power);
         m_ticks = ticksToTravel/fractionPowerBeforeStall;
         m_drivetrain = subsystem;
         m_stopPitch = stopPitch;
         m_offset = headingOffset;
-        m_speed = speed;
-        startSpeed = speed;
+        m_speed = power;
+        startSpeed = power;
         addRequirements(subsystem);
     }
 

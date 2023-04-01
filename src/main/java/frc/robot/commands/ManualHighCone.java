@@ -14,7 +14,12 @@ public class ManualHighCone extends CommandBase {
   private boolean canMove = true;
   private long startTime = 0;
   private long m_timeOut = 0;
-
+  /**
+   * Create a dunk motion to straighten out both arms and pop down for maximum reach
+   * @param subsystem
+   * @param _isBackScore  back is where air tanks are
+   * @param _timeOutMS
+   */
   /** Creates a new ManualHighCone. */
   public ManualHighCone(MagicArm subsystem, boolean _isBackScore, long _timeOutMS) {
     if (_isBackScore) {
@@ -30,8 +35,8 @@ public class ManualHighCone extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double[] xy = m_arm.getXY();
-    canMove = (Math.abs(xy[0]) > ArmConstants.hiGoalX - 0.2 && xy[1] > ArmConstants.hiGoalY - 0.2);
+    // check whether it is safe to perform dunk motion
+    canMove = (m_arm.getX() * m_xMultiplier > ArmConstants.hiGoalX - 0.2 && m_arm.getY() > ArmConstants.hiGoalY - 0.2);
     startTime = System.currentTimeMillis();
   }
 
@@ -39,7 +44,7 @@ public class ManualHighCone extends CommandBase {
   @Override
   public void execute() {
     if (canMove) {
-      if (Math.abs(m_arm.getElbowAngle()) < Math.PI) {
+      if (Math.abs(m_arm.getElbowAngle()) < Math.PI) { //straighten out elbow
         m_arm.runElbow(-m_xMultiplier * (Math.PI + 0.4));
       } else {
         m_arm.run(m_xMultiplier * ArmConstants.shoulderScoreDegree / 180.0 * Math.PI, -m_xMultiplier * Math.PI);

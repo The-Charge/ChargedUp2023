@@ -4,13 +4,15 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.MagicArm;
 
 public class ScoreHighCone extends CommandBase {
   private MagicArm m_arm;
-  private double m_xMultiplier;
+  private final double m_xMultiplier;
+  private long startMS;
 
   /* Creates a new ScoreHighCone. */
   public ScoreHighCone(MagicArm subsystem, boolean _isScoreFront) {
@@ -26,6 +28,7 @@ public class ScoreHighCone extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    startMS = System.currentTimeMillis();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,6 +44,7 @@ public class ScoreHighCone extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    SmartDashboard.putNumber("Score takes", System.currentTimeMillis()- startMS);
   }
 
   // Returns true when the command should end.

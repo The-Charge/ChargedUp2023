@@ -49,6 +49,7 @@ public class MoveMagicArmToXY extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        //move if there is a path, and no joysticks movement and not timed out
         canMove = m_magicArm.moveTowardXY(m_X, m_Y) &&
                 Math.abs(RobotContainer.getInstance().getArmController().getRawAxis(1)) < 0.2 &&
                 Math.abs(RobotContainer.getInstance().getArmController().getRawAxis(3)) < 0.2 &&
@@ -64,8 +65,9 @@ public class MoveMagicArmToXY extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        double[] xy = m_magicArm.getXY();
-        return (((xy[0] - m_X) * (xy[0] - m_X) + (xy[1] - m_Y) * (xy[1] - m_Y) < 0.0008) || (!canMove));
+        double deltaX = m_magicArm.getX() - m_X;
+        double deltaY = m_magicArm.getY() - m_Y;
+        return ((deltaX * deltaX + deltaY * deltaY < 0.0008) || (!canMove));
     }
 
     @Override

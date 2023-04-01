@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.AutoConstants;
@@ -14,9 +15,21 @@ public class DriveDegree extends CommandBase {
   private final Drivetrain m_drivetrain;
   private final double m_heading;
   private final double m_power;
+  /**
+   * Field centric arcade drive with left joystick x controls the field angle and right y controls power
+   * We recommend power set at 0.65 or -0.65 to use the full range of joystick and usable power
+   * The robot typically stalls at around 0.3 power
+   * @param subsystem drivetrain
+   * @param _heading  the default field angle if no left joystick x input
+   * @param _power  the default power if no right joystick y input
+   */
   public DriveDegree(Drivetrain subsystem, double _heading, double _power) {
     m_drivetrain = subsystem;
-    m_heading = _heading;
+    if(SmartDashboard.getBoolean("Red Alliance", true)){
+      m_heading = _heading;
+    }else{  // Blue alliane is the mirror image, default angle needs to be fliped
+      m_heading = -_heading;
+    }
     m_power = _power;
     addRequirements(subsystem);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -31,9 +44,19 @@ public class DriveDegree extends CommandBase {
   public void execute() {
     double fractionControl = 1.0;
     if (m_drivetrain.atHalfSpeed()) fractionControl = 0.5;
+    // Full deltaPower range is -0.35 to 0.35 when added to 0.65, becomes fully usable power of 0.3-1
+    // Assumes robot front side facing the driver, so that robot can climb easily scoring and can use the
+    // Swing to neutral after scoring to climb.  In this setup, power is negtiave to collect and positive 
+    // To score.  Push Joystick away is negative and pull towards the driver is positive.  The joystick
+    // Matches the driver perspective.
     double deltaPower = RobotContainer.getInstance().getrightJoystick().getY() * 0.35;
-    double deltaHeading = RobotContainer.getInstance().getleftJoystick().getX() * 40.0 * fractionControl;
-    double headingPower = (m_drivetrain.getHeading() - m_heading *fractionControl + deltaHeading) * AutoConstants.headingGain;
+    // Joystick left (-x) adds counterclockwise rotation and steer to the driver's left driving backwards (away from the driver). 
+    double deltaHeading = RobotContainer.getInstance().getleftJoystick().getX() * 40.0;
+    // If driving towards the driver, -x should be clockwise rotation to the left of the driver 
+    if (m_power > 0) {
+      deltaHeading = -deltaHeading;
+    }
+    double headingPower = (m_drivetrain.getHeading() - (m_heading - deltaHeading) * fractionControl) * AutoConstants.headingGain;
     double leftPower = m_power + deltaPower;
     double rightPower = leftPower - headingPower;
     leftPower += headingPower;

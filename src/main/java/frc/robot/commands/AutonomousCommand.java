@@ -109,9 +109,9 @@ public class AutonomousCommand extends CommandBase {
             case "Charge Station No Score":
                 return climbCommand();
             case "Charge Station Two Piece Left":               
-                return scoreHighConeChargeStationTwoPieceCommand(-1);
+                return scoreHighConeChargeStationTwoPieceCommand(-0.9);
             case "Charge Station Two Piece Right":
-                return scoreHighConeChargeStationTwoPieceCommand(1);
+                return scoreHighConeChargeStationTwoPieceCommand(0.9);
             case "Score Cone Only":
                 return scoreHighConeCommand();
             // case "Clear Two Ball":
@@ -177,21 +177,18 @@ public class AutonomousCommand extends CommandBase {
                 new ResetPitch(m_driveTrain), // resetter
                 new ScoreHighCone(m_arm, true), // score piece
                 new OpenClaw(m_claw, true), // openClaw
-                new MoveMagicArmToXY(m_arm, -0.91, 1.65, 500), // return position
-                new CloseClaw(m_claw, true), // close claw
+                new MoveMagicArmToXY(m_arm, -0.91, 1.65, 100), // return position
                 new ParallelCommandGroup(
-                        new SequentialCommandGroup(
-                                new MoveMagicArmToXY(m_arm, ArmConstants.pickUpX, ArmConstants.pickUpY, 3500),
-                                new OpenClaw(m_claw, true)),
-                        new DriveOverDistance(m_driveTrain, -0.8, 10, headingOffset, Units.inchesToMeters(30.8))), // this is fine
-                        new WaitNSecs(1),
-                        new CloseClaw(m_claw, true),
-                        new ParallelCommandGroup(
-                        new MoveArmToNeutral(m_arm), // gud
-                        new SequentialCommandGroup( // gud
-                        
-                                new DriveForward(m_driveTrain, 0.8, 10, headingOffset),
-                                new Climb(m_driveTrain, headingOffset))));
+                     new MoveMagicArmToXY(m_arm, ArmConstants.pickUpX, ArmConstants.pickUpY, 3500),
+                     new ClawSwingThroughOpen(m_claw, m_arm),
+                     new DriveOverDistance(m_driveTrain, -0.8, 10, headingOffset, Units.inchesToMeters(30.8))), // this is fine
+                new WaitNSecs(1),
+                new CloseClaw(m_claw, true),
+                new ParallelCommandGroup(
+                     new MoveArmToNeutral(m_arm), // gud
+                     new SequentialCommandGroup( // gud        
+                          new DriveForward(m_driveTrain, 0.8, 10, headingOffset),
+                          new Climb(m_driveTrain, headingOffset))));
     }
 
     public SequentialCommandGroup pathPlannerComand(String pathName) {
