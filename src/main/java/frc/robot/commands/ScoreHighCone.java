@@ -12,7 +12,6 @@ import frc.robot.subsystems.MagicArm;
 public class ScoreHighCone extends CommandBase {
   private MagicArm m_arm;
   private final double m_xMultiplier;
-  private long startMS;
 
   /* Creates a new ScoreHighCone. */
   public ScoreHighCone(MagicArm subsystem, boolean _isScoreFront) {
@@ -27,9 +26,7 @@ public class ScoreHighCone extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    startMS = System.currentTimeMillis();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -43,14 +40,11 @@ public class ScoreHighCone extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    SmartDashboard.putNumber("Score takes", System.currentTimeMillis()- startMS);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    SmartDashboard.putNumber("Score takes", System.currentTimeMillis()- startMS);
-    return Math.abs(m_arm.getShoulderAngle()) > ArmConstants.shoulderScoreDegree / 180.0 * Math.PI - 0.05;
+    return Math.abs(m_arm.getShoulderAngle()) > ArmConstants.shoulderScoreDegree / 180.0 * Math.PI - 0.06;
   }
 }

@@ -190,6 +190,10 @@ public class Drivetrain extends SubsystemBase {
     return isHalfSpeed;
   }
 
+  public boolean atQuarterSpeed(){
+    return isQuarterSpeed;
+  }
+
   public void runArcade(double f, double r) {
     if (f > 0.6) {
       f = 0.6;
@@ -364,6 +368,11 @@ public class Drivetrain extends SubsystemBase {
     if (isHalfSpeed && isQuarterSpeed) {
       isHalfSpeed = false;
     }
+  }
+
+  public void setFullSpeed(){
+    isHalfSpeed = false;
+    isQuarterSpeed = false;
   }
 
   public void setControlMode(ControlMode mode) {

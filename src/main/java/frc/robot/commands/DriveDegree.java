@@ -44,6 +44,7 @@ public class DriveDegree extends CommandBase {
   public void execute() {
     double fractionControl = 1.0;
     if (m_drivetrain.atHalfSpeed()) fractionControl = 0.5;
+    else if (m_drivetrain.atQuarterSpeed()) fractionControl = 0.25;
     // Full deltaPower range is -0.35 to 0.35 when added to 0.65, becomes fully usable power of 0.3-1
     // Assumes robot front side facing the driver, so that robot can climb easily scoring and can use the
     // Swing to neutral after scoring to climb.  In this setup, power is negtiave to collect and positive 

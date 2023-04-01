@@ -142,11 +142,13 @@ public class RobotContainer {
     scorePosBut.whileTrue(new DriveDegree(m_drivetrain, 0, 0.65));
 
     final JoystickButton halfSpeedBtn = new JoystickButton(rightJoystick, 1);
-    halfSpeedBtn.onTrue(new HalfSpeed(m_drivetrain).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+    halfSpeedBtn.onTrue(new HalfSpeed(m_drivetrain));
 
-    // final JoystickButton quarterSpeedBtn = new JoystickButton(rightJoystick, 6);
-    // quarterSpeedBtn.onTrue(new
-    // QuarterSpeed(m_drivetrain).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+    final JoystickButton quarterSpeedBtn = new JoystickButton(rightJoystick, 3);
+    quarterSpeedBtn.onTrue(new QuarterSpeed(m_drivetrain));
+
+    final JoystickButton fullSpeedBtn = new JoystickButton(leftJoystick, 3);
+    fullSpeedBtn.onTrue( new FullSpeed(m_drivetrain));
 
     final JoystickButton reverseDriveBtn = new JoystickButton(leftJoystick, 1);
     reverseDriveBtn.onTrue(new ReverseDrive(m_drivetrain).withInterruptBehavior(InterruptionBehavior.kCancelSelf));

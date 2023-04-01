@@ -36,7 +36,7 @@ public class ManualHighCone extends CommandBase {
   @Override
   public void initialize() {
     // check whether it is safe to perform dunk motion
-    canMove = (Math.abs(m_arm.getX() * m_xMultiplier) > ArmConstants.hiGoalX - 0.2 && m_arm.getY() > ArmConstants.hiGoalY - 0.2);
+    canMove = (m_arm.getX() * -m_xMultiplier > ArmConstants.hiGoalX - 0.2 && m_arm.getY() > ArmConstants.hiGoalY - 0.2);
     startTime = System.currentTimeMillis();
   }
 

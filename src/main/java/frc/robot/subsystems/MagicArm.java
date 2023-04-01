@@ -117,7 +117,7 @@ public class MagicArm extends SubsystemBase {
     shldrMtr.configMotionSCurveStrength(5, MagicArmCnsts.kTimeoutMs);
     elbowMtr.configMotionCruiseVelocity(200, MagicArmCnsts.kTimeoutMs);
     elbowMtr.configMotionAcceleration(300, MagicArmCnsts.kTimeoutMs);
-    elbowMtr.configMotionSCurveStrength(3, MagicArmCnsts.kTimeoutMs);
+    elbowMtr.configMotionSCurveStrength(1, MagicArmCnsts.kTimeoutMs);
 
     /* Set the relative sensor according to absolute sensor at neutral on robot boot up */
     int shldrTick = shldrMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1623;
