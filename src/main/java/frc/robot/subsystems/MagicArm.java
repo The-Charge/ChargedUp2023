@@ -410,11 +410,11 @@ public class MagicArm extends SubsystemBase {
       double[] angles = getAngles(_x, _y);
       if (angles[2] > 0) { // a triangle solution exists
         // Elbow already at target, move shoulder
-        if (Math.abs(angles[1] - elbowAngl) < 0.05) {
+        if (Math.abs(angles[1] - elbowAngl) < 0.1) { // was 0.05
           run(angles[0], angles[1]);
         } else {
           // Only move the elbow if the arm tip has not cleared the robot,
-          if (Math.abs(currentX) < robotLimit.robotLength / 2) {
+          if (Math.abs(elbowAngl) < 0.4) {//(Math.abs(currentX) < robotLimit.robotLength / 2) {
             run(shldrAngl, angles[1]);
           } else if (currentY < -ArmConstants.shoulderHeight + 0.02) {
             // Move the elbow and raise the shoulder a little if the arm tip is too low.

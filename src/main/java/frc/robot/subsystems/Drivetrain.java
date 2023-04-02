@@ -62,6 +62,7 @@ public class Drivetrain extends SubsystemBase {
   private double gyroOffset;
   private double pitchOffset;
   private boolean voltNegative;
+  private boolean started180Off = false;
 
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
@@ -108,8 +109,6 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putBoolean("HalfSpeed", isHalfSpeed);
     SmartDashboard.putBoolean("QuarterSpeed", isQuarterSpeed);
     SmartDashboard.putBoolean("Reversed", isReversed);
-    Boolean isRed = SmartDashboard.getBoolean("Red Alliance", true);
-    SmartDashboard.putBoolean("Red Alliance", isRed);
     resetEncoders();
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()),
         getLeftEncoderDistance(),
@@ -163,9 +162,19 @@ public class Drivetrain extends SubsystemBase {
 
     leftFrontMotor.configNeutralDeadband(0.08);
     rightFrontMotor.configNeutralDeadband(0.08);
-
   }
 
+  public void rawRun(double _l, double _r){
+    differentialDrive.tankDrive(_l, _r);
+  }
+
+  public void start180Off(){
+    started180Off = true;
+  }
+
+  public Boolean isStarted180Off(){
+    return started180Off;
+  }
   // Based off joystick Y-axis
   public void run(double l, double r) {
     // Reversed and Multiplier logic

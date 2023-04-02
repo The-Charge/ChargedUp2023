@@ -184,8 +184,7 @@ public class AutonomousCommand extends CommandBase {
             new ResetPitch(m_driveTrain), // resetter
             new ScoreHighCone(m_arm, true), // score piece
             new OpenClaw(m_claw, true) // openClaw
-            //new MoveMagicArmToXY(m_arm, -0.91, 1.65, 100)
-        ); // lift a little ready for close
+        );     
     }
 
     public SequentialCommandGroup scoreGrabScoreClar(double heading){
@@ -218,7 +217,7 @@ public class AutonomousCommand extends CommandBase {
         );
     }
 
-     public SequentialCommandGroup scoreHighConeChargeStationTwoPieceCommand(double headingOffset) {
+    public SequentialCommandGroup scoreHighConeChargeStationTwoPieceCommand(double headingOffset) {
         return new SequentialCommandGroup(
             scoreHighConeChargeStationGrab(headingOffset),
             new ParallelCommandGroup(
@@ -238,9 +237,8 @@ public class AutonomousCommand extends CommandBase {
                 new MoveMagicArmToXY(m_arm, -ArmConstants.hiGoalX, ArmConstants.hiGoalY - 0.05,3000), // gud
                 new DriveOver(m_driveTrain, 0.9, 10, Math.abs(headingOffset)/headingOffset*5.91)
             ),
-            new OpenClaw(m_claw, true),
-            new MoveMagicArmToXY(m_arm, -0.91, 1.65, 100)
-        ); // return position
+            new OpenClaw(m_claw, true)
+        );
     }
     
     public SequentialCommandGroup scoreHighConeChargeStationTwoPieceScoreBalanceCommand(double heading){

@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.AutoConstants;
@@ -14,7 +13,7 @@ import frc.robot.subsystems.Drivetrain;
 public class DriveDegree extends CommandBase {
   /** Creates a new DriveDegree. */
   private final Drivetrain m_drivetrain;
-  private final double m_heading;
+  private double m_heading;
   private final double m_power;
   /**
    * Field centric arcade drive with left joystick x controls the field angle and right y controls power
@@ -30,6 +29,9 @@ public class DriveDegree extends CommandBase {
       m_heading = _heading;
     }else{  // Blue alliane is the mirror image, default angle needs to be fliped
       m_heading = -_heading;
+    }
+    if(m_drivetrain.isStarted180Off()){
+      m_heading += 180;
     }
     m_power = _power;
     addRequirements(subsystem);
@@ -61,7 +63,7 @@ public class DriveDegree extends CommandBase {
     double leftPower = m_power + deltaPower;
     double headingOffset = m_heading * fractionControl;
     if(m_drivetrain.reversed()){
-      //eftPower = -leftPower;
+      leftPower = -leftPower;
       headingOffset += 180;
     }
     headingOffset = m_drivetrain.getHeading() - headingOffset + deltaHeading * fractionControl;
@@ -71,7 +73,7 @@ public class DriveDegree extends CommandBase {
     double rightPower = leftPower - headingPower;
     leftPower += headingPower;
     double scale = Math.max(Math.max(1.0, Math.abs(leftPower)), Math.abs(rightPower));
-    m_drivetrain.run(leftPower/scale, rightPower/scale);
+    m_drivetrain.rawRun(leftPower/scale, rightPower/scale);
   }
 
   // Called once the command ends or is interrupted.
