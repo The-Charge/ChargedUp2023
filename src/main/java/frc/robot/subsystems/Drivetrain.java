@@ -127,7 +127,6 @@ public class Drivetrain extends SubsystemBase {
     //SmartDashboard.putNumber("IMU_Yaw", navx.getYaw());
     SmartDashboard.putNumber("IMU_Pitch", pitch);
 
-    
      //Displays encoder ticks
      SmartDashboard.putNumber("Left Encoder", getLeftEncoder());
      SmartDashboard.putNumber("Right Encoder", getRightEncoder());
@@ -148,7 +147,6 @@ public class Drivetrain extends SubsystemBase {
   // This method will be called once per scheduler run when in simulation
   @Override
   public void simulationPeriodic() {
-
   }
 
   /**
@@ -186,6 +184,9 @@ public class Drivetrain extends SubsystemBase {
     differentialDrive.tankDrive(l, r);
   }
 
+  public boolean reversed(){
+    return isReversed;
+  }
   public boolean atHalfSpeed(){
     return isHalfSpeed;
   }

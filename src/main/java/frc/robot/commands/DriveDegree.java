@@ -57,8 +57,16 @@ public class DriveDegree extends CommandBase {
     if (m_power > 0) {
       deltaHeading = -deltaHeading;
     }
-    double headingPower = (m_drivetrain.getHeading() - (m_heading - deltaHeading) * fractionControl) * AutoConstants.headingGain;
     double leftPower = m_power + deltaPower;
+    double headingOffset = m_heading * fractionControl;
+    if(m_drivetrain.reversed()){
+      leftPower = -leftPower;
+      headingOffset += 180;
+    }
+    headingOffset = m_drivetrain.getHeading() - headingOffset + deltaHeading * fractionControl;
+    while(headingOffset > 180) headingOffset -= 360;
+    while(headingOffset < -180) headingOffset += 360;
+    double headingPower = headingOffset * AutoConstants.headingGain;
     double rightPower = leftPower - headingPower;
     leftPower += headingPower;
     double scale = Math.max(Math.max(1.0, Math.abs(leftPower)), Math.abs(rightPower));
