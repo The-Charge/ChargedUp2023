@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
@@ -25,7 +26,7 @@ public class DriveDegree extends CommandBase {
    */
   public DriveDegree(Drivetrain subsystem, double _heading, double _power) {
     m_drivetrain = subsystem;
-    if(SmartDashboard.getBoolean("Red Alliance", true)){
+    if(DriverStation.getAlliance() == DriverStation.Alliance.Red){
       m_heading = _heading;
     }else{  // Blue alliane is the mirror image, default angle needs to be fliped
       m_heading = -_heading;
@@ -60,7 +61,7 @@ public class DriveDegree extends CommandBase {
     double leftPower = m_power + deltaPower;
     double headingOffset = m_heading * fractionControl;
     if(m_drivetrain.reversed()){
-      leftPower = -leftPower;
+      //eftPower = -leftPower;
       headingOffset += 180;
     }
     headingOffset = m_drivetrain.getHeading() - headingOffset + deltaHeading * fractionControl;

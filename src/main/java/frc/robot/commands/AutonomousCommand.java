@@ -12,7 +12,9 @@
 
 package frc.robot.commands;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
@@ -112,7 +114,7 @@ public class AutonomousCommand extends CommandBase {
                 return scoreHighConeChargeStationTwoPieceCommand(0.9);
             case "Charge Station Two Piece Score Left":
                 return scoreHighConeChargeStationTwoPieceScoreCommand(-0.9);
-            case "Charge Station Two Piece Socre Right":
+            case "Charge Station Two Piece Score Right":
                 return scoreHighConeChargeStationTwoPieceScoreCommand(+0.9);
             case "Charge Station Two Piece Score Balance Left":
                 return scoreHighConeChargeStationTwoPieceScoreBalanceCommand(-0.9);
@@ -120,9 +122,8 @@ public class AutonomousCommand extends CommandBase {
                 return scoreHighConeChargeStationTwoPieceScoreBalanceCommand(0.9); 
             case "Score Cone Only":
                 return scoreHighConeCommand();
-            // case "Clear Two Ball":
-            // return new SequentialCommandGroup(pathPlannerComand("Clear")
-            // , pathPlannerComand("Clear Part II"));
+            case "Clear Two Ball":
+            return pathPlannerComandGroup(RobotContainer.getInstance().getSelectedPath());
             default:
                 return pathPlannerComand(RobotContainer.getInstance().getSelectedPath());
         }
@@ -182,8 +183,8 @@ public class AutonomousCommand extends CommandBase {
             new ResetHeading(m_driveTrain), // resetter
             new ResetPitch(m_driveTrain), // resetter
             new ScoreHighCone(m_arm, true), // score piece
-            new OpenClaw(m_claw, true), // openClaw
-            new MoveMagicArmToXY(m_arm, -0.91, 1.65, 100)
+            new OpenClaw(m_claw, true) // openClaw
+            //new MoveMagicArmToXY(m_arm, -0.91, 1.65, 100)
         ); // lift a little ready for close
     }
 
@@ -193,13 +194,13 @@ public class AutonomousCommand extends CommandBase {
             new ParallelCommandGroup(
                 new ClawSwingThroughOpen(m_claw, m_arm),
                 new MoveMagicArmToXY(m_arm, ArmConstants.pickUpX, ArmConstants.pickUpY, 5000),
-                new DriveDistance(m_driveTrain, -0.8, heading, Units.inchesToMeters(168))        
+                new DriveDistance(m_driveTrain, -0.85, heading, Units.inchesToMeters(168))        
             ),
             new CloseClaw(m_claw, true),
             new WaitNSecs(0.5),
             new ParallelCommandGroup(
                 new MoveMagicArmToXY(m_arm, -ArmConstants.hiGoalX, ArmConstants.hiGoalY - 0.05,5000), // gud
-                new DriveDistance(m_driveTrain, 0.8, -Math.abs(heading)/heading*1.9, 167.5)
+                new DriveDistance(m_driveTrain, 0.85, -Math.abs(heading)/heading*1.9, 167.5)
             ),
             new OpenClaw(m_claw, true)
         );
@@ -211,10 +212,9 @@ public class AutonomousCommand extends CommandBase {
             new ParallelCommandGroup(
                 new MoveMagicArmToXY(m_arm, ArmConstants.pickUpX, ArmConstants.pickUpY, 5000),
                 new ClawSwingThroughOpen(m_claw, m_arm),
-                new DriveOverDistance(m_driveTrain, -0.8, 10, heading, Units.inchesToMeters(30.8))
+                new DriveOverDistance(m_driveTrain, -0.85, 10, heading, Units.inchesToMeters(30.8))
             ), 
-            new CloseClaw(m_claw, true),
-            new WaitNSecs(0.5)
+            new CloseClaw(m_claw, true)
         );
     }
 
@@ -224,7 +224,7 @@ public class AutonomousCommand extends CommandBase {
             new ParallelCommandGroup(
                 new MoveArmToNeutral(m_arm), // gud
                 new SequentialCommandGroup( // gud        
-                    new DriveForward(m_driveTrain, 0.8, 10, headingOffset),
+                    new DriveForward(m_driveTrain, 0.9, 10, headingOffset),
                     new Climb(m_driveTrain, headingOffset)
                 )
             )
@@ -235,8 +235,8 @@ public class AutonomousCommand extends CommandBase {
         return new SequentialCommandGroup(
             scoreHighConeChargeStationGrab(headingOffset),
             new ParallelCommandGroup(
-                new MoveMagicArmToXY(m_arm, -ArmConstants.hiGoalX, ArmConstants.hiGoalY - 0.05,5000), // gud
-                new DriveOver(m_driveTrain, 0.8, 10, -Math.abs(headingOffset)/headingOffset*5.91)
+                new MoveMagicArmToXY(m_arm, -ArmConstants.hiGoalX, ArmConstants.hiGoalY - 0.05,3000), // gud
+                new DriveOver(m_driveTrain, 0.9, 10, Math.abs(headingOffset)/headingOffset*5.91)
             ),
             new OpenClaw(m_claw, true),
             new MoveMagicArmToXY(m_arm, -0.91, 1.65, 100)
@@ -249,7 +249,7 @@ public class AutonomousCommand extends CommandBase {
             new ParallelCommandGroup(
                 new MoveArmToNeutral(m_arm),
                 new SequentialCommandGroup(
-                    new DriveForward(m_driveTrain, -0.8, 10, 0), 
+                    new DriveForward(m_driveTrain, -0.9, 10, 0), 
                     new Climb(m_driveTrain,0)
                 ),
                 new ClawSwingThroughOpen(m_claw, m_arm)
@@ -257,11 +257,25 @@ public class AutonomousCommand extends CommandBase {
         );
     }
 
+    // public PathPlannerTrajectory getTrajectoryGroup(String pathName) {
+    //     return PathPlanner.loadPathGroup(
+    //         pathName,
+    //         new PathConstraints(kMaxSpeedMetersPerSecond,
+    //                 kMaxAccelerationMetersPerSecondSquared));
+    // }
+
+    public PathPlannerTrajectory getTrajectory(String pathName) {
+        return PathPlanner.loadPath(
+            pathName,
+            new PathConstraints(kMaxSpeedMetersPerSecond,
+                    kMaxAccelerationMetersPerSecondSquared));
+    }
+
     public SequentialCommandGroup pathPlannerComand(String pathName) {
         PathPlannerTrajectory examplePath = PathPlanner.loadPath(
-                pathName,
-                new PathConstraints(kMaxSpeedMetersPerSecond,
-                        kMaxAccelerationMetersPerSecondSquared));
+            pathName,
+            new PathConstraints(kMaxSpeedMetersPerSecond,
+                    kMaxAccelerationMetersPerSecondSquared));
 
         HashMap<String, Command> eventMap = new HashMap<>();
 
@@ -288,6 +302,72 @@ public class AutonomousCommand extends CommandBase {
 
         // Scores previously grabbed piece
         eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, false));
+        eventMap.put("OpenClaw", new OpenClaw(m_claw, true));
+        eventMap.put("TurnNDegrees", new TurnNRelative(m_driveTrain, 180 - m_driveTrain.getHeading()));
+        eventMap.put("WaitSeconds", new WaitNSecs(10000));
+        m_driveTrain.resetOdometry(new Pose2d());
+        /**
+         * Create the AutoBuilder. This only needs to be created once when robot code
+         * Starts, not every time you want to create an auto command. A good place to
+         * Put this is in RobotContainer along with your subsystems.
+         */
+        RamseteAutoBuilder autoBuilder = new RamseteAutoBuilder(
+                m_driveTrain::getPose,
+                m_driveTrain::resetOdometry,
+                new RamseteController(Constants.SysIDConstants.kRamseteB,
+                        Constants.SysIDConstants.kRamseteZeta),
+                Constants.SysIDConstants.kDriveKinematics,
+                new SimpleMotorFeedforward(
+                        ksVolts,
+                        kvVoltSecondsPerMeter,
+                        kaVoltSecondsSquaredPerMeter),
+                m_driveTrain::getWheelSpeeds,
+                new PIDConstants(kPDriveVel, kIDriveVel, kDDriveVel),
+                m_driveTrain::tankDriveVolts,
+                eventMap,
+                true,
+                m_driveTrain);
+
+        Command fullAuto = autoBuilder.fullAuto(examplePath);
+
+        // Run path following command, then stop at the end.
+        return new SequentialCommandGroup(
+                fullAuto.andThen(() -> m_driveTrain.tankDriveVolts(0, 0)));
+    }
+
+    public SequentialCommandGroup pathPlannerComandGroup(String pathName) {
+        List<PathPlannerTrajectory> examplePath = PathPlanner.loadPathGroup(
+            pathName,
+            new PathConstraints(kMaxSpeedMetersPerSecond,
+                    kMaxAccelerationMetersPerSecondSquared),  new PathConstraints(kMaxSpeedMetersPerSecond,
+                    kMaxAccelerationMetersPerSecondSquared), new PathConstraints(kMaxSpeedMetersPerSecond,
+                    kMaxAccelerationMetersPerSecondSquared));
+
+        HashMap<String, Command> eventMap = new HashMap<>();
+
+        // Scores Current game piece
+        eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, false));
+        eventMap.put("OpenClaw", new OpenClaw(m_claw, true));
+        eventMap.put("MoveArmIntermediate", new MoveMagicArmToXY(m_arm, 0.91, 1.65, 500));
+        /**
+         * Centers gravity for accurate autonomous pathing and
+         * Makes next event quicker
+         */
+        eventMap.put("MoveArmNeutral", new MoveArmToNeutral(m_arm));
+
+        // Picks up game piece
+        eventMap.put("MoveArmFrontLow",
+                new MoveMagicArmToXY(m_arm, -ArmConstants.pickUpX, ArmConstants.pickUpY, 8000));
+        eventMap.put("CloseClaw", new CloseClaw(m_claw, true));
+
+        /**
+         * Centers gravity for accurate autonomous pathing and
+         * Makes next event quicker again
+         */
+        eventMap.put("MoveArmNeutral", new MoveArmToNeutral(m_arm));
+
+        // Scores previously grabbed piece
+        eventMap.put("MoveArmScore", new MoveMagicArmToXY(m_arm, ArmConstants.hiGoalX, ArmConstants.hiGoalY, 5000));
         eventMap.put("OpenClaw", new OpenClaw(m_claw, true));
         eventMap.put("TurnNDegrees", new TurnNRelative(m_driveTrain, 180 - m_driveTrain.getHeading()));
         eventMap.put("WaitSeconds", new WaitNSecs(10000));

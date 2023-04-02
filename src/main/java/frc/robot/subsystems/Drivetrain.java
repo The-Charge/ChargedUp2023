@@ -142,6 +142,7 @@ public class Drivetrain extends SubsystemBase {
     m_odometry.update(Rotation2d.fromDegrees(getHeading()),
         getLeftEncoderDistance(),
         getRightEncoderDistance());
+    SmartDashboard.putBoolean("Reversed", isReversed);
   }
 
   // This method will be called once per scheduler run when in simulation

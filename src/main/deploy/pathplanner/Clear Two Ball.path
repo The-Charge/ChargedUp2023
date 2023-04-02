@@ -52,16 +52,16 @@
     },
     {
       "anchorPoint": {
-        "x": 6.25,
-        "y": 4.576612149195342
+        "x": 6.0,
+        "y": 4.55
       },
       "prevControl": {
-        "x": 5.576708512236955,
-        "y": 4.576612149195342
+        "x": 5.326708512236955,
+        "y": 4.55
       },
       "nextControl": {
-        "x": 5.576708512236955,
-        "y": 4.576612149195342
+        "x": 5.326708512236955,
+        "y": 4.55
       },
       "holonomicAngle": 0,
       "isReversal": true,
@@ -72,35 +72,59 @@
         "names": [
           "OpenClaw",
           "MoveArmFrontLow",
-          "CloseClaw",
-          "WaitSeconds"
+          "CloseClaw"
         ],
         "executionBehavior": "sequential",
-        "waitBehavior": "after",
+        "waitBehavior": "none",
         "waitTime": 10.0
       }
     },
     {
       "anchorPoint": {
         "x": 1.9693192025471065,
-        "y": 4.3797804000743525
+        "y": 4.55
       },
       "prevControl": {
         "x": 2.347925591195808,
-        "y": 4.3797804000743525
+        "y": 4.55
       },
-      "nextControl": null,
+      "nextControl": {
+        "x": 2.347925591195808,
+        "y": 4.55
+      },
       "holonomicAngle": 0,
-      "isReversal": false,
+      "isReversal": true,
       "velOverride": null,
       "isLocked": true,
-      "isStopPoint": false,
+      "isStopPoint": true,
       "stopEvent": {
         "names": [
           "MoveArmScore",
           "OpenClaw"
         ],
         "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 4.873925525311821,
+        "y": 4.528441353601679
+      },
+      "prevControl": {
+        "x": 4.673123069504079,
+        "y": 4.528441353601679
+      },
+      "nextControl": null,
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
       }
@@ -118,6 +142,13 @@
       "position": 2.1,
       "names": [
         "MoveArmScore"
+      ]
+    },
+    {
+      "position": 3.1418181818181847,
+      "names": [
+        "CloseClaw",
+        "MoveArmNeutral"
       ]
     }
   ]
