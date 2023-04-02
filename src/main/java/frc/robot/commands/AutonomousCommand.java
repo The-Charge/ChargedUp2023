@@ -24,8 +24,6 @@ import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -115,7 +113,11 @@ public class AutonomousCommand extends CommandBase {
             case "Charge Station Two Piece Score Left":
                 return scoreHighConeChargeStationTwoPieceScoreCommand(-0.9);
             case "Charge Station Two Piece Socre Right":
-                return scoreHighConeChargeStationTwoPieceScoreCommand(+0.9);    
+                return scoreHighConeChargeStationTwoPieceScoreCommand(+0.9);
+            case "Charge Station Two Piece Score Balance Left":
+                return scoreHighConeChargeStationTwoPieceScoreBalanceCommand(-0.9);
+            case "Charge Station Two Piece Score Balance Right":
+                return scoreHighConeChargeStationTwoPieceScoreBalanceCommand(0.9); 
             case "Score Cone Only":
                 return scoreHighConeCommand();
             // case "Clear Two Ball":
@@ -175,44 +177,86 @@ public class AutonomousCommand extends CommandBase {
                 new CloseClaw(m_claw, true));
     }
 
-    public SequentialCommandGroup scoreHighConeChargeStationTwoPieceCommand(double headingOffset) {
+    private SequentialCommandGroup scoreHighCone(){ 
         return new SequentialCommandGroup(
-                new ResetHeading(m_driveTrain), // resetter
-                new ResetPitch(m_driveTrain), // resetter
-                new ScoreHighCone(m_arm, true), // score piece
-                new OpenClaw(m_claw, true), // openClaw
-                new MoveMagicArmToXY(m_arm, -0.91, 1.65, 100), // return position
-                new ParallelCommandGroup(
-                     new MoveMagicArmToXY(m_arm, ArmConstants.pickUpX, ArmConstants.pickUpY, 8000),
-                     new ClawSwingThroughOpen(m_claw, m_arm),
-                     new DriveOverDistance(m_driveTrain, -0.8, 10, headingOffset, Units.inchesToMeters(30.8))), // this is fine
-                new CloseClaw(m_claw, true),
-                new WaitNSecs(0.5),
-                new ParallelCommandGroup(
-                     new MoveArmToNeutral(m_arm), // gud
-                     new SequentialCommandGroup( // gud        
-                          new DriveForward(m_driveTrain, 0.8, 10, headingOffset),
-                          new Climb(m_driveTrain, headingOffset))));
+            new ResetHeading(m_driveTrain), // resetter
+            new ResetPitch(m_driveTrain), // resetter
+            new ScoreHighCone(m_arm, true), // score piece
+            new OpenClaw(m_claw, true), // openClaw
+            new MoveMagicArmToXY(m_arm, -0.91, 1.65, 100)
+        ); // lift a little ready for close
+    }
+
+    public SequentialCommandGroup scoreGrabScoreClar(double heading){
+        return new SequentialCommandGroup(
+            scoreHighCone(),
+            new ParallelCommandGroup(
+                new ClawSwingThroughOpen(m_claw, m_arm),
+                new MoveMagicArmToXY(m_arm, ArmConstants.pickUpX, ArmConstants.pickUpY, 5000),
+                new DriveDistance(m_driveTrain, -0.8, heading, Units.inchesToMeters(168))        
+            ),
+            new CloseClaw(m_claw, true),
+            new WaitNSecs(0.5),
+            new ParallelCommandGroup(
+                new MoveMagicArmToXY(m_arm, -ArmConstants.hiGoalX, ArmConstants.hiGoalY - 0.05,5000), // gud
+                new DriveDistance(m_driveTrain, 0.8, -Math.abs(heading)/heading*1.9, 167.5)
+            ),
+            new OpenClaw(m_claw, true)
+        );
+    }
+
+    private SequentialCommandGroup scoreHighConeChargeStationGrab(double heading){
+        return new SequentialCommandGroup(
+            scoreHighCone(),
+            new ParallelCommandGroup(
+                new MoveMagicArmToXY(m_arm, ArmConstants.pickUpX, ArmConstants.pickUpY, 5000),
+                new ClawSwingThroughOpen(m_claw, m_arm),
+                new DriveOverDistance(m_driveTrain, -0.8, 10, heading, Units.inchesToMeters(30.8))
+            ), 
+            new CloseClaw(m_claw, true),
+            new WaitNSecs(0.5)
+        );
+    }
+
+     public SequentialCommandGroup scoreHighConeChargeStationTwoPieceCommand(double headingOffset) {
+        return new SequentialCommandGroup(
+            scoreHighConeChargeStationGrab(headingOffset),
+            new ParallelCommandGroup(
+                new MoveArmToNeutral(m_arm), // gud
+                new SequentialCommandGroup( // gud        
+                    new DriveForward(m_driveTrain, 0.8, 10, headingOffset),
+                    new Climb(m_driveTrain, headingOffset)
+                )
+            )
+        );
     }
 
     public SequentialCommandGroup scoreHighConeChargeStationTwoPieceScoreCommand(double headingOffset) {
         return new SequentialCommandGroup(
-                new ResetHeading(m_driveTrain), // resetter
-                new ResetPitch(m_driveTrain), // resetter
-                new ScoreHighCone(m_arm, true), // score piece
-                new OpenClaw(m_claw, true), // openClaw
-                new MoveMagicArmToXY(m_arm, -0.91, 1.65, 100), // return position
-                new ParallelCommandGroup(
-                     new MoveMagicArmToXY(m_arm, ArmConstants.pickUpX, ArmConstants.pickUpY, 8000),
-                     new ClawSwingThroughOpen(m_claw, m_arm),
-                     new DriveOverDistance(m_driveTrain, -0.8, 10, headingOffset, Units.inchesToMeters(30.8))), // this is fine
-                new CloseClaw(m_claw, true),
-                new WaitNSecs(0.5),
-                new ParallelCommandGroup(
-                     new MoveMagicArmToXY(m_arm, -ArmConstants.hiGoalX, ArmConstants.hiGoalY - 0.05,8000), // gud
-                     new DriveOver(m_driveTrain, 0.8, 10, -Math.abs(headingOffset)/headingOffset*5.91)),
-                new OpenClaw(m_claw, true));
-            }
+            scoreHighConeChargeStationGrab(headingOffset),
+            new ParallelCommandGroup(
+                new MoveMagicArmToXY(m_arm, -ArmConstants.hiGoalX, ArmConstants.hiGoalY - 0.05,5000), // gud
+                new DriveOver(m_driveTrain, 0.8, 10, -Math.abs(headingOffset)/headingOffset*5.91)
+            ),
+            new OpenClaw(m_claw, true),
+            new MoveMagicArmToXY(m_arm, -0.91, 1.65, 100)
+        ); // return position
+    }
+    
+    public SequentialCommandGroup scoreHighConeChargeStationTwoPieceScoreBalanceCommand(double heading){
+        return new SequentialCommandGroup(
+            scoreHighConeChargeStationTwoPieceScoreCommand(heading),
+            new ParallelCommandGroup(
+                new MoveArmToNeutral(m_arm),
+                new SequentialCommandGroup(
+                    new DriveForward(m_driveTrain, -0.8, 10, 0), 
+                    new Climb(m_driveTrain,0)
+                ),
+                new ClawSwingThroughOpen(m_claw, m_arm)
+            )
+        );
+    }
+
     public SequentialCommandGroup pathPlannerComand(String pathName) {
         PathPlannerTrajectory examplePath = PathPlanner.loadPath(
                 pathName,

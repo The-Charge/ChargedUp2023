@@ -15,7 +15,6 @@
  */
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.MagicArm;
 
@@ -57,7 +56,6 @@ public class ClawSafety extends CommandBase {
     @Override
     public void execute() {
         // If robot arm is within the no-go zone
-        SmartDashboard.putBoolean("Is in robot", m_magicArm.isArmTipInsideRobotX());
         m_claw.moveClaw(m_magicArm.isArmTipInsideRobotX());
     }
 

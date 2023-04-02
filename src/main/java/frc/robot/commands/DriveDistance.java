@@ -15,10 +15,11 @@ public class DriveDistance extends CommandBase {
     private final double m_power;
     private final double m_offset;
     private final double m_ticks;
+    private final double ticksToStartDeaccelerate = SysIDConstants.ticksPerMeter*1.5;
     private double startTick;
     private double controllablePowerRange;
     private double stallPower = 0.34;
-    public double drivePower;
+    private double drivePower;
     private double ticksToTravel = 0;
     private double ticksTravelled = 0;
     /**
@@ -56,8 +57,8 @@ public class DriveDistance extends CommandBase {
         double headingPower = (m_drivetrain.getHeading() + m_offset) * AutoConstants.headingGain;
         ticksTravelled = Math.abs(m_drivetrain.getLeftEncoder() - startTick);
         ticksToTravel = m_ticks - ticksTravelled;
-        if (ticksToTravel < SysIDConstants.ticksPerMeter){
-          drivePower = ticksToTravel / SysIDConstants.ticksPerMeter * controllablePowerRange + stallPower;     
+        if (ticksToTravel < ticksToStartDeaccelerate){
+          drivePower = ticksToTravel / ticksToStartDeaccelerate * controllablePowerRange + stallPower;     
         }
         m_drivetrain.run(drivePower + headingPower, drivePower - headingPower);
     }

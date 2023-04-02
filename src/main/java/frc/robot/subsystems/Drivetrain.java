@@ -124,7 +124,7 @@ public class Drivetrain extends SubsystemBase {
     pitch = -(navx.getPitch() - pitchOffset);
 
     SmartDashboard.putBoolean("IMU_Connected", navx.isConnected());
-    SmartDashboard.putNumber("IMU_Yaw", navx.getYaw());
+    //SmartDashboard.putNumber("IMU_Yaw", navx.getYaw());
     SmartDashboard.putNumber("IMU_Pitch", pitch);
 
     
@@ -139,7 +139,7 @@ public class Drivetrain extends SubsystemBase {
 
     // Displays the corrected angle of the robot
     SmartDashboard.putNumber("Get Heading", getHeading());
-    SmartDashboard.putString("Pose", getPose().toString());
+    //SmartDashboard.putString("Pose", getPose().toString());
     m_odometry.update(Rotation2d.fromDegrees(getHeading()),
         getLeftEncoderDistance(),
         getRightEncoderDistance());
