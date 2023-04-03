@@ -67,7 +67,7 @@ public class MoveMagicArmToXY extends CommandBase {
     public boolean isFinished() {
         double deltaX = m_magicArm.getX() - m_X;
         double deltaY = m_magicArm.getY() - m_Y;
-        return ((deltaX * deltaX + deltaY * deltaY < 0.0008) || (!canMove));
+        return ((deltaX * deltaX + deltaY * deltaY < 0.001) || (!canMove));
     }
 
     @Override
