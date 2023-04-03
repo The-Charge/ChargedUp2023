@@ -99,7 +99,6 @@ public class RobotContainer {
     pathFileNames[1] = "Clear With Score";
     pathFileNames[2] = "Clear Two Ball";
     pathFileNames[3] = "Clear No Score";
-    //pathFileNames[4] = "Clear ChargeStation";
     pathFileNames[4] = "Charge Station Two Piece Left";
     pathFileNames[5] = "Charge Station Two Piece Right";
     pathFileNames[6] = "Charge Station With Score";
@@ -109,9 +108,10 @@ public class RobotContainer {
     pathFileNames[10] = "Charge Station Two Piece Score Balance Left";
     pathFileNames[11] = "Charge Station Two Piece Score Balance Right";
     pathFileNames[12] = "Bump With Score";
-    pathFileNames[13] = "Bump No Score";
-    pathFileNames[14] = "Score Cone Only";
-    pathFileNames[15] = "Forward 2M";
+    pathFileNames[14] = "Bump Two Ball";
+    pathFileNames[14] = "Bump No Score";
+    pathFileNames[15] = "Score Cone Only";
+    pathFileNames[16] = "Forward 2M";
 
     // Adds path options to sendable chooser
     for (int x = 0; x < pathFileNames.length; x++) {

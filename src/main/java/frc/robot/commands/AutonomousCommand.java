@@ -123,7 +123,9 @@ public class AutonomousCommand extends CommandBase {
             case "Score Cone Only":
                 return scoreHighConeCommand();
             case "Clear Two Ball":
-            return pathPlannerComandGroup(RobotContainer.getInstance().getSelectedPath());
+                return pathPlannerComandGroup(RobotContainer.getInstance().getSelectedPath());
+            case "Bump Two Ball":
+                return pathPlannerComandGroup(RobotContainer.getInstance().getSelectedPath());
             default:
                 return pathPlannerComand(RobotContainer.getInstance().getSelectedPath());
         }
@@ -254,21 +256,6 @@ public class AutonomousCommand extends CommandBase {
             )
         );
     }
-
-    // public PathPlannerTrajectory getTrajectoryGroup(String pathName) {
-    //     return PathPlanner.loadPathGroup(
-    //         pathName,
-    //         new PathConstraints(kMaxSpeedMetersPerSecond,
-    //                 kMaxAccelerationMetersPerSecondSquared));
-    // }
-
-    public PathPlannerTrajectory getTrajectory(String pathName) {
-        return PathPlanner.loadPath(
-            pathName,
-            new PathConstraints(kMaxSpeedMetersPerSecond,
-                    kMaxAccelerationMetersPerSecondSquared));
-    }
-
     public SequentialCommandGroup pathPlannerComand(String pathName) {
         PathPlannerTrajectory examplePath = PathPlanner.loadPath(
             pathName,
@@ -334,6 +321,7 @@ public class AutonomousCommand extends CommandBase {
     }
 
     public SequentialCommandGroup pathPlannerComandGroup(String pathName) {
+        // Distinct method for pathgroups (Two Ball Clear/Bump)
         List<PathPlannerTrajectory> examplePath = PathPlanner.loadPathGroup(
             pathName,
             new PathConstraints(kMaxSpeedMetersPerSecond,
@@ -343,30 +331,13 @@ public class AutonomousCommand extends CommandBase {
 
         HashMap<String, Command> eventMap = new HashMap<>();
 
-        // Scores Current game piece
+        // List of EventMap commands to be used in the Autobuilder
         eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, false));
         eventMap.put("OpenClaw", new OpenClaw(m_claw, true));
-        eventMap.put("MoveArmIntermediate", new MoveMagicArmToXY(m_arm, 0.91, 1.65, 500));
-        /**
-         * Centers gravity for accurate autonomous pathing and
-         * Makes next event quicker
-         */
         eventMap.put("MoveArmNeutral", new MoveArmToNeutral(m_arm));
-
-        // Picks up game piece
         eventMap.put("MoveArmFrontLow",
                 new MoveMagicArmToXY(m_arm, -ArmConstants.pickUpX, ArmConstants.pickUpY, 8000));
         eventMap.put("CloseClaw", new CloseClaw(m_claw, true));
-
-        /**
-         * Centers gravity for accurate autonomous pathing and
-         * Makes next event quicker again
-         */
-        eventMap.put("MoveArmNeutral", new MoveArmToNeutral(m_arm));
-
-        // Scores previously grabbed piece
-        eventMap.put("MoveArmScore", new MoveMagicArmToXY(m_arm, ArmConstants.hiGoalX, ArmConstants.hiGoalY, 5000));
-        eventMap.put("OpenClaw", new OpenClaw(m_claw, true));
         eventMap.put("TurnNDegrees", new TurnNRelative(m_driveTrain, 180 - m_driveTrain.getHeading()));
         eventMap.put("WaitSeconds", new WaitNSecs(10000));
         m_driveTrain.resetOdometry(new Pose2d());
