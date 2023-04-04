@@ -264,33 +264,18 @@ public class AutonomousCommand extends CommandBase {
 
         HashMap<String, Command> eventMap = new HashMap<>();
 
-        // Scores Current game piece
+        // List of EventMap commands to be used in the Autobuilder
         eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, false));
         eventMap.put("OpenClaw", new OpenClaw(m_claw, true));
-        eventMap.put("MoveArmIntermediate", new MoveMagicArmToXY(m_arm, 0.91, 1.65, 500));
-        /**
-         * Centers gravity for accurate autonomous pathing and
-         * Makes next event quicker
-         */
         eventMap.put("MoveArmNeutral", new MoveArmToNeutral(m_arm));
-
-        // Picks up game piece
         eventMap.put("MoveArmFrontLow",
                 new MoveMagicArmToXY(m_arm, -ArmConstants.pickUpX, ArmConstants.pickUpY, 8000));
         eventMap.put("CloseClaw", new CloseClaw(m_claw, true));
-
-        /**
-         * Centers gravity for accurate autonomous pathing and
-         * Makes next event quicker again
-         */
-        eventMap.put("MoveArmNeutral", new MoveArmToNeutral(m_arm));
-
-        // Scores previously grabbed piece
-        eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, false));
-        eventMap.put("OpenClaw", new OpenClaw(m_claw, true));
         eventMap.put("TurnNDegrees", new TurnNRelative(m_driveTrain, 180 - m_driveTrain.getHeading()));
         eventMap.put("WaitSeconds", new WaitNSecs(10000));
         m_driveTrain.resetOdometry(new Pose2d());
+        m_driveTrain.resetOdometry(new Pose2d());
+
         /**
          * Create the AutoBuilder. This only needs to be created once when robot code
          * Starts, not every time you want to create an auto command. A good place to
@@ -341,6 +326,7 @@ public class AutonomousCommand extends CommandBase {
         eventMap.put("TurnNDegrees", new TurnNRelative(m_driveTrain, 180 - m_driveTrain.getHeading()));
         eventMap.put("WaitSeconds", new WaitNSecs(10000));
         m_driveTrain.resetOdometry(new Pose2d());
+        
         /**
          * Create the AutoBuilder. This only needs to be created once when robot code
          * Starts, not every time you want to create an auto command. A good place to

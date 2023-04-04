@@ -178,6 +178,9 @@ public class RobotContainer {
     final JoystickButton driveDistanceBtn = new JoystickButton(leftJoystick, 12);
     driveDistanceBtn.onTrue(new SequentialCommandGroup(new ResetHeading(m_drivetrain), new DriveDistance(m_drivetrain, -.8, 0, Units.inchesToMeters(227))));
 
+    final JoystickButton velocityDriveBtn = new JoystickButton(rightJoystick, 3);
+    velocityDriveBtn.whileTrue(new VelocityDrive(m_drivetrain));
+
     // final JoystickButton alignBtn = new JoystickButton(leftJoystick, 1);
     // alignBtn.onTrue(new Align(m_drivetrain, m_camera));
 

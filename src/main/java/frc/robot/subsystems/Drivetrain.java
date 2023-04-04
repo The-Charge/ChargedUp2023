@@ -13,7 +13,9 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
+import frc.robot.MathUtil;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.SysIDConstants;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -122,13 +124,12 @@ public class Drivetrain extends SubsystemBase {
     pitch = -(navx.getPitch() - pitchOffset);
 
     SmartDashboard.putBoolean("IMU_Connected", navx.isConnected());
-    //SmartDashboard.putNumber("IMU_Yaw", navx.getYaw());
+    // SmartDashboard.putNumber("IMU_Yaw", navx.getYaw());
     SmartDashboard.putNumber("IMU_Pitch", pitch);
 
-     //Displays encoder ticks
-     SmartDashboard.putNumber("Left Encoder", getLeftEncoder());
-     SmartDashboard.putNumber("Right Encoder", getRightEncoder());
-     
+    // Displays encoder ticks
+    SmartDashboard.putNumber("Left Encoder", getLeftEncoder());
+    SmartDashboard.putNumber("Right Encoder", getRightEncoder());
 
     // Displays distance based on encoders
     SmartDashboard.putNumber("Left Distance", getLeftEncoderDistance());
@@ -136,7 +137,7 @@ public class Drivetrain extends SubsystemBase {
 
     // Displays the corrected angle of the robot
     SmartDashboard.putNumber("Get Heading", getHeading());
-    //SmartDashboard.putString("Pose", getPose().toString());
+    // SmartDashboard.putString("Pose", getPose().toString());
     m_odometry.update(Rotation2d.fromDegrees(getHeading()),
         getLeftEncoderDistance(),
         getRightEncoderDistance());
@@ -159,23 +160,31 @@ public class Drivetrain extends SubsystemBase {
     _rightConfig.neutralDeadband = kNeutralDeadband;
     _leftConfig.neutralDeadband = kNeutralDeadband;
 
+    leftFrontMotor.set(ControlMode.PercentOutput, 0);
+		leftRearMotor.set(ControlMode.PercentOutput, 0);
+		rightFrontMotor.set(ControlMode.PercentOutput, 0);
+		rightRearMotor.set(ControlMode.PercentOutput, 0);
+
     leftFrontMotor.configNeutralDeadband(0.08);
     rightFrontMotor.configNeutralDeadband(0.08);
   }
 
-  public void rawRun(double _l, double _r){
+  public void rawRun(double _l, double _r) {
     differentialDrive.tankDrive(_l, _r);
   }
 
-  public void start180Off(){
+  public void start180Off() {
     started180Off = true;
   }
 
-  public Boolean isStarted180Off(){
+  public Boolean isStarted180Off() {
     return started180Off;
   }
+
   // Based off joystick Y-axis
   public void run(double l, double r) {
+    setControlMode(ControlMode.PercentOutput);
+
     // Reversed and Multiplier logic
     if (isReversed) {
       double temp = l;
@@ -193,18 +202,21 @@ public class Drivetrain extends SubsystemBase {
     differentialDrive.tankDrive(l, r);
   }
 
-  public boolean reversed(){
+  public boolean reversed() {
     return isReversed;
   }
-  public boolean atHalfSpeed(){
+
+  public boolean atHalfSpeed() {
     return isHalfSpeed;
   }
 
-  public boolean atQuarterSpeed(){
+  public boolean atQuarterSpeed() {
     return isQuarterSpeed;
   }
 
   public void runArcade(double f, double r) {
+    setControlMode(ControlMode.PercentOutput);
+
     if (f > 0.6) {
       f = 0.6;
     } else if (f < 0.4 && f > 0) {
@@ -225,32 +237,37 @@ public class Drivetrain extends SubsystemBase {
     differentialDrive.arcadeDrive(-1 * f, -1 * r);
   }
 
-  /**
-   * public void runVelocity(double l, double r) {
-   * if (isReversed) {
-   * l *= -1 * r;
-   * r *= -1 * l;
-   * }
-   * 
-   * if (isQuarterSpeed) {
-   * l *= 0.5;
-   * r *= 0.5;
-   * } else if (isHalfSpeed) {
-   * l *= 0.75;
-   * r *= 0.75;
-   * }
-   * setControlMode(ControlMode.Velocity);
-   * left.set(l * DriveConstants.MAX_VELOCITY);
-   * right.set(r * DriveConstants.MAX_VELOCITY);
-   * }
-   *
-   * public void setControlMode(ControlMode mode) {
-   * leftFrontMotor.set(mode, 0);
-   * leftRearMotor.set(mode, 0);
-   * rightFrontMotor.set(mode, 0);
-   * rightRearMotor.set(mode, 0);
-   * }
-   */
+  public void runVelocity(double l, double r) {
+    setControlMode(ControlMode.Velocity);
+
+    if (isReversed) {
+      l *= -1 * r;
+      r *= -1 * l;
+    }
+
+    if (isQuarterSpeed) {
+      l *= 0.5;
+      r *= 0.5;
+    } else if (isHalfSpeed) {
+      l *= 0.75;
+      r *= 0.75;
+    }
+
+    double scaling = MathUtil.slope(0.04, 1, 0, 1);
+    
+    l = MathUtil.deadband(l, 0.04) * scaling;
+    r = MathUtil.deadband(r, 0.04) * scaling;
+
+    left.set(l * SysIDConstants.MAX_VELOCITY);
+    right.set(r * SysIDConstants.MAX_VELOCITY);
+  }
+
+  public void setControlMode(ControlMode mode) {
+    leftFrontMotor.set(mode, 0);
+    rightFrontMotor.set(mode, 0);
+    leftRearMotor.set(mode, 0);
+    rightRearMotor.set(mode, 0);
+  }
 
   public double getLeftEncoder() {
     return leftFrontMotor.getSelectedSensorPosition();
@@ -372,13 +389,8 @@ public class Drivetrain extends SubsystemBase {
     }
   }
 
-  public void setFullSpeed(){
+  public void setFullSpeed() {
     isHalfSpeed = false;
     isQuarterSpeed = false;
-  }
-
-  public void setControlMode(ControlMode mode) {
-    leftFrontMotor.set(mode, 0);
-    rightFrontMotor.set(mode, 0);
   }
 }
