@@ -65,6 +65,9 @@ public class Drivetrain extends SubsystemBase {
   private double pitchOffset;
   private boolean started180Off = false;
 
+  // PID constants for Drivetrain
+  private static final int PID_SLOT_SPEED_MODE = 0;
+
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
   private final double hundredMillisecondsToSeconds = 10;
@@ -161,12 +164,24 @@ public class Drivetrain extends SubsystemBase {
     _leftConfig.neutralDeadband = kNeutralDeadband;
 
     leftFrontMotor.set(ControlMode.PercentOutput, 0);
-		leftRearMotor.set(ControlMode.PercentOutput, 0);
-		rightFrontMotor.set(ControlMode.PercentOutput, 0);
-		rightRearMotor.set(ControlMode.PercentOutput, 0);
+    leftRearMotor.set(ControlMode.PercentOutput, 0);
+    rightFrontMotor.set(ControlMode.PercentOutput, 0);
+    rightRearMotor.set(ControlMode.PercentOutput, 0);
 
     leftFrontMotor.configNeutralDeadband(0.08);
     rightFrontMotor.configNeutralDeadband(0.08);
+
+    leftFrontMotor.config_kP(PID_SLOT_SPEED_MODE, DriveConstants.SPEED_P_CONSTANT);
+    leftFrontMotor.config_kI(PID_SLOT_SPEED_MODE, DriveConstants.SPEED_I_CONSTANT);
+    leftFrontMotor.config_kD(PID_SLOT_SPEED_MODE, DriveConstants.SPEED_D_CONSTANT);
+    leftFrontMotor.config_kF(PID_SLOT_SPEED_MODE, DriveConstants.SPEED_F_CONSTANT);
+    leftFrontMotor.selectProfileSlot(PID_SLOT_SPEED_MODE, 0);
+
+    rightFrontMotor.config_kP(PID_SLOT_SPEED_MODE, DriveConstants.SPEED_P_CONSTANT);
+    rightFrontMotor.config_kI(PID_SLOT_SPEED_MODE, DriveConstants.SPEED_I_CONSTANT);
+    rightFrontMotor.config_kD(PID_SLOT_SPEED_MODE, DriveConstants.SPEED_D_CONSTANT);
+    rightFrontMotor.config_kF(PID_SLOT_SPEED_MODE, DriveConstants.SPEED_F_CONSTANT);
+    rightFrontMotor.selectProfileSlot(PID_SLOT_SPEED_MODE, 0);
   }
 
   public void rawRun(double _l, double _r) {
@@ -254,7 +269,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     double scaling = MathUtil.slope(0.04, 1, 0, 1);
-    
+
     l = MathUtil.deadband(l, 0.04) * scaling;
     r = MathUtil.deadband(r, 0.04) * scaling;
 

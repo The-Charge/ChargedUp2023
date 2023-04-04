@@ -30,6 +30,13 @@ public final class Constants {
     public static final int kRightMotor2Port = 3;
     public static final int shifterChannel = 1;
     public static final int clawChannel = 2;
+
+    // PID Constants
+    public static final double SPEED_P_CONSTANT = .2;
+    public static final double SPEED_I_CONSTANT = 0.0;
+    public static final double SPEED_D_CONSTANT = 2.0;
+    public static final double SPEED_F_CONSTANT = 0.0;
+
   }
 
   public static final class AutoConstants {
@@ -42,6 +49,7 @@ public final class Constants {
     public static final double headingGain = 0.02;
     public static final double fallPitchPerCycle = 1;
   }
+
   public static final double InchToMeter = 0.0254;
   public static final double degreeToRadian = Math.PI / 180.0;
 
@@ -52,7 +60,7 @@ public final class Constants {
     public static final int elbowCAN_ID = 15;
     public static final double shoulderL = 39.0 * InchToMeter;
     public static final double elbowL = 37.0 * InchToMeter;
-    public static final double shoulderAngleToSafeSwingElbowThrough = 24 * degreeToRadian; //was 22.6
+    public static final double shoulderAngleToSafeSwingElbowThrough = 24 * degreeToRadian; // was 22.6
     public static final double shoulderHeight = 11 * InchToMeter;
     public static final double elbowperMotorTick = Math.PI * 2 / 4096;
     public static final double shoulderperMotorTick = Math.PI * 2 / 4096;
@@ -108,27 +116,29 @@ public final class Constants {
   }
 
   // public static final class VisionConstants {
-  //   public static final String cameraName = "IMX219";
+  // public static final String cameraName = "IMX219";
 
-  //   public static final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(4.6);
-  //   public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(16.7);
+  // public static final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(4.6);
+  // public static final double CAMERA_PITCH_RADIANS =
+  // Units.degreesToRadians(16.7);
 
-  //   public static final double nodeSideDistanceMeters = Units.inchesToMeters(6.25 + 0);
+  // public static final double nodeSideDistanceMeters = Units.inchesToMeters(6.25
+  // + 0);
 
-  //   public static final double fieldLength = Units.inchesToMeters(651.25);
-  //   public static final double fieldWidth = Units.inchesToMeters(315.5);
+  // public static final double fieldLength = Units.inchesToMeters(651.25);
+  // public static final double fieldWidth = Units.inchesToMeters(315.5);
 
-  //   public static final Transform3d robotToCamera = new Transform3d(
-  //       new Translation3d(0.31, 0.07, Units.inchesToMeters(4.6)),
-  //       new Rotation3d(0, 16.7, 0));
+  // public static final Transform3d robotToCamera = new Transform3d(
+  // new Translation3d(0.31, 0.07, Units.inchesToMeters(4.6)),
+  // new Rotation3d(0, 16.7, 0));
 
-  //   public static final Transform3d cameraToRobot = robotToCamera.inverse();
+  // public static final Transform3d cameraToRobot = robotToCamera.inverse();
 
-  //   // 31,7
-  //   public static final double LINEAR_P = 1;
-  //   public static final double LINEAR_D = 0;
-  //   public static final double ANGULAR_P = 0.05;
-  //   public static final double ANGULAR_D = 0;
+  // // 31,7
+  // public static final double LINEAR_P = 1;
+  // public static final double LINEAR_D = 0;
+  // public static final double ANGULAR_P = 0.05;
+  // public static final double ANGULAR_D = 0;
   // }
 
   public static final class SysIDConstants {
@@ -164,6 +174,6 @@ public final class Constants {
 
     // Maximum for Velocity ControlMode (Initial Test Starting Pt)
     public static final double MAX_VELOCITY = 7000;
-    
+
   }
 }
