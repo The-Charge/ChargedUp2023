@@ -5,16 +5,23 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Drivetrain;
 
 public class SetStartOrientation extends CommandBase {
+  private final Drivetrain m_drivetrain;
+  private final Boolean facingBack; 
   /** Creates a new SetStartOrientation. */
-  public SetStartOrientation() {
+  public SetStartOrientation(Drivetrain subsystem, Boolean _backToDriver) {
+    m_drivetrain = subsystem;
+    facingBack = _backToDriver;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_drivetrain.start180Off(facingBack);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

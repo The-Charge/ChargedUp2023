@@ -188,8 +188,8 @@ public class Drivetrain extends SubsystemBase {
     differentialDrive.tankDrive(_l, _r);
   }
 
-  public void start180Off() {
-    started180Off = true;
+  public void start180Off(Boolean _is180Off) {
+    started180Off = _is180Off;
   }
 
   public Boolean isStarted180Off() {
