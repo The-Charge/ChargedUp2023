@@ -182,9 +182,14 @@ public class AutonomousCommand extends CommandBase {
 
     private SequentialCommandGroup scoreHighCone(){ 
         return new SequentialCommandGroup(
-            new ResetHeading(m_driveTrain), // resetter
-            new ResetPitch(m_driveTrain), // resetter
-            new ScoreHighCone(m_arm, true), // score piece
+            new ParallelCommandGroup(
+                new SequentialCommandGroup(
+                    new ResetPitch(m_driveTrain), // resetter
+                    new ResetHeading(m_driveTrain),
+                    new SetStartOrientation(m_driveTrain, false)
+                ),
+                new ScoreHighCone(m_arm, true)
+            ),
             new OpenClaw(m_claw, true) // openClaw
         );     
     }
