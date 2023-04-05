@@ -33,9 +33,9 @@ public final class Constants {
 
     // PID Constants
     public static final double SPEED_P_CONSTANT = .2;
-    public static final double SPEED_I_CONSTANT = 0.0;
-    public static final double SPEED_D_CONSTANT = 2.0;
-    public static final double SPEED_F_CONSTANT = 0.0;
+    public static final double SPEED_I_CONSTANT = 0.0001;
+    public static final double SPEED_D_CONSTANT = 10.0;
+    public static final double SPEED_F_CONSTANT = 0.1;
 
   }
 
@@ -72,7 +72,7 @@ public final class Constants {
     public static final double stationX = 28 * InchToMeter;
     public static final double stationY = 33.5 * InchToMeter;
     public static final double pickUpX = 35.4 * InchToMeter;
-    public static final double pickUpY = -8.7 * InchToMeter;
+    public static final double pickUpY = -6.7 * InchToMeter;
   }
 
   public static final class robotLimit {

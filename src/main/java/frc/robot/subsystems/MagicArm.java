@@ -113,7 +113,7 @@ public class MagicArm extends SubsystemBase {
 
     /* Set acceleration and vcruise velocity - see documentation */
     shldrMtr.configMotionCruiseVelocity(100, MagicArmCnsts.kTimeoutMs);
-    shldrMtr.configMotionAcceleration(200, MagicArmCnsts.kTimeoutMs);
+    shldrMtr.configMotionAcceleration(300, MagicArmCnsts.kTimeoutMs);
     shldrMtr.configMotionSCurveStrength(5, MagicArmCnsts.kTimeoutMs);
     elbowMtr.configMotionCruiseVelocity(200, MagicArmCnsts.kTimeoutMs);
     elbowMtr.configMotionAcceleration(300, MagicArmCnsts.kTimeoutMs);
@@ -414,7 +414,7 @@ public class MagicArm extends SubsystemBase {
           run(angles[0], angles[1]);
         } else {
           // Only move the elbow if the arm tip has not cleared the robot,
-          if (Math.abs(elbowAngl) < 0.4) {//(Math.abs(currentX) < robotLimit.robotLength / 2) {
+          if (Math.abs(elbowAngl) < 0.1) {//(Math.abs(currentX) < robotLimit.robotLength / 2) {
             run(shldrAngl, angles[1]);
           } else if (currentY < -ArmConstants.shoulderHeight + 0.02) {
             // Move the elbow and raise the shoulder a little if the arm tip is too low.
@@ -440,7 +440,7 @@ public class MagicArm extends SubsystemBase {
     if (Math.abs(shldrAngl) < ArmConstants.shoulderAngleToSafeSwingElbowThrough) {
       run(0, 0);
     }
-    else if (Math.abs(elbowAngl) < Units.degreesToRadians(57.5)) { //Not safe to move elbow
+    else if (Math.abs(elbowAngl) < Units.degreesToRadians(70)) { //Not safe to move elbow
       run (0, elbowAngl);
     }
     else {

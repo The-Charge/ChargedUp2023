@@ -13,12 +13,13 @@ public class DriveOverDistance extends CommandBase {
     private double thisPitch;
     private double m_offset = 0;
     private int status = 0;
-    public double timeoutMS = 8000;
-    public long currentTime;
+    public double timeoutMS = 4000;
+    public long startTime;
     public double distance, startTick, startSpeed, m_ticks ;
     public static final double stallPower = 0.34;
     private double ticksToTravel = 0;
     private double ticksTravlled = 0;
+    
     /**
      * This is ugly since the original is coded during district event.  We cleaned up Math a bit but
      * still let all the ticks and calcuation from these ticks match the old code to make sure it still
@@ -50,6 +51,7 @@ public class DriveOverDistance extends CommandBase {
     public void initialize() {
         status = 0;
         startTick = 0;
+        startTime = System.currentTimeMillis();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -97,6 +99,9 @@ public class DriveOverDistance extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+        if (startTime + timeoutMS < System.currentTimeMillis()) {
+            return true;
+        }
         return ticksTravlled > ticksToTravel;
     }
 } 

@@ -108,7 +108,7 @@ public class RobotContainer {
     pathFileNames[10] = "Charge Station Two Piece Score Balance Left";
     pathFileNames[11] = "Charge Station Two Piece Score Balance Right";
     pathFileNames[12] = "Bump With Score";
-    pathFileNames[14] = "Bump Two Ball";
+    pathFileNames[13] = "Bump Two Ball";
     pathFileNames[14] = "Bump No Score";
     pathFileNames[15] = "Score Cone Only";
     pathFileNames[16] = "Forward 2M";
@@ -116,6 +116,7 @@ public class RobotContainer {
     // Adds path options to sendable chooser
     for (int x = 0; x < pathFileNames.length; x++) {
       m_pathSendableChooser.addOption(pathFileNames[x], pathFileNames[x]);
+      System.out.println(pathFileNames[x]);
     }
 
     // Default path doesn't run the robot
@@ -139,6 +140,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    pathSendableChooserInit();
+
     final JoystickButton collectBtn = new JoystickButton(rightJoystick, 2);
     collectBtn.whileTrue(new DriveDegree(m_drivetrain, -10, -0.65));
 
@@ -148,7 +151,7 @@ public class RobotContainer {
     final JoystickButton halfSpeedBtn = new JoystickButton(rightJoystick, 1);
     halfSpeedBtn.onTrue(new HalfSpeed(m_drivetrain));
 
-    final JoystickButton quarterSpeedBtn = new JoystickButton(rightJoystick, 3);
+    final JoystickButton quarterSpeedBtn = new JoystickButton(rightJoystick, 5);
     quarterSpeedBtn.onTrue(new QuarterSpeed(m_drivetrain));
 
     final JoystickButton fullSpeedBtn = new JoystickButton(leftJoystick, 3);
@@ -178,8 +181,8 @@ public class RobotContainer {
     final JoystickButton driveDistanceBtn = new JoystickButton(leftJoystick, 12);
     driveDistanceBtn.onTrue(new SequentialCommandGroup(new ResetHeading(m_drivetrain), new DriveDistance(m_drivetrain, -.8, 0, Units.inchesToMeters(227))));
 
-    final JoystickButton velocityDriveBtn = new JoystickButton(rightJoystick, 3);
-    velocityDriveBtn.whileTrue(new VelocityDrive(m_drivetrain));
+    // final JoystickButton velocityDriveBtn = new JoystickButton(rightJoystick, 3);
+    // velocityDriveBtn.whileTrue(new VelocityDrive(m_drivetrain));
 
     // final JoystickButton alignBtn = new JoystickButton(leftJoystick, 1);
     // alignBtn.onTrue(new Align(m_drivetrain, m_camera));

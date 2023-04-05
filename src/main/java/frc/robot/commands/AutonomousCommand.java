@@ -274,7 +274,7 @@ public class AutonomousCommand extends CommandBase {
         eventMap.put("OpenClaw", new OpenClaw(m_claw, true));
         eventMap.put("MoveArmNeutral", new MoveArmToNeutral(m_arm));
         eventMap.put("MoveArmFrontLow",
-                new MoveMagicArmToXY(m_arm, -ArmConstants.pickUpX, ArmConstants.pickUpY, 8000));
+                new MoveMagicArmToXY(m_arm, -ArmConstants.pickUpX, ArmConstants.pickUpY, 3000));
         eventMap.put("CloseClaw", new CloseClaw(m_claw, true));
         eventMap.put("TurnNDegrees", new TurnNRelative(m_driveTrain, 180 - m_driveTrain.getHeading()));
         eventMap.put("WaitSeconds", new WaitNSecs(10000));
@@ -323,10 +323,11 @@ public class AutonomousCommand extends CommandBase {
 
         // List of EventMap commands to be used in the Autobuilder
         eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, false));
+        eventMap.put("MoveArmScore2", new MoveMagicArmToXY(m_arm, ArmConstants.hiGoalX, ArmConstants.hiGoalY, 5000));
         eventMap.put("OpenClaw", new OpenClaw(m_claw, true));
         eventMap.put("MoveArmNeutral", new MoveArmToNeutral(m_arm));
         eventMap.put("MoveArmFrontLow",
-                new MoveMagicArmToXY(m_arm, -ArmConstants.pickUpX, ArmConstants.pickUpY, 8000));
+                new MoveMagicArmToXY(m_arm, -ArmConstants.pickUpX, ArmConstants.pickUpY, 2000));
         eventMap.put("CloseClaw", new CloseClaw(m_claw, true));
         eventMap.put("TurnNDegrees", new TurnNRelative(m_driveTrain, 180 - m_driveTrain.getHeading()));
         eventMap.put("WaitSeconds", new WaitNSecs(10000));

@@ -52,16 +52,16 @@
     },
     {
       "anchorPoint": {
-        "x": 6.25,
-        "y": 0.9491430109821704
+        "x": 6.15,
+        "y": 0.87
       },
       "prevControl": {
-        "x": 5.106397027775482,
-        "y": 0.9491430109821704
+        "x": 5.006397027775482,
+        "y": 0.87
       },
       "nextControl": {
-        "x": 5.106397027775482,
-        "y": 0.9491430109821704
+        "x": 5.006397027775482,
+        "y": 0.87
       },
       "holonomicAngle": 0,
       "isReversal": true,
@@ -99,7 +99,7 @@
       "isStopPoint": true,
       "stopEvent": {
         "names": [
-          "MoveArmScore",
+          "MoveArmScore2",
           "OpenClaw"
         ],
         "executionBehavior": "sequential",
@@ -142,7 +142,7 @@
     {
       "position": 2.05,
       "names": [
-        "MoveArmScore"
+        "MoveArmScore2"
       ]
     },
     {

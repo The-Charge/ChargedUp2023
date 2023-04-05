@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
         RobotContainer.getInstance().m_drivetrain.setBrake();
 
         // Comment out for comp.
-        // PathPlannerServer.startServer(5811);
+        PathPlannerServer.startServer(5811);
 
         ValueModifier();
     }
