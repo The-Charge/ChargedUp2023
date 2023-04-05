@@ -204,8 +204,6 @@ public class Drivetrain extends SubsystemBase {
 
   // Based off joystick Y-axis
   public void run(double l, double r) {
-    setControlMode(ControlMode.PercentOutput);
-
     // Reversed and Multiplier logic
     if (isReversed) {
       double temp = l;
@@ -236,8 +234,6 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void runArcade(double f, double r) {
-    setControlMode(ControlMode.PercentOutput);
-
     if (f > 0.6) {
       f = 0.6;
     } else if (f < 0.4 && f > 0) {
@@ -259,8 +255,6 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void runVelocity(double l, double r) {
-    setControlMode(ControlMode.Velocity);
-
     if (isReversed) {
       l *= -1 * r;
       r *= -1 * l;
@@ -286,8 +280,8 @@ public class Drivetrain extends SubsystemBase {
   public void setControlMode(ControlMode mode) {
     leftFrontMotor.set(mode, 0);
     rightFrontMotor.set(mode, 0);
-    leftRearMotor.set(mode, 0);
-    rightRearMotor.set(mode, 0);
+    // leftRearMotor.set(mode, 0);
+    // rightRearMotor.set(mode, 0);
   }
 
   public double getLeftEncoder() {

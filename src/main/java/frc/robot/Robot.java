@@ -17,6 +17,7 @@ import edu.wpi.first.hal.FRCNetComm.tResourceType;
 
 import com.pathplanner.lib.server.PathPlannerServer;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,6 +47,8 @@ public class Robot extends TimedRobot {
          * Instantiate our RobotContainer. This will perform all our button bindings,
          * And put our autonomous chooser on the dashboard.
          */
+        CameraServer.startAutomaticCapture();
+
         m_robotContainer = RobotContainer.getInstance();
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
 
