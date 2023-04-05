@@ -64,6 +64,10 @@ public class Drivetrain extends SubsystemBase {
   private double gyroOffset;
   private double pitchOffset;
   private boolean started180Off = false;
+  private boolean imuConnected = true;
+  private double leftEncoder = 0;
+  private double rightEncoder = 0;
+  private double heading = 0;
 
   // PID constants for Drivetrain
   private static final int PID_SLOT_SPEED_MODE = 0;
@@ -125,23 +129,25 @@ public class Drivetrain extends SubsystemBase {
 
     /* Display 6-axis Processed Angle Data */
     pitch = -(navx.getPitch() - pitchOffset);
-
-    SmartDashboard.putBoolean("IMU_Connected", navx.isConnected());
-    // SmartDashboard.putNumber("IMU_Yaw", navx.getYaw());
+    imuConnected = navx.isConnected();
+    SmartDashboard.putBoolean("IMU_Connected", imuConnected);
     SmartDashboard.putNumber("IMU_Pitch", pitch);
 
+    leftEncoder = leftFrontMotor.getSelectedSensorPosition();
+    rightEncoder = rightFrontMotor.getSelectedSensorPosition();
     // Displays encoder ticks
-    SmartDashboard.putNumber("Left Encoder", getLeftEncoder());
-    SmartDashboard.putNumber("Right Encoder", getRightEncoder());
+    SmartDashboard.putNumber("Left Encoder", leftEncoder);
+    SmartDashboard.putNumber("Right Encoder", rightEncoder);
 
     // Displays distance based on encoders
     SmartDashboard.putNumber("Left Distance", getLeftEncoderDistance());
     SmartDashboard.putNumber("Right Distance", getRightEncoderDistance());
 
     // Displays the corrected angle of the robot
-    SmartDashboard.putNumber("Get Heading", getHeading());
+    heading = navx.getRotation2d().getDegrees() - gyroOffset;
+    SmartDashboard.putNumber("Get Heading", heading);
     // SmartDashboard.putString("Pose", getPose().toString());
-    m_odometry.update(Rotation2d.fromDegrees(getHeading()),
+    m_odometry.update(Rotation2d.fromDegrees(heading),
         getLeftEncoderDistance(),
         getRightEncoderDistance());
     SmartDashboard.putBoolean("Reversed", isReversed);
@@ -285,11 +291,11 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getLeftEncoder() {
-    return leftFrontMotor.getSelectedSensorPosition();
+    return leftEncoder;
   }
 
   public double getRightEncoder() {
-    return rightFrontMotor.getSelectedSensorPosition();
+    return rightEncoder;
   }
 
   public double getPitch() {
@@ -335,7 +341,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getHeading() {
-    return navx.getRotation2d().getDegrees() - gyroOffset;
+    return heading;
   }
 
   public void zeroHeading() {
@@ -369,11 +375,11 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getLeftEncoderDistance() {
-    return getLeftEncoder() / Constants.SysIDConstants.leftEncoderTicksPerMeter;
+    return leftEncoder / Constants.SysIDConstants.leftEncoderTicksPerMeter;
   }
 
   public double getRightEncoderDistance() {
-    return getRightEncoder() / Constants.SysIDConstants.rightEncoderTicksPerMeter;
+    return rightEncoder / Constants.SysIDConstants.rightEncoderTicksPerMeter;
   }
 
   public void shiftHigh() {
@@ -407,5 +413,9 @@ public class Drivetrain extends SubsystemBase {
   public void setFullSpeed() {
     isHalfSpeed = false;
     isQuarterSpeed = false;
+  }
+
+  public Boolean isIMUConnected(){
+    return imuConnected;
   }
 }

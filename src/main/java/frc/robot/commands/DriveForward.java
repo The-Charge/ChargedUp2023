@@ -44,19 +44,19 @@ public class DriveForward extends CommandBase {
       startTick = m_drivetrain.getLeftEncoder();
       isTickMode = true;
     }
-    m_drivetrain.run(m_power + headingPower, m_power - headingPower);
+    m_drivetrain.rawRun(m_power + headingPower, m_power - headingPower);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drivetrain.run(0, 0);
+    m_drivetrain.rawRun(0, 0);
   }
 
   // Returns true when ticksCount met or dropped suddenly when counting ticks (something wrong, stop to avoid penalty).
   @Override
   public boolean isFinished() {
-    return (isTickMode &&
+    return !m_drivetrain.isIMUConnected() || (isTickMode &&
         ((Math.abs(m_drivetrain.getLeftEncoder() - startTick) > AutoConstants.fastClimbTicks)
             || (Math.abs(thisPitch) < Math.abs(m_stopPitch) / 2)));
   }

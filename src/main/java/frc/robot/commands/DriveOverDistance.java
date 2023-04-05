@@ -87,13 +87,13 @@ public class DriveOverDistance extends CommandBase {
             ticksTravlled = Math.abs(m_drivetrain.getLeftEncoder() - startTick);
             m_speed = (m_ticks - ticksTravlled) / m_ticks * startSpeed;
         }
-        m_drivetrain.run(m_speed + thisHeading, m_speed - thisHeading);
+        m_drivetrain.rawRun(m_speed + thisHeading, m_speed - thisHeading);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        m_drivetrain.run(0, 0);
+        m_drivetrain.rawRun(0, 0);
     }
 
     // Returns true when the command should end.
@@ -102,6 +102,6 @@ public class DriveOverDistance extends CommandBase {
         if (startTime + timeoutMS < System.currentTimeMillis()) {
             return true;
         }
-        return ticksTravlled > ticksToTravel;
+        return !m_drivetrain.isIMUConnected() || ticksTravlled > ticksToTravel;
     }
 } 

@@ -62,13 +62,13 @@ public class DriveOver extends CommandBase {
         m_power = m_power * .7;
       }
     }
-    m_drivetrain.run(m_power + headingPower, m_power - headingPower);
+    m_drivetrain.rawRun(m_power + headingPower, m_power - headingPower);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drivetrain.run(0, 0);
+    m_drivetrain.rawRun(0, 0);
   }
 
   // Returns true when the command should end.
@@ -83,6 +83,6 @@ public class DriveOver extends CommandBase {
     if (status > 3) {
       status++;
     }
-    return (status > 50) || (startTimeMS + timeoutMS < System.currentTimeMillis());
+    return !m_drivetrain.isIMUConnected() || (status > 50) || (startTimeMS + timeoutMS < System.currentTimeMillis());
   }
 }

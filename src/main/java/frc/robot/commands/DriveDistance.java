@@ -60,18 +60,18 @@ public class DriveDistance extends CommandBase {
         if (ticksToTravel < ticksToStartDeaccelerate){
           drivePower = ticksToTravel / ticksToStartDeaccelerate * controllablePowerRange + stallPower;     
         }
-        m_drivetrain.run(drivePower + headingPower, drivePower - headingPower);
+        m_drivetrain.rawRun(drivePower + headingPower, drivePower - headingPower);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        m_drivetrain.run(0, 0);
+        m_drivetrain.rawRun(0, 0);
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return ticksToTravel < 1.0;
+        return (!m_drivetrain.isIMUConnected() || ticksToTravel < 1.0);
     }
 } 
