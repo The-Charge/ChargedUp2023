@@ -12,8 +12,9 @@ public class DriveOver extends CommandBase {
   private double thisPitch;
   private double m_offset = 0;
   private int status = 0;
-  public double timeoutMS = 6000;
-  public long startTimeMS;
+  private double timeoutMS = 6000;
+  private long startTimeMS;
+  private int imuStatus = 0;
 
   /**
    * Drive over the charging station.
@@ -39,6 +40,7 @@ public class DriveOver extends CommandBase {
   public void initialize() {
     status = 0;
     startTimeMS = System.currentTimeMillis();
+    imuStatus = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -62,7 +64,12 @@ public class DriveOver extends CommandBase {
         m_power = m_power * .7;
       }
     }
-    m_drivetrain.rawRun(m_power + headingPower, m_power - headingPower);
+    if (m_drivetrain.isIMUConnected()){
+      m_drivetrain.rawRun(m_power + headingPower, m_power - headingPower);
+    } else {
+      m_drivetrain.rawRun(0, 0);
+      imuStatus++;
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -83,6 +90,6 @@ public class DriveOver extends CommandBase {
     if (status > 3) {
       status++;
     }
-    return !m_drivetrain.isIMUConnected() || (status > 50) || (startTimeMS + timeoutMS < System.currentTimeMillis());
+    return imuStatus > 40 || (status > 40) || (startTimeMS + timeoutMS < System.currentTimeMillis());
   }
 }

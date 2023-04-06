@@ -19,7 +19,7 @@ public class DriveOverDistance extends CommandBase {
     public static final double stallPower = 0.34;
     private double ticksToTravel = 0;
     private double ticksTravlled = 0;
-    
+    private int imuStatus = 0;    
     /**
      * This is ugly since the original is coded during district event.  We cleaned up Math a bit but
      * still let all the ticks and calcuation from these ticks match the old code to make sure it still
@@ -52,6 +52,7 @@ public class DriveOverDistance extends CommandBase {
         status = 0;
         startTick = 0;
         startTime = System.currentTimeMillis();
+        imuStatus = 0;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -87,7 +88,12 @@ public class DriveOverDistance extends CommandBase {
             ticksTravlled = Math.abs(m_drivetrain.getLeftEncoder() - startTick);
             m_speed = (m_ticks - ticksTravlled) / m_ticks * startSpeed;
         }
-        m_drivetrain.rawRun(m_speed + thisHeading, m_speed - thisHeading);
+        if (m_drivetrain.isIMUConnected()){
+            m_drivetrain.rawRun(m_speed + thisHeading, m_speed - thisHeading);
+        } else {
+            m_drivetrain.rawRun(0, 0);
+            imuStatus++;
+        }
     }
 
     // Called once the command ends or is interrupted.
@@ -102,6 +108,6 @@ public class DriveOverDistance extends CommandBase {
         if (startTime + timeoutMS < System.currentTimeMillis()) {
             return true;
         }
-        return !m_drivetrain.isIMUConnected() || ticksTravlled > ticksToTravel;
+        return imuStatus > 40 || ticksTravlled > ticksToTravel;
     }
 } 

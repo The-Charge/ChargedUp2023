@@ -22,6 +22,7 @@ public class DriveDistance extends CommandBase {
     private double drivePower;
     private double ticksToTravel = 0;
     private double ticksTravelled = 0;
+    private int imuStatus = 0;
     /**
      * Drive at set power and set offset (clockwise +, counterclockwise -) until last meter
      * then slow down until distance is reached
@@ -49,6 +50,7 @@ public class DriveDistance extends CommandBase {
         startTick = m_drivetrain.getLeftEncoder();
         ticksToTravel = m_ticks;
         drivePower = m_power;
+        imuStatus = 0;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -60,7 +62,12 @@ public class DriveDistance extends CommandBase {
         if (ticksToTravel < ticksToStartDeaccelerate){
           drivePower = ticksToTravel / ticksToStartDeaccelerate * controllablePowerRange + stallPower;     
         }
-        m_drivetrain.rawRun(drivePower + headingPower, drivePower - headingPower);
+        if (m_drivetrain.isIMUConnected()){
+            m_drivetrain.rawRun(drivePower + headingPower, drivePower - headingPower);
+        } else {
+            m_drivetrain.rawRun(0,0);
+            imuStatus++;
+        }
     }
 
     // Called once the command ends or is interrupted.
@@ -72,6 +79,6 @@ public class DriveDistance extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return (!m_drivetrain.isIMUConnected() || ticksToTravel < 1.0);
+        return (imuStatus > 40 || ticksToTravel < 1.0);
     }
 } 

@@ -179,7 +179,9 @@ public class RobotContainer {
     shiftHighBtn.onTrue(new ShiftHigh(m_drivetrain).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
     final JoystickButton driveDistanceBtn = new JoystickButton(leftJoystick, 12);
-    driveDistanceBtn.onTrue(new SequentialCommandGroup(new ResetHeading(m_drivetrain), new DriveDistance(m_drivetrain, -.8, 0, Units.inchesToMeters(227))));
+    driveDistanceBtn.onTrue(new SequentialCommandGroup(
+      new DriveForward(m_drivetrain, 0.9, 16, 0),
+      new FastClimb(m_drivetrain, 0)));
 
     // final JoystickButton velocityDriveBtn = new JoystickButton(rightJoystick, 3);
     // velocityDriveBtn.whileTrue(new VelocityDrive(m_drivetrain));
