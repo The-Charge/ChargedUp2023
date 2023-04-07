@@ -96,19 +96,19 @@ public class RobotContainer {
 
     // Manually places in paths
     pathFileNames[0] = "None";
-    pathFileNames[1] = "Clear With Score";
-    pathFileNames[2] = "Clear Two Ball";
-    pathFileNames[3] = "Clear No Score";
-    pathFileNames[4] = "Charge Station Two Piece Left";
-    pathFileNames[5] = "Charge Station Two Piece Right";
-    pathFileNames[6] = "Charge Station With Score";
-    pathFileNames[7] = "Charge Station No Score";
-    pathFileNames[8] = "Charge Station Two Piece Score Left";
-    pathFileNames[9] = "Charge Station Two Piece Score Right";
-    pathFileNames[10] = "Charge Station Two Piece Score Balance Left";
-    pathFileNames[11] = "Charge Station Two Piece Score Balance Right";
-    pathFileNames[12] = "Bump With Score";
-    pathFileNames[13] = "Bump Two Ball";
+    pathFileNames[1] = "Charge Station Two Piece Score Balance Left";
+    pathFileNames[2] = "Charge Station Two Piece Score Balance Right";
+    pathFileNames[3] = "Clear Two Ball";
+    pathFileNames[4] = "Bump Two Ball";
+    pathFileNames[5] = "Clear With Score";
+    pathFileNames[6] = "Clear No Score";
+    pathFileNames[7] = "Charge Station Two Piece Left";
+    pathFileNames[8] = "Charge Station Two Piece Right";
+    pathFileNames[9] = "Charge Station With Score";
+    pathFileNames[10] = "Charge Station No Score";
+    pathFileNames[11] = "Charge Station Two Piece Score Left";
+    pathFileNames[12] = "Charge Station Two Piece Score Right";
+    pathFileNames[13] = "Bump With Score";
     pathFileNames[14] = "Bump No Score";
     pathFileNames[15] = "Score Cone Only";
     pathFileNames[16] = "Forward 2M";
@@ -155,7 +155,7 @@ public class RobotContainer {
     quarterSpeedBtn.onTrue(new QuarterSpeed(m_drivetrain));
 
     final JoystickButton fullSpeedBtn = new JoystickButton(leftJoystick, 3);
-    fullSpeedBtn.onTrue( new FullSpeed(m_drivetrain));
+    fullSpeedBtn.onTrue(new FullSpeed(m_drivetrain));
 
     final JoystickButton reverseDriveBtn = new JoystickButton(leftJoystick, 1);
     reverseDriveBtn.onTrue(new ReverseDrive(m_drivetrain).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
@@ -179,10 +179,11 @@ public class RobotContainer {
     shiftHighBtn.onTrue(new ShiftHigh(m_drivetrain).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
     final JoystickButton driveDistanceBtn = new JoystickButton(leftJoystick, 12);
-    driveDistanceBtn.onTrue(new SequentialCommandGroup(new ResetHeading(m_drivetrain), new DriveDistance(m_drivetrain, -.8, 0, Units.inchesToMeters(227))));
+    driveDistanceBtn.onTrue(new SequentialCommandGroup(new ResetHeading(m_drivetrain),
+        new DriveDistance(m_drivetrain, -.8, 0, Units.inchesToMeters(227))));
 
-    // final JoystickButton velocityDriveBtn = new JoystickButton(rightJoystick, 3);
-    // velocityDriveBtn.whileTrue(new VelocityDrive(m_drivetrain));
+    final JoystickButton velocityDriveBtn = new JoystickButton(rightJoystick, 3);
+    velocityDriveBtn.whileTrue(new VelocityDrive(m_drivetrain));
 
     // final JoystickButton alignBtn = new JoystickButton(leftJoystick, 1);
     // alignBtn.onTrue(new Align(m_drivetrain, m_camera));

@@ -12,7 +12,12 @@ public class ScoreHighCone extends CommandBase {
   private MagicArm m_arm;
   private final double m_xMultiplier;
 
-  /* Creates a new ScoreHighCone. */
+  /**
+   * MoveArm to "High" scoring position and OpenClaw (for autonomous paths only)
+   * 
+   * @param subsystem     MagicArm subsystem
+   * @param _isScoreFront Score on front side of robot or backside of robot
+   */
   public ScoreHighCone(MagicArm subsystem, boolean _isScoreFront) {
     if (_isScoreFront) {
       m_xMultiplier = 1;
@@ -25,7 +30,8 @@ public class ScoreHighCone extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -33,13 +39,14 @@ public class ScoreHighCone extends CommandBase {
     if (Math.abs(m_arm.getElbowAngle()) < 1.1) {
       m_arm.runElbow(-m_xMultiplier * (2.8));
     } else {
-      m_arm.run(m_xMultiplier * ArmConstants.shoulderScoreDegree / 180.0 * Math.PI, -m_xMultiplier * Math.PI);
+      m_arm.run(m_xMultiplier * (ArmConstants.shoulderScoreDegree + 5) / 180.0 * Math.PI, -m_xMultiplier * (Math.PI + 0.05));
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

@@ -113,14 +113,14 @@ public class MagicArm extends SubsystemBase {
 
     /* Set acceleration and vcruise velocity - see documentation */
     shldrMtr.configMotionCruiseVelocity(100, MagicArmCnsts.kTimeoutMs);
-    shldrMtr.configMotionAcceleration(300, MagicArmCnsts.kTimeoutMs);
-    shldrMtr.configMotionSCurveStrength(5, MagicArmCnsts.kTimeoutMs);
+    shldrMtr.configMotionAcceleration(350, MagicArmCnsts.kTimeoutMs);
+    shldrMtr.configMotionSCurveStrength(1, MagicArmCnsts.kTimeoutMs);
     elbowMtr.configMotionCruiseVelocity(200, MagicArmCnsts.kTimeoutMs);
-    elbowMtr.configMotionAcceleration(300, MagicArmCnsts.kTimeoutMs);
+    elbowMtr.configMotionAcceleration(350, MagicArmCnsts.kTimeoutMs);
     elbowMtr.configMotionSCurveStrength(1, MagicArmCnsts.kTimeoutMs);
 
     /* Set the relative sensor according to absolute sensor at neutral on robot boot up */
-    int shldrTick = shldrMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1623;
+    int shldrTick = shldrMtr.getSensorCollection().getPulseWidthPosition() % 4096 - 1613;
     if (shldrTick > 2048) {
       shldrTick -= 4096;
     } else if (shldrTick < -2048) {
@@ -410,7 +410,7 @@ public class MagicArm extends SubsystemBase {
       double[] angles = getAngles(_x, _y);
       if (angles[2] > 0) { // a triangle solution exists
         // Elbow already at target, move shoulder
-        if (Math.abs(angles[1] - elbowAngl) < 0.1) { // was 0.05
+        if (Math.abs(angles[1] - elbowAngl) < 0.3) { // was 0.05
           run(angles[0], angles[1]);
         } else {
           // Only move the elbow if the arm tip has not cleared the robot,

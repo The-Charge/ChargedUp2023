@@ -60,7 +60,7 @@ public final class Constants {
     public static final int elbowCAN_ID = 15;
     public static final double shoulderL = 39.0 * InchToMeter;
     public static final double elbowL = 37.0 * InchToMeter;
-    public static final double shoulderAngleToSafeSwingElbowThrough = 27 * degreeToRadian; // was 22.6
+    public static final double shoulderAngleToSafeSwingElbowThrough = 33 * degreeToRadian; // was 22.6
     public static final double shoulderHeight = 11 * InchToMeter;
     public static final double elbowperMotorTick = Math.PI * 2 / 4096;
     public static final double shoulderperMotorTick = Math.PI * 2 / 4096;
@@ -69,7 +69,7 @@ public final class Constants {
     public static final double hiGoalY = 47.0 * InchToMeter;
     public static final double midGoalX = 45.3 * InchToMeter;
     public static final double midGoalY = 32.5 * InchToMeter;
-    public static final double stationX = 28 * InchToMeter;
+    public static final double stationX = 29 * InchToMeter;
     public static final double stationY = 33.5 * InchToMeter;
     public static final double pickUpX = 35.4 * InchToMeter;
     public static final double pickUpY = -6.7 * InchToMeter;

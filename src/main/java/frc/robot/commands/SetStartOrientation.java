@@ -9,8 +9,14 @@ import frc.robot.subsystems.Drivetrain;
 
 public class SetStartOrientation extends CommandBase {
   private final Drivetrain m_drivetrain;
-  private final Boolean facingBack; 
-  /** Creates a new SetStartOrientation. */
+  private final Boolean facingBack;
+
+  /**
+   * Setting Orientation (for DriveDegree)
+   * 
+   * @param subsystem  Drivetrain subsystem
+   * @param _backToDriver Front facing away from Driver
+   */
   public SetStartOrientation(Drivetrain subsystem, Boolean _backToDriver) {
     m_drivetrain = subsystem;
     facingBack = _backToDriver;
@@ -25,11 +31,13 @@ public class SetStartOrientation extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

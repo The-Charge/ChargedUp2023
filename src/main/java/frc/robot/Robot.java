@@ -47,7 +47,9 @@ public class Robot extends TimedRobot {
          * Instantiate our RobotContainer. This will perform all our button bindings,
          * And put our autonomous chooser on the dashboard.
          */
-        CameraServer.startAutomaticCapture();
+
+        // Start camera server
+        // CameraServer.startAutomaticCapture();
 
         m_robotContainer = RobotContainer.getInstance();
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
@@ -55,7 +57,7 @@ public class Robot extends TimedRobot {
         RobotContainer.getInstance().m_drivetrain.setBrake();
 
         // Comment out for comp.
-        PathPlannerServer.startServer(5811);
+        // PathPlannerServer.startServer(5811);
 
         ValueModifier();
     }

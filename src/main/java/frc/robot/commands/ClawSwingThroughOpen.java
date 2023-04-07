@@ -10,10 +10,11 @@ import frc.robot.subsystems.MagicArm;
 
 //Wait for claw to get inside robot to close claw, then wait for it to be outside to open.
 public class ClawSwingThroughOpen extends CommandBase {
-  private final Claw m_claw; 
+  private final Claw m_claw;
   private final MagicArm m_arm;
   private Boolean clawOpened = false;
   private int intervalsInsideRobot = 0;
+
   /** Creates a new ClawSwingThroughOpen. */
   public ClawSwingThroughOpen(Claw subsystem, MagicArm _arm) {
     m_claw = subsystem;
@@ -32,13 +33,14 @@ public class ClawSwingThroughOpen extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (intervalsInsideRobot == 0){
-      if (m_arm.isArmTipInsideRobotX()){
+    if (intervalsInsideRobot == 0) {
+      if (m_arm.isArmTipInsideRobotX()) {
         intervalsInsideRobot++;
-        m_claw.closeClaw(true);;
+        m_claw.closeClaw(true);
+        ;
       }
-    }else{
-      if (intervalsInsideRobot > 10 && !m_arm.isArmTipInsideRobotX()){
+    } else {
+      if (intervalsInsideRobot > 10 && !m_arm.isArmTipInsideRobotX()) {
         m_claw.openClaw(true);
         clawOpened = true;
       }
@@ -48,7 +50,8 @@ public class ClawSwingThroughOpen extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

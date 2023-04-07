@@ -15,13 +15,15 @@ public class MidGoalDepth extends CommandBase {
   private final MagicArm m_arm;
   private final double armX;
   private final double armY;
-  /** Creates a new MidGoalDepth. */
+
   /**
-   * Move armtip so that it is the same depth as when the robot is straight against the goal
-   * @param subsystem arm
+   * Moves armtip so that it is the same depth as when the robot is straight
+   * against the goal
+   * 
+   * @param subsystem MagicArm subsystem
    * @param gyroTrain drivetrain for heading input
-   * @param _x
-   * @param _y
+   * @param _x        meters
+   * @param _y        meters
    */
   public MidGoalDepth(MagicArm subsystem, Drivetrain gyroTrain, double _x, double _y) {
     m_driveTrain = gyroTrain;
@@ -42,12 +44,13 @@ public class MidGoalDepth extends CommandBase {
   @Override
   public void execute() {
     double cosine = Math.abs(Math.cos(Units.degreesToRadians(m_driveTrain.getHeading())));
-    m_arm.moveTowardXY(armX/cosine, armY);
+    m_arm.moveTowardXY(armX / cosine, armY);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when joysticks on gamepad moved.
   @Override

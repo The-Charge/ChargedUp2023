@@ -32,6 +32,15 @@ public class MoveMagicArmToXY extends CommandBase {
     private long startTime = 0;
     private long m_timeOut;
 
+    /**
+     * Move armtip so that it is the same depth as when the robot is straight
+     * against the goal
+     * 
+     * @param subsystem  MagicArm subsystem
+     * @param _x         Meters
+     * @param _y         Meters
+     * @param _timeoutMS Milliseconds
+     */
     public MoveMagicArmToXY(MagicArm subsystem, double _x, double _y, long _timeOutMs) {
         m_X = _x;
         m_Y = _y;
@@ -49,7 +58,7 @@ public class MoveMagicArmToXY extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        //move if there is a path, and no joysticks movement and not timed out
+        // Move if there is a path, and no joysticks movement and not timed out
         canMove = m_magicArm.moveTowardXY(m_X, m_Y) &&
                 Math.abs(RobotContainer.getInstance().getArmController().getRawAxis(1)) < 0.2 &&
                 Math.abs(RobotContainer.getInstance().getArmController().getRawAxis(3)) < 0.2 &&

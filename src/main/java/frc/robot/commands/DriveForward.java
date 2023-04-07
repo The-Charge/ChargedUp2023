@@ -13,11 +13,14 @@ public class DriveForward extends CommandBase {
   private boolean isTickMode = false;
   private double thisPitch = 0;
   private double m_Offset = 0;
+
   /**
-   * Drive forward until the pitch reaches stopPitch and then drive fastClimbTicks specified in Constants
-   * @param subsystem  drivetrain
-   * @param power      driving power
-   * @param stopPitch  pitch to start tickcounts
+   * Drive forward until the pitch reaches stopPitch and then drive fastClimbTicks
+   * specified in Constants
+   * 
+   * @param subsystem     drivetrain
+   * @param power         driving power
+   * @param stopPitch     pitch to start tickcounts
    * @param headingOffset robot heading in degree (clockwise +)
    */
   public DriveForward(Drivetrain subsystem, double power, double stopPitch, double headingOffset) {
@@ -53,7 +56,8 @@ public class DriveForward extends CommandBase {
     m_drivetrain.rawRun(0, 0);
   }
 
-  // Returns true when ticksCount met or dropped suddenly when counting ticks (something wrong, stop to avoid penalty).
+  // Returns true when ticksCount met or dropped suddenly when counting ticks
+  // (something wrong, stop to avoid penalty).
   @Override
   public boolean isFinished() {
     return !m_drivetrain.isIMUConnected() || (isTickMode &&

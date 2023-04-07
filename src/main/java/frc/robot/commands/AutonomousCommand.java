@@ -108,18 +108,18 @@ public class AutonomousCommand extends CommandBase {
                 return scoreHighConeChargeStationCommand();
             case "Charge Station No Score":
                 return climbCommand();
-            case "Charge Station Two Piece Left":               
-                return scoreHighConeChargeStationTwoPieceCommand(-0.9);
+            case "Charge Station Two Piece Left":
+                return scoreHighConeChargeStationTwoPieceCommand(-0.7);
             case "Charge Station Two Piece Right":
                 return scoreHighConeChargeStationTwoPieceCommand(0.9);
             case "Charge Station Two Piece Score Left":
-                return scoreHighConeChargeStationTwoPieceScoreCommand(-0.9);
+                return scoreHighConeChargeStationTwoPieceScoreCommand(-0.7);
             case "Charge Station Two Piece Score Right":
                 return scoreHighConeChargeStationTwoPieceScoreCommand(+0.9);
             case "Charge Station Two Piece Score Balance Left":
-                return scoreHighConeChargeStationTwoPieceScoreBalanceCommand(-0.9);
+                return scoreHighConeChargeStationTwoPieceScoreBalanceCommand(-0.7);
             case "Charge Station Two Piece Score Balance Right":
-                return scoreHighConeChargeStationTwoPieceScoreBalanceCommand(0.9); 
+                return scoreHighConeChargeStationTwoPieceScoreBalanceCommand(0.9);
             case "Score Cone Only":
                 return scoreHighConeCommand();
             case "Clear Two Ball":
@@ -180,92 +180,80 @@ public class AutonomousCommand extends CommandBase {
                 new CloseClaw(m_claw, true));
     }
 
-    private SequentialCommandGroup scoreHighCone(){ 
+    private SequentialCommandGroup scoreHighCone() {
         return new SequentialCommandGroup(
-            new ParallelCommandGroup(
-                new SequentialCommandGroup(
-                    new ResetPitch(m_driveTrain), // resetter
-                    new ResetHeading(m_driveTrain),
-                    new SetStartOrientation(m_driveTrain, false)
-                ),
-                new ScoreHighCone(m_arm, true)
-            ),
-            new OpenClaw(m_claw, true) // openClaw
-        );     
-    }
-
-    public SequentialCommandGroup scoreGrabScoreClar(double heading){
-        return new SequentialCommandGroup(
-            scoreHighCone(),
-            new ParallelCommandGroup(
-                new ClawSwingThroughOpen(m_claw, m_arm),
-                new MoveMagicArmToXY(m_arm, ArmConstants.pickUpX, ArmConstants.pickUpY, 5000),
-                new DriveDistance(m_driveTrain, -0.85, heading, Units.inchesToMeters(168))        
-            ),
-            new CloseClaw(m_claw, true),
-            new WaitNSecs(0.5),
-            new ParallelCommandGroup(
-                new MoveMagicArmToXY(m_arm, -ArmConstants.hiGoalX, ArmConstants.hiGoalY - 0.05,5000), // gud
-                new DriveDistance(m_driveTrain, 0.85, -Math.abs(heading)/heading*1.9, 167.5)
-            ),
-            new OpenClaw(m_claw, true)
+                new ParallelCommandGroup(
+                        new SequentialCommandGroup(
+                                new ResetPitch(m_driveTrain), // resetter
+                                new ResetHeading(m_driveTrain),
+                                new SetStartOrientation(m_driveTrain, false)),
+                        new ScoreHighCone(m_arm, true)),
+                new OpenClaw(m_claw, true) // openClaw
         );
     }
 
-    private SequentialCommandGroup scoreHighConeChargeStationGrab(double heading){
+    public SequentialCommandGroup scoreGrabScoreClar(double heading) {
         return new SequentialCommandGroup(
-            scoreHighCone(),
-            new ParallelCommandGroup(
-                new MoveMagicArmToXY(m_arm, ArmConstants.pickUpX, ArmConstants.pickUpY, 5000),
-                new ClawSwingThroughOpen(m_claw, m_arm),
-                new DriveOverDistance(m_driveTrain, -0.85, 10, heading, Units.inchesToMeters(30.8))
-            ), 
-            new CloseClaw(m_claw, true)
-        );
+                scoreHighCone(),
+                new ParallelCommandGroup(
+                        new ClawSwingThroughOpen(m_claw, m_arm),
+                        new MoveMagicArmToXY(m_arm, ArmConstants.pickUpX, ArmConstants.pickUpY, 5000),
+                        new DriveDistance(m_driveTrain, -0.85, heading, Units.inchesToMeters(168))),
+                new CloseClaw(m_claw, true),
+                new WaitNSecs(0.5),
+                new ParallelCommandGroup(
+                        new MoveMagicArmToXY(m_arm, -ArmConstants.hiGoalX, ArmConstants.hiGoalY - 0.05, 5000), // gud
+                        new DriveDistance(m_driveTrain, 0.85, -Math.abs(heading) / heading * 1.9, 167.5)),
+                new OpenClaw(m_claw, true));
+    }
+
+    private SequentialCommandGroup scoreHighConeChargeStationGrab(double heading) {
+        return new SequentialCommandGroup(
+                scoreHighCone(),
+                new ParallelCommandGroup(
+                        new MoveMagicArmToXY(m_arm, ArmConstants.pickUpX, ArmConstants.pickUpY, 5000),
+                        new ClawSwingThroughOpen(m_claw, m_arm),
+                        new DriveOverDistance(m_driveTrain, -0.85, 10, heading, Units.inchesToMeters(28.8))),
+                new CloseClaw(m_claw, true));
     }
 
     public SequentialCommandGroup scoreHighConeChargeStationTwoPieceCommand(double headingOffset) {
         return new SequentialCommandGroup(
-            scoreHighConeChargeStationGrab(headingOffset),
-            new ParallelCommandGroup(
-                new MoveArmToNeutral(m_arm), // gud
-                new SequentialCommandGroup( // gud        
-                    new DriveForward(m_driveTrain, 0.9, 10, headingOffset),
-                    new Climb(m_driveTrain, headingOffset)
-                )
-            )
-        );
+                scoreHighConeChargeStationGrab(headingOffset),
+                new ParallelCommandGroup(
+                        new MoveArmToNeutral(m_arm), // gud
+                        new SequentialCommandGroup( // gud
+                                new DriveForward(m_driveTrain, 0.9, 10, headingOffset),
+                                new Climb(m_driveTrain, headingOffset))));
     }
 
     public SequentialCommandGroup scoreHighConeChargeStationTwoPieceScoreCommand(double headingOffset) {
         return new SequentialCommandGroup(
-            scoreHighConeChargeStationGrab(headingOffset),
-            new ParallelCommandGroup(
-                new MoveMagicArmToXY(m_arm, -ArmConstants.hiGoalX, ArmConstants.hiGoalY - 0.05,3000), // gud
-                new DriveOver(m_driveTrain, 0.9, 10, Math.abs(headingOffset)/headingOffset*5.91)
-            ),
-            new OpenClaw(m_claw, true)
+                scoreHighConeChargeStationGrab(headingOffset),
+                new ParallelCommandGroup(
+                        new MoveMagicArmToXY(m_arm, -ArmConstants.hiGoalX, ArmConstants.hiGoalY - 0.25, 3000), // gud
+                        new DriveOver(m_driveTrain, 0.9, 10, Math.abs(headingOffset) / headingOffset * (5.91 + 0.2))),
+                new OpenClaw(m_claw, true)
+        // , new WaitNSecs(0.5)
         );
     }
-    
-    public SequentialCommandGroup scoreHighConeChargeStationTwoPieceScoreBalanceCommand(double heading){
+
+    public SequentialCommandGroup scoreHighConeChargeStationTwoPieceScoreBalanceCommand(double heading) {
         return new SequentialCommandGroup(
-            scoreHighConeChargeStationTwoPieceScoreCommand(heading),
-            new ParallelCommandGroup(
-                new MoveArmToNeutral(m_arm),
-                new SequentialCommandGroup(
-                    new DriveForward(m_driveTrain, -0.9, 10, 0), 
-                    new Climb(m_driveTrain,0)
-                ),
-                new ClawSwingThroughOpen(m_claw, m_arm)
-            )
-        );
+                scoreHighConeChargeStationTwoPieceScoreCommand(heading),
+                new ParallelCommandGroup(
+                        new MoveArmToNeutral(m_arm),
+                        new SequentialCommandGroup(
+                                new DriveForward(m_driveTrain, -0.9, 10, 0),
+                                new Climb(m_driveTrain, 0)),
+                        new ClawSwingThroughOpen(m_claw, m_arm)));
     }
+
     public SequentialCommandGroup pathPlannerComand(String pathName) {
         PathPlannerTrajectory examplePath = PathPlanner.loadPath(
-            pathName,
-            new PathConstraints(kMaxSpeedMetersPerSecond,
-                    kMaxAccelerationMetersPerSecondSquared));
+                pathName,
+                new PathConstraints(kMaxSpeedMetersPerSecond,
+                        kMaxAccelerationMetersPerSecondSquared));
 
         HashMap<String, Command> eventMap = new HashMap<>();
 
@@ -313,11 +301,13 @@ public class AutonomousCommand extends CommandBase {
     public SequentialCommandGroup pathPlannerComandGroup(String pathName) {
         // Distinct method for pathgroups (Two Ball Clear/Bump)
         List<PathPlannerTrajectory> examplePath = PathPlanner.loadPathGroup(
-            pathName,
-            new PathConstraints(kMaxSpeedMetersPerSecond,
-                    kMaxAccelerationMetersPerSecondSquared),  new PathConstraints(kMaxSpeedMetersPerSecond,
-                    kMaxAccelerationMetersPerSecondSquared), new PathConstraints(kMaxSpeedMetersPerSecond,
-                    kMaxAccelerationMetersPerSecondSquared));
+                pathName,
+                new PathConstraints(kMaxSpeedMetersPerSecond,
+                        kMaxAccelerationMetersPerSecondSquared),
+                new PathConstraints(kMaxSpeedMetersPerSecond,
+                        kMaxAccelerationMetersPerSecondSquared),
+                new PathConstraints(kMaxSpeedMetersPerSecond,
+                        kMaxAccelerationMetersPerSecondSquared));
 
         HashMap<String, Command> eventMap = new HashMap<>();
 
@@ -332,7 +322,7 @@ public class AutonomousCommand extends CommandBase {
         eventMap.put("TurnNDegrees", new TurnNRelative(m_driveTrain, 180 - m_driveTrain.getHeading()));
         eventMap.put("WaitSeconds", new WaitNSecs(10000));
         m_driveTrain.resetOdometry(new Pose2d());
-        
+
         /**
          * Create the AutoBuilder. This only needs to be created once when robot code
          * Starts, not every time you want to create an auto command. A good place to
