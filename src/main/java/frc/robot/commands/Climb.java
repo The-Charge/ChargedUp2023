@@ -40,10 +40,10 @@ public class Climb extends CommandBase {
         (thisPitch - lastPitch) * AutoConstants.climbPitchDerivativeGain;
     lastPitch = thisPitch;
 
-    if (thisPitch < -2.5) {
+    if (thisPitch < -2) {
       power = power + AutoConstants.climbPowerBackwardBias;
       timesAtLevel = 0;
-    } else if (thisPitch > 2.5) {
+    } else if (thisPitch > 2) {
       power = power + AutoConstants.climbPowerForwardBias;
       timesAtLevel = 0;
     } else {

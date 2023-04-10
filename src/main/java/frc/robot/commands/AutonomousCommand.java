@@ -109,15 +109,15 @@ public class AutonomousCommand extends CommandBase {
             case "Charge Station No Score":
                 return climbCommand();
             case "Charge Station Two Piece Left":
-                return scoreHighConeChargeStationTwoPieceCommand(-0.7);
+                return scoreHighConeChargeStationTwoPieceCommand(-0.8);
             case "Charge Station Two Piece Right":
                 return scoreHighConeChargeStationTwoPieceCommand(0.9);
             case "Charge Station Two Piece Score Left":
-                return scoreHighConeChargeStationTwoPieceScoreCommand(-0.7);
+                return scoreHighConeChargeStationTwoPieceScoreCommand(-0.8);
             case "Charge Station Two Piece Score Right":
                 return scoreHighConeChargeStationTwoPieceScoreCommand(+0.9);
             case "Charge Station Two Piece Score Balance Left":
-                return scoreHighConeChargeStationTwoPieceScoreBalanceCommand(-0.7);
+                return scoreHighConeChargeStationTwoPieceScoreBalanceCommand(-0.8);
             case "Charge Station Two Piece Score Balance Right":
                 return scoreHighConeChargeStationTwoPieceScoreBalanceCommand(0.9);
             case "Score Cone Only":
@@ -156,12 +156,12 @@ public class AutonomousCommand extends CommandBase {
                 new MoveMagicArmToXY(m_arm, -0.91, 1.65, 500),
                 new CloseClaw(m_claw, true),
                 new ParallelCommandGroup(
-                        new MoveMagicArmToXY(m_arm, -0.48, 0, 2000),
-                        new DriveOver(m_driveTrain, -0.8, 10, 0)),
+                        new MoveMagicArmToXY(m_arm, 0.48, 0, 2000),
+                        new DriveOver(m_driveTrain, -0.85, 10, 0)),
                 new ParallelCommandGroup(
                         new MoveArmToNeutral(m_arm),
                         new SequentialCommandGroup(
-                                new DriveForward(m_driveTrain, 0.8, 10, 0),
+                                new DriveForward(m_driveTrain, 0.85, 10, 0),
                                 new Climb(m_driveTrain, 0))));
     }
 
@@ -213,7 +213,7 @@ public class AutonomousCommand extends CommandBase {
                 new ParallelCommandGroup(
                         new MoveMagicArmToXY(m_arm, ArmConstants.pickUpX, ArmConstants.pickUpY, 5000),
                         new ClawSwingThroughOpen(m_claw, m_arm),
-                        new DriveOverDistance(m_driveTrain, -0.85, 10, heading, Units.inchesToMeters(28.8))),
+                        new DriveOverDistance(m_driveTrain, -0.85, 10, heading, Units.inchesToMeters(27.8))),
                 new CloseClaw(m_claw, true));
     }
 
@@ -223,7 +223,7 @@ public class AutonomousCommand extends CommandBase {
                 new ParallelCommandGroup(
                         new MoveArmToNeutral(m_arm), // gud
                         new SequentialCommandGroup( // gud
-                                new DriveForward(m_driveTrain, 0.9, 10, headingOffset),
+                                new DriveForward(m_driveTrain, 0.8, 10, headingOffset),
                                 new Climb(m_driveTrain, headingOffset))));
     }
 
@@ -232,7 +232,7 @@ public class AutonomousCommand extends CommandBase {
                 scoreHighConeChargeStationGrab(headingOffset),
                 new ParallelCommandGroup(
                         new MoveMagicArmToXY(m_arm, -ArmConstants.hiGoalX, ArmConstants.hiGoalY - 0.25, 3000), // gud
-                        new DriveOver(m_driveTrain, 0.9, 10, Math.abs(headingOffset) / headingOffset * (5.91 + 0.2))),
+                        new DriveOver(m_driveTrain, 0.9, 10, Math.abs(headingOffset) / headingOffset * (5.91 + 0.8))),
                 new OpenClaw(m_claw, true)
         // , new WaitNSecs(0.5)
         );
@@ -244,7 +244,7 @@ public class AutonomousCommand extends CommandBase {
                 new ParallelCommandGroup(
                         new MoveArmToNeutral(m_arm),
                         new SequentialCommandGroup(
-                                new DriveForward(m_driveTrain, -0.9, 10, 0),
+                                new DriveForward(m_driveTrain, -0.8, 10, 0),
                                 new Climb(m_driveTrain, 0)),
                         new ClawSwingThroughOpen(m_claw, m_arm)));
     }
@@ -313,7 +313,7 @@ public class AutonomousCommand extends CommandBase {
 
         // List of EventMap commands to be used in the Autobuilder
         eventMap.put("MoveArmScore", new ScoreHighCone(m_arm, false));
-        eventMap.put("MoveArmScore2", new MoveMagicArmToXY(m_arm, ArmConstants.hiGoalX, ArmConstants.hiGoalY, 5000));
+        eventMap.put("MoveArmScore2", new MoveMagicArmToXY(m_arm, ArmConstants.hiGoalX, ArmConstants.hiGoalY - 0.25, 5000));
         eventMap.put("OpenClaw", new OpenClaw(m_claw, true));
         eventMap.put("MoveArmNeutral", new MoveArmToNeutral(m_arm));
         eventMap.put("MoveArmFrontLow",

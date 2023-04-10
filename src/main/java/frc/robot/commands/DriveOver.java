@@ -83,6 +83,6 @@ public class DriveOver extends CommandBase {
     if (status > 3) {
       status++;
     }
-    return !m_drivetrain.isIMUConnected() || (status > 50) || (startTimeMS + timeoutMS < System.currentTimeMillis());
+    return !m_drivetrain.isIMUConnected() || (status > 40) || (startTimeMS + timeoutMS < System.currentTimeMillis());
   }
 }

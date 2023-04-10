@@ -40,12 +40,12 @@ public final class Constants {
   }
 
   public static final class AutoConstants {
-    public static final double climbPowerLimit = 0.57; // was 0.55;
-    public static final double climbPowerForwardBias = 0.3;
-    public static final double climbPowerBackwardBias = -0.3;
-    public static final double climbPitchGain = 0.018;
+    public static final double climbPowerLimit = 0.59; // was 0.55;
+    public static final double climbPowerForwardBias = 0.32;
+    public static final double climbPowerBackwardBias = -0.32;
+    public static final double climbPitchGain = 0.020;
     public static final double climbPitchDerivativeGain = 0.1; // was 0.6;
-    public static final double fastClimbTicks = 25000;
+    public static final double fastClimbTicks = 17500;
     public static final double headingGain = 0.02;
     public static final double fallPitchPerCycle = 1;
   }
@@ -79,8 +79,8 @@ public final class Constants {
     public static final double height = (78 - 2) * 0.0254;
     public static final double widthFromCenter = 66 * 0.0254;
     public static final double robotLength = 44 * 0.0254;
-    public static final double shoulderRange = Units.degreesToRadians(60);
-    public static final double elbowRange = (175.0 / 180.0) * 3.1415;
+    public static final double shoulderRange = Units.degreesToRadians(65);
+    public static final double elbowRange = (185.0 / 180.0) * 3.1415;
   }
 
   public static final class MagicArmCnsts {
