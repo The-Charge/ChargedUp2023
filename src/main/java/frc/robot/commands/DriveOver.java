@@ -15,6 +15,7 @@ public class DriveOver extends CommandBase {
   private double timeoutMS = 6000;
   private long startTimeMS;
   private int imuStatus = 0;
+  private final int m_intervalCounts;
 
   /**
    * Drive over the charging station.
@@ -27,11 +28,12 @@ public class DriveOver extends CommandBase {
    * @param stopPitch the pitch tht the robot is considered climbing
    * @param headingOffset the heading the robot needs to follow (clockwise +)
    */
-  public DriveOver(Drivetrain subsystem, double power, double stopPitch, double headingOffset) {
+  public DriveOver(Drivetrain subsystem, double power, double stopPitch, double headingOffset, int intervalCounts) {
     m_drivetrain = subsystem;
     m_offset = headingOffset;
     m_power = power;
     m_stopPitch = stopPitch;
+    m_intervalCounts = intervalCounts;
     addRequirements(subsystem);
   }
 
@@ -90,6 +92,6 @@ public class DriveOver extends CommandBase {
     if (status > 3) {
       status++;
     }
-    return imuStatus > 40 || (status > 40) || (startTimeMS + timeoutMS < System.currentTimeMillis());
+    return imuStatus > 40 || (status > m_intervalCounts) || (startTimeMS + timeoutMS < System.currentTimeMillis());
   }
 }

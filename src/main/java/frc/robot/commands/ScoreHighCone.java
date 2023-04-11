@@ -30,10 +30,10 @@ public class ScoreHighCone extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Math.abs(m_arm.getElbowAngle()) < 1.1) {
+    if (Math.abs(m_arm.getElbowAngle()) < 0.9) {
       m_arm.runElbow(-m_xMultiplier * (2.8));
     } else {
-      m_arm.run(m_xMultiplier * ArmConstants.shoulderScoreDegree / 180.0 * Math.PI, -m_xMultiplier * Math.PI);
+      m_arm.run(m_xMultiplier * (ArmConstants.shoulderScoreDegree + 5) / 180.0 * Math.PI, -m_xMultiplier * (Math.PI + 0.08));
     }
   }
 

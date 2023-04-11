@@ -5,9 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -40,12 +37,12 @@ public final class Constants {
   }
 
   public static final class AutoConstants {
-    public static final double climbPowerLimit = 0.57; // was 0.55;
-    public static final double climbPowerForwardBias = 0.3;
-    public static final double climbPowerBackwardBias = -0.3;
+    public static final double climbPowerLimit = 0.575; // was 0.55;
+    public static final double climbPowerForwardBias = 0.305;
+    public static final double climbPowerBackwardBias = -0.305;
     public static final double climbPitchGain = 0.018;
     public static final double climbPitchDerivativeGain = 0.1; // was 0.6;
-    public static final double fastClimbTicks = 25000;
+    public static final double fastClimbTicks = 17000;
     public static final double headingGain = 0.02;
     public static final double fallPitchPerCycle = 1;
   }
@@ -60,7 +57,7 @@ public final class Constants {
     public static final int elbowCAN_ID = 15;
     public static final double shoulderL = 39.0 * InchToMeter;
     public static final double elbowL = 37.0 * InchToMeter;
-    public static final double shoulderAngleToSafeSwingElbowThrough = 27 * degreeToRadian; // was 22.6
+    public static final double shoulderAngleToSafeSwingElbowThrough = 33 * degreeToRadian;
     public static final double shoulderHeight = 11 * InchToMeter;
     public static final double elbowperMotorTick = Math.PI * 2 / 4096;
     public static final double shoulderperMotorTick = Math.PI * 2 / 4096;
@@ -79,8 +76,8 @@ public final class Constants {
     public static final double height = (78 - 2) * 0.0254;
     public static final double widthFromCenter = 66 * 0.0254;
     public static final double robotLength = 44 * 0.0254;
-    public static final double shoulderRange = Units.degreesToRadians(60);
-    public static final double elbowRange = (175.0 / 180.0) * 3.1415;
+    public static final double shoulderRange = 65 * degreeToRadian;
+    public static final double elbowRange = 185.0 * degreeToRadian;
   }
 
   public static final class MagicArmCnsts {
@@ -170,7 +167,7 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
 
     // List of pathways #ed
-    public static final int NUMBER_OF_PATHWAYS = 17;
+    public static final int NUMBER_OF_PATHWAYS = 16;
 
     // Maximum for Velocity ControlMode (Initial Test Starting Pt)
     public static final double MAX_VELOCITY = 7000;

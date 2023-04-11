@@ -14,6 +14,8 @@ public class ClawSwingThroughOpen extends CommandBase {
   private final MagicArm m_arm;
   private Boolean clawOpened = false;
   private int intervalsInsideRobot = 0;
+  private final long timeOutMs = 4000;
+  private long startMs = 0;
   /** Creates a new ClawSwingThroughOpen. */
   public ClawSwingThroughOpen(Claw subsystem, MagicArm _arm) {
     m_claw = subsystem;
@@ -27,6 +29,7 @@ public class ClawSwingThroughOpen extends CommandBase {
   public void initialize() {
     intervalsInsideRobot = 0;
     clawOpened = false;
+    startMs = System.currentTimeMillis();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -53,6 +56,6 @@ public class ClawSwingThroughOpen extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return clawOpened;
+    return clawOpened || System.currentTimeMillis() - startMs > timeOutMs;
   }
 }

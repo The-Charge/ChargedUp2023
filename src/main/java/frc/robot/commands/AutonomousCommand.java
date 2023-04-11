@@ -12,7 +12,6 @@
 
 package frc.robot.commands;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -106,8 +105,6 @@ public class AutonomousCommand extends CommandBase {
         switch (RobotContainer.getInstance().getSelectedPath()) {
             case "Charge Station With Score":
                 return scoreHighConeChargeStationCommand();
-            case "Charge Station No Score":
-                return climbCommand();
             case "Charge Station Two Piece Left":               
                 return scoreHighConeChargeStationTwoPieceCommand(-0.9);
             case "Charge Station Two Piece Right":
@@ -115,7 +112,7 @@ public class AutonomousCommand extends CommandBase {
             case "Charge Station Two Piece Score Left":
                 return scoreHighConeChargeStationTwoPieceScoreCommand(-0.9);
             case "Charge Station Two Piece Score Right":
-                return scoreHighConeChargeStationTwoPieceScoreCommand(+0.9);
+                return scoreHighConeChargeStationTwoPieceScoreCommand(0.9);
             case "Charge Station Two Piece Score Balance Left":
                 return scoreHighConeChargeStationTwoPieceScoreBalanceCommand(-0.9);
             case "Charge Station Two Piece Score Balance Right":
@@ -149,35 +146,31 @@ public class AutonomousCommand extends CommandBase {
 
     public SequentialCommandGroup scoreHighConeChargeStationCommand() {
         return new SequentialCommandGroup(
-                new ResetHeading(m_driveTrain),
-                new ResetPitch(m_driveTrain),
-                new ScoreHighCone(m_arm, true),
-                new OpenClaw(m_claw, true),
-                new MoveMagicArmToXY(m_arm, -0.91, 1.65, 500),
+            scoreHighCone(),
+            new ParallelCommandGroup(
+                new ClawSwingThroughOpen(m_claw, m_arm),
+                new MoveMagicArmToXY(m_arm, 0.48, 0, 3000),
+                new DriveOver(m_driveTrain, -0.8, 10, 0, 50)
+            ),
+            new ParallelCommandGroup(
                 new CloseClaw(m_claw, true),
-                new ParallelCommandGroup(
-                        new MoveMagicArmToXY(m_arm, -0.48, 0, 2000),
-                        new DriveOver(m_driveTrain, -0.8, 10, 0)),
-                new ParallelCommandGroup(
-                        new MoveArmToNeutral(m_arm),
-                        new SequentialCommandGroup(
-                                new DriveForward(m_driveTrain, 0.8, 10, 0),
-                                new Climb(m_driveTrain, 0))));
-    }
-
-    public SequentialCommandGroup climbCommand() {
-        // Turns 180 after climbing over to account for potentially inactive arm
-        return new SequentialCommandGroup(new ResetHeading(m_driveTrain), new ResetPitch(m_driveTrain),
-                new DriveOver(m_driveTrain, -0.8, 10, 0),
-                new DriveForward(m_driveTrain, 0.8, 10, 180),
-                new Climb(m_driveTrain, 180));
-    }
-
-    public SequentialCommandGroup scoreHighConeCommand() {
-        return new SequentialCommandGroup(new ScoreHighCone(m_arm, true),
-                new OpenClaw(m_claw, true),
                 new MoveArmToNeutral(m_arm),
-                new CloseClaw(m_claw, true));
+                new SequentialCommandGroup(
+                    new DriveForward(m_driveTrain, 0.8, 10, 0),
+                    new Climb(m_driveTrain, 0)
+                )
+            )
+        );
+    }
+
+    private SequentialCommandGroup scoreHighConeCommand() {
+        return new SequentialCommandGroup(
+            scoreHighCone(),
+            new ParallelCommandGroup(
+                new MoveArmToNeutral(m_arm),
+                new ClawSwingThroughOpen(m_claw, m_arm)
+            )
+        );
     }
 
     private SequentialCommandGroup scoreHighCone(){ 
@@ -194,7 +187,7 @@ public class AutonomousCommand extends CommandBase {
         );     
     }
 
-    public SequentialCommandGroup scoreGrabScoreClar(double heading){
+    private SequentialCommandGroup scoreGrabScoreClear(double heading){
         return new SequentialCommandGroup(
             scoreHighCone(),
             new ParallelCommandGroup(
@@ -218,7 +211,7 @@ public class AutonomousCommand extends CommandBase {
             new ParallelCommandGroup(
                 new MoveMagicArmToXY(m_arm, ArmConstants.pickUpX, ArmConstants.pickUpY, 5000),
                 new ClawSwingThroughOpen(m_claw, m_arm),
-                new DriveOverDistance(m_driveTrain, -0.85, 10, heading, Units.inchesToMeters(30.8))
+                new DriveOverDistance(m_driveTrain, -0.85, 10, heading, Units.inchesToMeters(27.8))
             ), 
             new CloseClaw(m_claw, true)
         );
@@ -230,7 +223,7 @@ public class AutonomousCommand extends CommandBase {
             new ParallelCommandGroup(
                 new MoveArmToNeutral(m_arm), // gud
                 new SequentialCommandGroup( // gud        
-                    new DriveForward(m_driveTrain, 0.9, 10, headingOffset),
+                    new DriveForward(m_driveTrain, 0.8, 10, headingOffset),
                     new Climb(m_driveTrain, headingOffset)
                 )
             )
@@ -242,7 +235,7 @@ public class AutonomousCommand extends CommandBase {
             scoreHighConeChargeStationGrab(headingOffset),
             new ParallelCommandGroup(
                 new MoveMagicArmToXY(m_arm, -ArmConstants.hiGoalX, ArmConstants.hiGoalY - 0.05,3000), // gud
-                new DriveOver(m_driveTrain, 0.9, 10, Math.abs(headingOffset)/headingOffset*5.91)
+                new DriveOver(m_driveTrain, 0.9, 10, Math.abs(headingOffset)/headingOffset*5.91,13)
             ),
             new OpenClaw(m_claw, true)
         );
@@ -254,13 +247,14 @@ public class AutonomousCommand extends CommandBase {
             new ParallelCommandGroup(
                 new MoveArmToNeutral(m_arm),
                 new SequentialCommandGroup(
-                    new DriveForward(m_driveTrain, -0.9, 10, 0), 
+                    new DriveForward(m_driveTrain, -0.8, 10, 0), 
                     new Climb(m_driveTrain,0)
                 ),
                 new ClawSwingThroughOpen(m_claw, m_arm)
             )
         );
     }
+    
     public SequentialCommandGroup pathPlannerComand(String pathName) {
         PathPlannerTrajectory examplePath = PathPlanner.loadPath(
             pathName,

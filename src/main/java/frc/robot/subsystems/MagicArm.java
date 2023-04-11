@@ -57,6 +57,11 @@ public class MagicArm extends SubsystemBase {
   private double elbowAngl = 0;
   private double currentX = 0;
   private double currentY = 0;
+  private double xSpeedNow = 0;
+  private double ySpeedNow = 0;
+  private final double shoulderL = ArmConstants.shoulderL;
+  private final double elbowL = ArmConstants.elbowL;
+  private boolean isNextMoveSafe = true;
 
   public MagicArm() {
     shldrMtr = new WPI_TalonSRX(ArmConstants.shoulderCAN_ID);
@@ -202,8 +207,7 @@ public class MagicArm extends SubsystemBase {
    */
   public double getLimitY(double _x, double _y) {
     if (Math.abs(_x) < robotLimit.robotLength / 2 + 0.1 && _y < 0.7) {
-      return MathUtil.clamp(_y, 0,
-          ArmConstants.shoulderL - (Math.sqrt(ArmConstants.elbowL * ArmConstants.elbowL - _x * _x)));
+      return MathUtil.clamp(_y, 0, shoulderL - (Math.sqrt(elbowL * elbowL - _x * _x)));
     } else {
       return MathUtil.clamp(_y, -ArmConstants.shoulderHeight + 0.02, robotLimit.height - ArmConstants.shoulderHeight);
     }
@@ -226,9 +230,9 @@ public class MagicArm extends SubsystemBase {
     // Find the angle between x axis and the elbow
     double elbowHorizen = -Math.PI / 2 + _elbowAngle + _shoulderAngle;
     // calculating for the x position
-    xy[0] = Math.cos(shoulderHorizen) * ArmConstants.shoulderL + Math.cos(elbowHorizen) * ArmConstants.elbowL;
+    xy[0] = Math.cos(shoulderHorizen) * shoulderL + Math.cos(elbowHorizen) * elbowL;
     // Calculating for the y position
-    xy[1] = Math.sin(shoulderHorizen) * ArmConstants.shoulderL + Math.sin(elbowHorizen) * ArmConstants.elbowL;
+    xy[1] = Math.sin(shoulderHorizen) * shoulderL + Math.sin(elbowHorizen) * elbowL;
     return xy;
   }
 
@@ -277,19 +281,16 @@ public class MagicArm extends SubsystemBase {
      */
     double thirdSide = Math.sqrt(thirdSide2);
 
-    if (thirdSide + ArmConstants.elbowL < ArmConstants.shoulderL ||
-        thirdSide > ArmConstants.elbowL + ArmConstants.shoulderL) {
-      // No triangle exists
+    if (thirdSide + elbowL < shoulderL || thirdSide > elbowL + shoulderL) {// No triangle exists
       angles[2] = -1;
     } else {
-      double shoulder2 = ArmConstants.shoulderL * ArmConstants.shoulderL; //shoudler square
-      double elbow2 = ArmConstants.elbowL * ArmConstants.elbowL; //elbow square
-      // Law of cosine to solve for the angle which is created with the third side
-      // with the shoulder (A^2+B^2-C^2)/(2*A*B)
-      double oppositeElbowAngle = Math.acos((thirdSide2 + shoulder2 - elbow2) / 2 / ArmConstants.shoulderL / thirdSide);
+      double shoulder2 = shoulderL * shoulderL; //shoudler square
+      double elbow2 = elbowL * elbowL; //elbow square
+      // Law of cosine to solve for the angle which is created with the third side and the shoulder (A^2+B^2-C^2)/(2*A*B)
+      double oppositeElbowAngle = Math.acos((thirdSide2 + shoulder2 - elbow2) / 2 / shoulderL / thirdSide);
 
       // 2nd application of law of cosine to solve for the elbow angle
-      angles[1] = Math.acos((shoulder2 + elbow2 - thirdSide2) / 2 / ArmConstants.elbowL / ArmConstants.shoulderL);
+      angles[1] = Math.acos((shoulder2 + elbow2 - thirdSide2) / 2 / elbowL /  shoulderL);
 
       // Convert angle from +x axis to the shoulder motor angle
       angles[0] = (Math.PI / 2 - oppositeElbowAngle - Math.atan(_y / Math.abs(_x)));
@@ -322,8 +323,9 @@ public class MagicArm extends SubsystemBase {
    * @param _elbowAngl
    */
   public void run(double _shldrAngl, double _elbowAngl) {
+    if (isNextMoveSafe) {
     shldrMtr.set(ControlMode.MotionMagic, _shldrAngl / ArmConstants.shoulderperMotorTick);
-    elbowMtr.set(ControlMode.MotionMagic, _elbowAngl / ArmConstants.elbowperMotorTick);
+    elbowMtr.set(ControlMode.MotionMagic, _elbowAngl / ArmConstants.elbowperMotorTick);}
   }
 
   /**
@@ -347,16 +349,45 @@ public class MagicArm extends SubsystemBase {
     // Makes variables and get elbow and shoulder ticks
     double elbowTicks = elbowMtr.getSelectedSensorPosition();
     double shldrTicks = shldrMtr.getSelectedSensorPosition();
+    double elbowSpeed = elbowMtr.getSelectedSensorVelocity();
+    double shldrSpeed = shldrMtr.getSelectedSensorVelocity();
 
     // Calculates elbow and shoulder angle based on ticks
     elbowAngl = elbowTicks * ArmConstants.elbowperMotorTick;
     shldrAngl = shldrTicks * ArmConstants.shoulderperMotorTick;
-    double shoulderHorizen = Math.PI / 2 + shldrAngl;
+    double shldrHorizen = Math.PI / 2 + shldrAngl;
     double elbowHorizen = -Math.PI / 2 + elbowAngl + shldrAngl;
+    double sinShldrHorizen = Math.sin(shldrHorizen);
+    double cosShldrHorizen = Math.cos(shldrHorizen);
+    double sinElbowHorizen = Math.sin(elbowHorizen);
+    double cosElbowHorizen = Math.cos(elbowHorizen);
+    double elbowHorizenSpeed = elbowSpeed + shldrSpeed;
     // calculating for the x position
-    currentX = Math.cos(shoulderHorizen) * ArmConstants.shoulderL + Math.cos(elbowHorizen) * ArmConstants.elbowL;
+    currentX = cosShldrHorizen * shoulderL + cosElbowHorizen * elbowL;
     // Calculating for the y position
-    currentY = Math.sin(shoulderHorizen) * ArmConstants.shoulderL + Math.sin(elbowHorizen) * ArmConstants.elbowL;
+    currentY = sinShldrHorizen * shoulderL +sinElbowHorizen * elbowL;
+
+    xSpeedNow = -(sinShldrHorizen * shoulderL * shldrSpeed + sinElbowHorizen * elbowL * elbowHorizenSpeed);
+    ySpeedNow = cosShldrHorizen * shoulderL * shldrSpeed + cosElbowHorizen * elbowL * elbowHorizenSpeed;
+    isNextMoveSafe = true;
+    if(ySpeedNow < 0 && !isYSpeedNegativeAllowed()){
+      double ratioOfShldrToElbowSpeed = -(elbowL * cosElbowHorizen)/(shoulderL * cosShldrHorizen + elbowL * cosElbowHorizen);
+      double step = elbowSpeed / 100;
+      double newElbowSpeed = elbowSpeed; 
+      double newXSpeed = -xSpeedNow;
+      while (newXSpeed * xSpeedNow < 0 && Math.abs(newElbowSpeed) > Math.abs(step)){
+        newElbowSpeed -= step;
+        newXSpeed = -(shoulderL * sinShldrHorizen * ratioOfShldrToElbowSpeed * newElbowSpeed + elbowL* sinElbowHorizen * 
+                      (ratioOfShldrToElbowSpeed * newElbowSpeed + newElbowSpeed));
+      } 
+      shldrMtr.set(ControlMode.Velocity, ratioOfShldrToElbowSpeed*newElbowSpeed);
+      elbowMtr.set(ControlMode.Velocity, newElbowSpeed);
+      isNextMoveSafe = false;
+    }
+    if (!isXSpeedAllowed()){
+      run(0, elbowAngl); //raise shoulder and keep elbow angle 
+      isNextMoveSafe = false;
+    }
 
     // Displays elbow and shoulder ticks on smart dashboard
     SmartDashboard.putNumber("ElbowEncoder", elbowTicks);
@@ -425,12 +456,9 @@ public class MagicArm extends SubsystemBase {
           }
         }
         return true;
-      } else {
-        return false;
       }
-    } else {
-      return false;
-    }
+    } 
+    return false;
   }
 
   /**
@@ -477,10 +505,24 @@ public class MagicArm extends SubsystemBase {
           }
         }
         return true;
-      } else {
-        return false;
-      }
+      } 
     }
     return false;
   }
+
+  private boolean isYSpeedNegativeAllowed(){
+    return currentY < -ArmConstants.shoulderHeight  || (Math.abs(currentX) < robotLimit.robotLength / 2 && currentY < 0);
+  }
+
+  private boolean isXSpeedAllowed(){
+    if(currentY < 0 && currentX*xSpeedNow < 0){
+        return (Math.abs(currentX - robotLimit.robotLength/2) > 0.0254); //within one inch of robot limit
+    }
+    return true;
+  }
+
+  private void keepXDirectionStopY(){
+    double ratioOfShldrToElbowSpeed = -(elbowL); 
+  }
+
 }
