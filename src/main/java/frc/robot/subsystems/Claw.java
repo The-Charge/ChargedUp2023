@@ -54,6 +54,11 @@ public class Claw extends SubsystemBase {
     }
 
     // Put methods for controlling this subsystem here. Call these from Commands.
+
+    /*
+     * Open/Close Claw methods.
+     * Reference force boolean description below.
+     */
     public void openClaw(boolean force) {
         isOpen = true;
         if (force) {
@@ -70,8 +75,9 @@ public class Claw extends SubsystemBase {
 
     public void moveClaw(boolean insideRobot) {
         /**
+         * Claw Safety
          * Only case where claw should open is when arm is not within robot bounds and
-         * Has been opened up. Otherwise it will remain closed
+         * Has been opened up. Otherwise it will remain closed.
          */
         if (!insideRobot && isOpen) {
             clawSolenoid.set(true);
@@ -81,8 +87,8 @@ public class Claw extends SubsystemBase {
     }
 
     /*
-     * Force methods for autonomous.
-     * 
+     * Force methods for autonomous. 
+     * ClawSafety default command fails to run during the autonomous period.
      */
     public void forceOpenClaw() {
         clawSolenoid.set(true);

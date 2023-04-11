@@ -46,7 +46,6 @@ public class DriveForward extends CommandBase {
     if (Math.abs(thisPitch) > m_stopPitch && !isTickMode) {
       startTick = m_drivetrain.getLeftEncoder();
       isTickMode = true;
-      
     }
     m_drivetrain.rawRun(m_power + headingPower, m_power - headingPower);
   }

@@ -90,18 +90,19 @@ public class AutonomousCommand extends CommandBase {
             m_autonomousCommand = getAutonomousCommandPath();
         }
 
-        // Schedule the autonomous command(example)
+        // Schedule the autonomous command if exists
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
         }
     }
 
     public Command getAutonomousCommandPath() {
+        // For debugging
         getSmartDashValues();
 
         /**
-         * This will load the file "Example Path.path" and generate it with a max
-         * Velocity of 4 m/s and a max acceleration of 3 m/s^2
+         * Switch Case for autonomous selections
+         * PathPlanner Pathes were given a Velocity of 4 m/s and a max acceleration of 3 m/s^2
          */
         switch (RobotContainer.getInstance().getSelectedPath()) {
             case "Charge Station With Score":
@@ -147,7 +148,9 @@ public class AutonomousCommand extends CommandBase {
         kMaxAccelerationMetersPerSecondSquared = Constants.SysIDConstants.kMaxAccelerationMetersPerSecondSquared;
     }
 
+    
     public SequentialCommandGroup scoreHighConeChargeStationCommand() {
+        // Scores a cone, drives over charge station, returns and engages
         return new SequentialCommandGroup(
                 new ResetHeading(m_driveTrain),
                 new ResetPitch(m_driveTrain),
@@ -166,7 +169,11 @@ public class AutonomousCommand extends CommandBase {
     }
 
     public SequentialCommandGroup climbCommand() {
-        // Turns 180 after climbing over to account for potentially inactive arm
+        /*
+         * Mobility + Engage
+         * Turns 180 after climbing over to account for potentially inactive arm
+         */
+        
         return new SequentialCommandGroup(new ResetHeading(m_driveTrain), new ResetPitch(m_driveTrain),
                 new DriveOver(m_driveTrain, -0.8, 10, 0),
                 new DriveForward(m_driveTrain, 0.8, 10, 180),
@@ -174,6 +181,10 @@ public class AutonomousCommand extends CommandBase {
     }
 
     public SequentialCommandGroup scoreHighConeCommand() {
+        /*
+         * Score only a high cone and return arm to neutral
+         * For potential Drivetrain failure
+         */
         return new SequentialCommandGroup(new ScoreHighCone(m_arm, true),
                 new OpenClaw(m_claw, true),
                 new MoveArmToNeutral(m_arm),
@@ -181,6 +192,10 @@ public class AutonomousCommand extends CommandBase {
     }
 
     private SequentialCommandGroup scoreHighCone() {
+        /**
+         * Starting piece for all non-pathplanner autonomous
+         * Resets Navx for charge station events as well as DriveDegree
+         */
         return new SequentialCommandGroup(
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
@@ -193,6 +208,7 @@ public class AutonomousCommand extends CommandBase {
     }
 
     public SequentialCommandGroup scoreGrabScoreClar(double heading) {
+        // Unused
         return new SequentialCommandGroup(
                 scoreHighCone(),
                 new ParallelCommandGroup(
@@ -208,6 +224,7 @@ public class AutonomousCommand extends CommandBase {
     }
 
     private SequentialCommandGroup scoreHighConeChargeStationGrab(double heading) {
+        // ScoreHighCone(), then drive over charge station to pick up a second piece (generally cube)
         return new SequentialCommandGroup(
                 scoreHighCone(),
                 new ParallelCommandGroup(
@@ -218,16 +235,18 @@ public class AutonomousCommand extends CommandBase {
     }
 
     public SequentialCommandGroup scoreHighConeChargeStationTwoPieceCommand(double headingOffset) {
+        // scoreHighConeChargeStationGrab(), then engage on the charge station
         return new SequentialCommandGroup(
                 scoreHighConeChargeStationGrab(headingOffset),
                 new ParallelCommandGroup(
-                        new MoveArmToNeutral(m_arm), // gud
-                        new SequentialCommandGroup( // gud
+                        new MoveArmToNeutral(m_arm),
+                        new SequentialCommandGroup( 
                                 new DriveForward(m_driveTrain, 0.8, 10, headingOffset),
                                 new Climb(m_driveTrain, headingOffset))));
     }
 
     public SequentialCommandGroup scoreHighConeChargeStationTwoPieceScoreCommand(double headingOffset) {
+        // scoreHighConeChargeStationGrab(), then score the second piece
         return new SequentialCommandGroup(
                 scoreHighConeChargeStationGrab(headingOffset),
                 new ParallelCommandGroup(
@@ -239,6 +258,7 @@ public class AutonomousCommand extends CommandBase {
     }
 
     public SequentialCommandGroup scoreHighConeChargeStationTwoPieceScoreBalanceCommand(double heading) {
+        // scoreHighConeChargeStationTwoPieceScoreCommand(), then engage on the charge station
         return new SequentialCommandGroup(
                 scoreHighConeChargeStationTwoPieceScoreCommand(heading),
                 new ParallelCommandGroup(
@@ -250,11 +270,15 @@ public class AutonomousCommand extends CommandBase {
     }
 
     public SequentialCommandGroup pathPlannerComand(String pathName) {
+        // Pathplanner trajectory setup
+
+        // loads individual paths with Velocity of 4 m/s and a max acceleration of 3 m/s^2
         PathPlannerTrajectory examplePath = PathPlanner.loadPath(
                 pathName,
                 new PathConstraints(kMaxSpeedMetersPerSecond,
                         kMaxAccelerationMetersPerSecondSquared));
 
+        // Eventmap for events plotted on the pathplanner path
         HashMap<String, Command> eventMap = new HashMap<>();
 
         // List of EventMap commands to be used in the Autobuilder
@@ -299,7 +323,13 @@ public class AutonomousCommand extends CommandBase {
     }
 
     public SequentialCommandGroup pathPlannerComandGroup(String pathName) {
-        // Distinct method for pathgroups (Two Ball Clear/Bump)
+        /*
+         * Distinct method for pathgroups (Two Ball Clear/Bump)
+         * Due to an additional stop point on the Two Ball paths, paths must be loaded as
+         * a path group in order to account for the events occuring during the stop point
+         */
+
+        // load the pathgroup, multiple PathConstraints were not necessary but were added in case of failures during competition
         List<PathPlannerTrajectory> examplePath = PathPlanner.loadPathGroup(
                 pathName,
                 new PathConstraints(kMaxSpeedMetersPerSecond,
@@ -309,6 +339,7 @@ public class AutonomousCommand extends CommandBase {
                 new PathConstraints(kMaxSpeedMetersPerSecond,
                         kMaxAccelerationMetersPerSecondSquared));
 
+        // Eventmap for events plotted on the pathplanner path              
         HashMap<String, Command> eventMap = new HashMap<>();
 
         // List of EventMap commands to be used in the Autobuilder

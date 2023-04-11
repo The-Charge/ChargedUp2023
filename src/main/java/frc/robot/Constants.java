@@ -24,6 +24,7 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
   public static final class DriveConstants {
+    // Port locations for CAN devices
     public static final int kLeftMotor1Port = 16;
     public static final int kLeftMotor2Port = 17;
     public static final int kRightMotor1Port = 2;
@@ -31,7 +32,7 @@ public final class Constants {
     public static final int shifterChannel = 1;
     public static final int clawChannel = 2;
 
-    // PID Constants
+    // PID Constants for drivetrain (utilized in VelocityDrive)
     public static final double SPEED_P_CONSTANT = .2;
     public static final double SPEED_I_CONSTANT = 0.0001;
     public static final double SPEED_D_CONSTANT = 10.0;
@@ -40,6 +41,7 @@ public final class Constants {
   }
 
   public static final class AutoConstants {
+    // Constants for non-pathplanner autonomous paths (charge station paths)
     public static final double climbPowerLimit = 0.59; // was 0.55;
     public static final double climbPowerForwardBias = 0.32;
     public static final double climbPowerBackwardBias = -0.32;
@@ -50,6 +52,7 @@ public final class Constants {
     public static final double fallPitchPerCycle = 1;
   }
 
+  // Conversion constants
   public static final double InchToMeter = 0.0254;
   public static final double degreeToRadian = Math.PI / 180.0;
 
@@ -76,6 +79,7 @@ public final class Constants {
   }
 
   public static final class robotLimit {
+    // Definition of robot dimensions, range of motion allowed
     public static final double height = (78 - 2) * 0.0254;
     public static final double widthFromCenter = 66 * 0.0254;
     public static final double robotLength = 44 * 0.0254;
@@ -84,6 +88,7 @@ public final class Constants {
   }
 
   public static final class MagicArmCnsts {
+    // PID constants for shoulder/elbow
     public static final int kSlotIdxShldr = 0;
     public static final int kSlotIdxElbow = 0;
     public static final int kPIDLoopIdxShldr = 0;
@@ -115,6 +120,9 @@ public final class Constants {
     }
   }
 
+
+  // Unused vision constants
+  
   // public static final class VisionConstants {
   // public static final String cameraName = "IMX219";
 

@@ -17,13 +17,15 @@ public class DriveOver extends CommandBase {
 
   /**
    * Drive over the charging station.
-   * status 0 is flat starting state, 1 for up climing, 2 for flat top charging station, 3 for down climbing, 
-   * 4 for flat end.  Glide for 1 second (50 intervals) to make sure it is out of community.  
+   * status 0 is flat starting state, 1 for up climing, 2 for flat top charging
+   * station, 3 for down climbing,
+   * 4 for flat end. Glide for 1 second (50 intervals) to make sure it is out of
+   * community.
    * The command times out at 6 seconds so it will not accidentally get penalty.
    *
-   * @param subsystem drivetrain.
-   * @param power the initial power for climbing
-   * @param stopPitch the pitch tht the robot is considered climbing
+   * @param subsystem     drivetrain.
+   * @param power         the initial power for climbing
+   * @param stopPitch     the pitch tht the robot is considered climbing
    * @param headingOffset the heading the robot needs to follow (clockwise +)
    */
   public DriveOver(Drivetrain subsystem, double power, double stopPitch, double headingOffset) {
@@ -58,7 +60,7 @@ public class DriveOver extends CommandBase {
       }
     } else if (status == 2) {
       if (Math.abs(thisPitch) > m_stopPitch * 0.8) {
-        status = 3;  // we are down climbing
+        status = 3; // we are down climbing
         m_power = m_power * .7;
       }
     }

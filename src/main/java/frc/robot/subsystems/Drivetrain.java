@@ -114,9 +114,11 @@ public class Drivetrain extends SubsystemBase {
     rightRearMotor.follow(rightFrontMotor);
     leftRearMotor.follow(leftFrontMotor);
 
+    // Speed controls
     SmartDashboard.putBoolean("HalfSpeed", isHalfSpeed);
     SmartDashboard.putBoolean("QuarterSpeed", isQuarterSpeed);
     SmartDashboard.putBoolean("Reversed", isReversed);
+    
     resetEncoders();
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()),
         getLeftEncoderDistance(),
@@ -191,10 +193,12 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void rawRun(double _l, double _r) {
+    // Ignore all speed multipliers and run percentoutput
     differentialDrive.tankDrive(_l, _r);
   }
 
   public void start180Off(Boolean _is180Off) {
+    // Orientation for DriveDegree()
     started180Off = _is180Off;
   }
 
@@ -202,8 +206,9 @@ public class Drivetrain extends SubsystemBase {
     return started180Off;
   }
 
-  // Based off joystick Y-axis
   public void run(double l, double r) {
+    // Based off joystick Y-axis
+
     // Reversed and Multiplier logic
     if (isReversed) {
       double temp = l;
@@ -218,6 +223,7 @@ public class Drivetrain extends SubsystemBase {
       l *= 0.75;
       r *= 0.75;
     }
+    // WPIlib tankDrive
     differentialDrive.tankDrive(l, r);
   }
 
@@ -234,6 +240,8 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void runArcade(double f, double r) {
+    // ArcadeDrive for unused vision alignment command
+
     if (f > 0.6) {
       f = 0.6;
     } else if (f < 0.4 && f > 0) {
@@ -280,8 +288,6 @@ public class Drivetrain extends SubsystemBase {
   public void setControlMode(ControlMode mode) {
     leftFrontMotor.set(mode, 0);
     rightFrontMotor.set(mode, 0);
-    // leftRearMotor.set(mode, 0);
-    // rightRearMotor.set(mode, 0);
   }
 
   public double getLeftEncoder() {

@@ -8,9 +8,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class DriveOverDistance extends CommandBase {
     @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
     private final Drivetrain m_drivetrain;
-    private double m_speed;
+    private double m_speed, thisPitch;
     private final double m_stopPitch;
-    private double thisPitch;
     private double m_offset = 0;
     private int status = 0;
     public double timeoutMS = 4000;
