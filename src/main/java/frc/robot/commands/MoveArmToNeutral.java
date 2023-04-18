@@ -52,6 +52,7 @@ public class MoveArmToNeutral extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // Arm is within 0.05 meters of 0
     return (Math.abs(m_magicArm.getX()) < 0.05);
   }
 }

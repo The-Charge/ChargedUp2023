@@ -37,8 +37,10 @@ public class ScoreHighCone extends CommandBase {
   @Override
   public void execute() {
     if (Math.abs(m_arm.getElbowAngle()) < 1.1) {
+      // Run the elbow first to get to position where shoulder can move without hitting high node pole
       m_arm.runElbow(-m_xMultiplier * (2.8));
     } else {
+      // Run both parts of the arm to reach setpoint
       m_arm.run(m_xMultiplier * (ArmConstants.shoulderScoreDegree + 5) / 180.0 * Math.PI, -m_xMultiplier * (Math.PI + 0.05));
     }
   }
