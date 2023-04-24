@@ -7,9 +7,9 @@ public class ResetPitch extends CommandBase {
   private final Drivetrain m_drivetrain;
 
   /**
-   * Reset the NavX pitch (at the start of non-pathplanner autonomous paths)
+   * Reset the NavX pitch (at the start of non-pathplanner autonomous paths).
    * 
-   * @param subsystem  Drivetrain subsystem
+   * @param subsystem The Drivetrain subsystem used in this command.
    */
   public ResetPitch(Drivetrain subsystem) {
     m_drivetrain = subsystem;

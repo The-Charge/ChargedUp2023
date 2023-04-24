@@ -31,7 +31,7 @@ public class VelocityDrive extends CommandBase {
     /**
     * Control drivetrain in velocity mode
     * 
-    * @param subsystem   Drivetrain Subsystem for Velocity Drive
+    * @param subsystem   The Drivetrain subsystem used in this command.
     */
     public VelocityDrive(Drivetrain subsystem) {
 

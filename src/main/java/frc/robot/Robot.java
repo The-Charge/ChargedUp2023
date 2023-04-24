@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
 
         RobotContainer.getInstance().m_drivetrain.setBrake();
 
-        // Comment out for comp.
+        // Comment out for comp. PathPlanner live feed.
         // PathPlannerServer.startServer(5811);
 
         ValueModifier();

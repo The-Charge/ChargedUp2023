@@ -17,16 +17,13 @@ public class DriveOver extends CommandBase {
 
   /**
    * Drive over the charging station.
-   * status 0 is flat starting state, 1 for up climing, 2 for flat top charging
-   * station, 3 for down climbing,
-   * 4 for flat end. Glide for 1 second (50 intervals) to make sure it is out of
-   * community.
+   * Glide for 1 second (50 intervals) to make sure it is out of community.
    * The command times out at 6 seconds so it will not accidentally get penalty.
    *
-   * @param subsystem     drivetrain.
-   * @param power         the initial power for climbing
-   * @param stopPitch     the pitch tht the robot is considered climbing
-   * @param headingOffset the heading the robot needs to follow (clockwise +)
+   * @param subsystem     The Drivetrain subsystem used in this command.
+   * @param power         The initial power for climbing.
+   * @param stopPitch     The pitch tht the robot is considered climbing.
+   * @param headingOffset The heading the robot needs to follow (clockwise +).
    */
   public DriveOver(Drivetrain subsystem, double power, double stopPitch, double headingOffset) {
     m_drivetrain = subsystem;
@@ -49,18 +46,25 @@ public class DriveOver extends CommandBase {
     thisPitch = m_drivetrain.getPitch();
     double headingPower = (m_drivetrain.getHeading() + m_offset) * AutoConstants.headingGain;
 
+    /*
+     * Status logic
+     * 0 is flat on the floor starting state,
+     * 1 for driving onto the chargestation,
+     * 2 for level on the charge station, 3 for driving off the charge station,
+     * 4 for flat on the floor at the end.
+     */
     if (status == 0) {
       if (Math.abs(thisPitch) > m_stopPitch) {
-        status = 1; // we are climbing
+        status = 1; // Upward climbing.
       }
     } else if (status == 1) {
       if (Math.abs(thisPitch) < 4) {
-        status = 2; // we are on top of the charge station
+        status = 2; // On top of the charge station.
         m_power = m_power * 0.8;
       }
     } else if (status == 2) {
       if (Math.abs(thisPitch) > m_stopPitch * 0.8) {
-        status = 3; // we are down climbing
+        status = 3; // Down climbing.
         m_power = m_power * .7;
       }
     }
@@ -78,7 +82,7 @@ public class DriveOver extends CommandBase {
   public boolean isFinished() {
     if (status == 3) {
       if (Math.abs(thisPitch) < 4) {
-        m_drivetrain.run(m_power / 10.0, m_power / 10.0); // we are flat again
+        m_drivetrain.run(m_power / 10.0, m_power / 10.0); // On the floor.
         status++;
       }
     }

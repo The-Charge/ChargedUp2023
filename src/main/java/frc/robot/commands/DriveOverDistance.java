@@ -6,7 +6,6 @@ import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DriveOverDistance extends CommandBase {
-    @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
     private final Drivetrain m_drivetrain;
     private double m_speed, thisPitch;
     private final double m_stopPitch;
@@ -17,16 +16,12 @@ public class DriveOverDistance extends CommandBase {
     public double distance, startTick, startSpeed, m_ticks;
     public static final double stallPower = 0.34;
     private double ticksToTravel = 0;
-    private double ticksTravlled = 0;
+    private double ticksTravelled = 0;
 
     /**
      * This is ugly since the original is coded during district event. We cleaned up
-     * Math a bit but
-     * still let all the ticks and calcuation from these ticks match the old code to
-     * make sure it still
-     * runs the same way. We will further cleanup once we have a real practice field
-     * 0 is flat starting state, 1 for up, 2 for flat top, 3 for down, 4 for flat
-     * end.
+     * Math a bit but still let all the ticks and calcuation from these ticks match 
+     * the old code to make sure it still runs the same way.
      *
      * @param subsystem The subsystem used by this command.
      */
@@ -35,10 +30,10 @@ public class DriveOverDistance extends CommandBase {
         ticksToTravel = distanceMeters * Constants.SysIDConstants.ticksPerMeter;
         /*
          * We will use fraction of ticks left to travel multiplied by speed as the power
-         * for driving
-         * motors. In order to keep the power above stallPower, we need to increase the
-         * target ticks
-         * so that when ticksToTravel equals ticksTravelled, the power is at stallPower
+         * for driving motors.
+         * In order to keep the power above stallPower,
+         * we need to increase the target ticks
+         * so that when ticksToTravel equals ticksTravelled, the power is at stallPower.
          */
         double fractionPowerBeforeStall = (Math.abs(power) - stallPower) / Math.abs(power);
         m_ticks = ticksToTravel / fractionPowerBeforeStall;
@@ -64,6 +59,12 @@ public class DriveOverDistance extends CommandBase {
         thisPitch = m_drivetrain.getPitch();
         double thisHeading = (m_drivetrain.getHeading() + m_offset) * AutoConstants.headingGain;
 
+        /*
+         * Status logic
+         * 0 is flat on the floor starting state, 1 for driving onto the charge station, 
+         * 2 for level on the charge station, 3 for driving off the charge station, 
+         * 4 for flat on the floor at the end.
+         */
         if (status == 0) {
             if (Math.abs(thisPitch) > m_stopPitch) {
                 status = 1;
@@ -86,8 +87,8 @@ public class DriveOverDistance extends CommandBase {
             if (Math.abs(startTick) < 1) {
                 startTick = m_drivetrain.getLeftEncoder();
             }
-            ticksTravlled = Math.abs(m_drivetrain.getLeftEncoder() - startTick);
-            m_speed = (m_ticks - ticksTravlled) / m_ticks * startSpeed;
+            ticksTravelled = Math.abs(m_drivetrain.getLeftEncoder() - startTick);
+            m_speed = (m_ticks - ticksTravelled) / m_ticks * startSpeed;
         }
         m_drivetrain.rawRun(m_speed + thisHeading, m_speed - thisHeading);
     }
@@ -101,9 +102,10 @@ public class DriveOverDistance extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+        // Finishes if timeout is reached, Navx disconnects
         if (startTime + timeoutMS < System.currentTimeMillis()) {
             return true;
         }
-        return !m_drivetrain.isIMUConnected() || ticksTravlled > ticksToTravel;
+        return !m_drivetrain.isIMUConnected() || ticksTravelled > ticksToTravel;
     }
 }

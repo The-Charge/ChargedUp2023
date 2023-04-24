@@ -35,12 +35,19 @@ public class ClawSwingThroughOpen extends CommandBase {
   public void execute() {
     if (intervalsInsideRobot == 0) {
       if (m_arm.isArmTipInsideRobotX()) {
+        /*
+         * Arm tip is in robot, count ticks in which the arm remains within the robot frame. 
+         * Close the claw while this is true
+         */
         intervalsInsideRobot++;
         m_claw.closeClaw(true);
-        ;
       }
     } else {
       if (intervalsInsideRobot > 10 && !m_arm.isArmTipInsideRobotX()) {
+        /*
+         * If the arm has been in the frame for over 200ms and the arm is successfully out of the frame,
+         * open the claw.
+         */
         m_claw.openClaw(true);
         clawOpened = true;
       }

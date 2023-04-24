@@ -7,10 +7,10 @@ public class ResetHeading extends CommandBase {
   private final Drivetrain m_drivetrain;
 
   /**
-     * Reset the NavX heading (at the start of non-pathplanner autonomous paths)
-     * 
-     * @param subsystem  Drivetrain subsystem
-     */
+   * Reset the NavX heading (at the start of non-pathplanner autonomous paths).
+   * 
+   * @param subsystem The Drivetrain subsystem used in this command.
+   */
   public ResetHeading(Drivetrain subsystem) {
     m_drivetrain = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.

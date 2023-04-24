@@ -10,32 +10,34 @@ import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DriveDistance extends CommandBase {
-    @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
     private final Drivetrain m_drivetrain;
     private final double m_power;
     private final double m_offset;
     private final double m_ticks;
-    private final double ticksToStartDeaccelerate = SysIDConstants.ticksPerMeter*1.5;
+    private final double ticksToStartDeaccelerate = SysIDConstants.ticksPerMeter * 1.5;
     private double startTick;
     private double controllablePowerRange;
     private double stallPower = 0.34;
     private double drivePower;
     private double ticksToTravel = 0;
     private double ticksTravelled = 0;
+
     /**
-     * Drive at set power and set offset (clockwise +, counterclockwise -) until last meter
-     * then slow down until distance is reached
-     * @param subsystem The subsystem used by this command.
-     * @param _power Driving power
-     * @param _headingOffset Angles in degrees 
+     * Drive at set power and set offset (clockwise +, counterclockwise -) until
+     * last meter then slow down until distance is reached.
+     * 
+     * @param subsystem      The Drivetrain subsystem used by this command.
+     * @param _power         Driving power.
+     * @param headingOffset  Angles to travel in degrees.
+     * @param distanceMeters Distance to travel in meters.
      */
     public DriveDistance(Drivetrain subsystem, double _power, double headingOffset,
             double distanceMeters) {
-        m_ticks = distanceMeters*SysIDConstants.ticksPerMeter;
+        m_ticks = distanceMeters * SysIDConstants.ticksPerMeter;
         controllablePowerRange = Math.abs(_power) - stallPower;
-        if (_power < 0){
-          controllablePowerRange = -controllablePowerRange;
-          stallPower = -stallPower;
+        if (_power < 0) {
+            controllablePowerRange = -controllablePowerRange;
+            stallPower = -stallPower;
         }
         m_drivetrain = subsystem;
         m_offset = headingOffset;
@@ -57,8 +59,8 @@ public class DriveDistance extends CommandBase {
         double headingPower = (m_drivetrain.getHeading() + m_offset) * AutoConstants.headingGain;
         ticksTravelled = Math.abs(m_drivetrain.getLeftEncoder() - startTick);
         ticksToTravel = m_ticks - ticksTravelled;
-        if (ticksToTravel < ticksToStartDeaccelerate){
-          drivePower = ticksToTravel / ticksToStartDeaccelerate * controllablePowerRange + stallPower;     
+        if (ticksToTravel < ticksToStartDeaccelerate) {
+            drivePower = ticksToTravel / ticksToStartDeaccelerate * controllablePowerRange + stallPower;
         }
         m_drivetrain.rawRun(drivePower + headingPower, drivePower - headingPower);
     }
@@ -72,6 +74,7 @@ public class DriveDistance extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+        // Command finishes if Navx is disconnected or the robot has reached distance.
         return (!m_drivetrain.isIMUConnected() || ticksToTravel < 1.0);
     }
-} 
+}

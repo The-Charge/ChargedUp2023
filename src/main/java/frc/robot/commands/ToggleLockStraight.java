@@ -35,7 +35,7 @@ public class ToggleLockStraight extends CommandBase {
     /**
     * Force robot to drive straight forward
     * 
-    * @param subsystem   Drivetrain Subsystem for LockStraight
+    * @param subsystem   The Drivetrain subsystem used in this command.
     */
     public ToggleLockStraight(Drivetrain subsystem) {
         // Forces robot to drive in straight line
@@ -63,7 +63,7 @@ public class ToggleLockStraight extends CommandBase {
     public void execute() {
         /*
          * Get average of speeds inputted into joysticks
-         * and set both sides of the drivetrain to that average
+         * and set both sides of the drivetrain to that average.
          */
         double leftSpeed, rightSpeed, avgSpeed;
         rightSpeed = -RobotContainer.getInstance().getrightJoystick().getY();

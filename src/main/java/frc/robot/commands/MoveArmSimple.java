@@ -38,7 +38,7 @@ public class MoveArmSimple extends CommandBase {
   /**
    * Default command for arm control
    * 
-   * @param subsystem arm
+   * @param subsystem MagicArm subsystem used in this command.
    */
   public MoveArmSimple(MagicArm subsystem) {
 

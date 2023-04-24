@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.MagicArm;
 
@@ -13,12 +14,13 @@ public class ScoreHighCone extends CommandBase {
   private final double m_xMultiplier;
 
   /**
-   * MoveArm to "High" scoring position and OpenClaw (for autonomous paths only)
+   * MoveArm to "High" scoring position and OpenClaw (for autonomous paths only).
    * 
-   * @param subsystem     MagicArm subsystem
-   * @param _isScoreFront Score on front side of robot or backside of robot
+   * @param subsystem     The MagicArm subsystem used in this command.
+   * @param _isScoreFront Score on front side of robot or backside of robot.
    */
   public ScoreHighCone(MagicArm subsystem, boolean _isScoreFront) {
+    // Account for front score or back score.
     if (_isScoreFront) {
       m_xMultiplier = 1;
     } else {
@@ -37,10 +39,10 @@ public class ScoreHighCone extends CommandBase {
   @Override
   public void execute() {
     if (Math.abs(m_arm.getElbowAngle()) < 1.1) {
-      // Run the elbow first to get to position where shoulder can move without hitting high node pole
+      // Run the elbow first to get to position where shoulder can move without hitting high node pole.
       m_arm.runElbow(-m_xMultiplier * (2.8));
     } else {
-      // Run both parts of the arm to reach setpoint
+      // Run both parts of the arm to reach setpoint.
       m_arm.run(m_xMultiplier * (ArmConstants.shoulderScoreDegree + 5) / 180.0 * Math.PI, -m_xMultiplier * (Math.PI + 0.05));
     }
   }
@@ -53,6 +55,7 @@ public class ScoreHighCone extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(m_arm.getShoulderAngle()) > ArmConstants.shoulderScoreDegree / 180.0 * Math.PI - 0.06;
+    // Command ends when shoulder exceeds the degrees necessary for scoring.
+    return Math.abs(m_arm.getShoulderAngle()) > ArmConstants.shoulderScoreDegree * Constants.degreeToRadian - 0.06;
   }
 }

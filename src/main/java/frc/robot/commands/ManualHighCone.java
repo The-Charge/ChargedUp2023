@@ -17,15 +17,16 @@ public class ManualHighCone extends CommandBase {
 
   /**
    * Create a dunk motion to straighten out both arms and pop down for maximum
-   * reach
+   * reach when scoring cones.
    * 
-   * @param subsystem    MagicArm subsystem
-   * @param _isBackScore Back is where air tanks are
-   * @param _timeOutMS   Maximum time to finish
+   * @param subsystem    The MagicArm subsystem used in this command.
+   * @param _isBackScore Account for back score (back is where air tanks are
+   *                     located).
+   * @param _timeOutMS   Maximum time to finish.
    */
   /** Creates a new ManualHighCone. */
   public ManualHighCone(MagicArm subsystem, boolean _isBackScore, long _timeOutMS) {
-    // Score in the front or the back
+    // Score in the front or the back.
     if (_isBackScore) {
       m_xMultiplier = 1;
     } else {
@@ -40,7 +41,7 @@ public class ManualHighCone extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // Check whether it is safe to perform dunk motion
+    // Check whether it is safe to perform dunk motion.
     canMove = (m_arm.getX() * -m_xMultiplier > ArmConstants.hiGoalX - 0.2 && m_arm.getY() > ArmConstants.hiGoalY - 0.2);
     startTime = System.currentTimeMillis();
   }
@@ -49,11 +50,11 @@ public class ManualHighCone extends CommandBase {
   @Override
   public void execute() {
     if (canMove) {
-      if (Math.abs(m_arm.getElbowAngle()) < Math.PI) { 
-        // Straighten out elbow
+      if (Math.abs(m_arm.getElbowAngle()) < Math.PI) {
+        // Straighten out elbow.
         m_arm.runElbow(-m_xMultiplier * (Math.PI + 0.4));
       } else {
-        // Run both parts of the arm to reach setpoint
+        // Run both parts of the arm to reach setpoint.
         m_arm.run(m_xMultiplier * ArmConstants.shoulderScoreDegree / 180.0 * Math.PI, -m_xMultiplier * Math.PI);
       }
     }
@@ -69,9 +70,10 @@ public class ManualHighCone extends CommandBase {
   public boolean isFinished() {
     /*
      * Conditions:
-     * canMove: Arm is moveable
-     * Math.abs(m_arm.getShoulderAngle()) > (ArmConstants.shoulderScoreDegree - 0.05): Shoulder exceeds 55 degrees
-     * System.currentTimeMillis() - startTime > m_timeOut: Exceeded timeout 
+     * canMove: Arm is moveable.
+     * Math.abs(m_arm.getShoulderAngle()) > (ArmConstants.shoulderScoreDegree -
+     * 0.05): Shoulder exceeds 55 degrees.
+     * System.currentTimeMillis() - startTime > m_timeOut: Exceeded timeout.
      */
     return (!canMove || Math.abs(m_arm.getShoulderAngle()) > (ArmConstants.shoulderScoreDegree - 0.05) ||
         (System.currentTimeMillis() - startTime > m_timeOut));

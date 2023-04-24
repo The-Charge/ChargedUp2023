@@ -37,8 +37,8 @@ public class TurnNRelative extends CommandBase {
     /**
     * Turn the robot for x amount of degrees
     * 
-    * @param subsystem   Drivetrain Subsystem for for turn
-    * @param degrees     Degrees to turn (relative)
+    * @param subsystem   The Drivetrain subsystem used in this command.
+    * @param degrees     Degrees to turn (relative).
     */
     public TurnNRelative(Drivetrain subsystem, double degrees) {
 
@@ -58,9 +58,11 @@ public class TurnNRelative extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        // Get current degrees and calculate where to turn to.
         double degreesInitial = m_drivetrain.getHeading();
         finalDegrees = degreesInitial + degreesToTurn;
 
+        // PID controller for turn.
         controller = new PIDController(0.01, 0.00, 0.0);
         controller.setTolerance(10.0);
         controller.setSetpoint(finalDegrees);
@@ -71,11 +73,16 @@ public class TurnNRelative extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        /*
+         * Calculate speed to travel at, accounting for sign and 
+         * ensuring that robot travels above minimum speed for rotation.
+         */
         double output = controller.calculate(m_drivetrain.getHeading());
         int sign = (int) Math.signum(output);
         double minSpeed = 0.75;
         output = sign * Math.max(minSpeed, Math.abs(output));
 
+        // Feed speed output into Drivetrain.
         m_drivetrain.run(-1 * output, output); 
     }
 
@@ -87,6 +94,7 @@ public class TurnNRelative extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+        // Command finishes once the robot is within 5 degrees of target.
         if (Math.abs(finalDegrees - m_drivetrain.getHeading()) < 5) {
             return true;
         } 

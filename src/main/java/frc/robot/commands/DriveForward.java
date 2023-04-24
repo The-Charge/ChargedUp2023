@@ -5,7 +5,6 @@ import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DriveForward extends CommandBase {
-  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final Drivetrain m_drivetrain;
   private double m_power;
   private final double m_stopPitch;
@@ -18,10 +17,10 @@ public class DriveForward extends CommandBase {
    * Drive forward until the pitch reaches stopPitch and then drive fastClimbTicks
    * specified in Constants
    * 
-   * @param subsystem     drivetrain
-   * @param power         driving power
-   * @param stopPitch     pitch to start tickcounts
-   * @param headingOffset robot heading in degree (clockwise +)
+   * @param subsystem     The Drivetrain subsystem used in this command.
+   * @param power         Driving power.
+   * @param stopPitch     Pitch to start tickcounts.
+   * @param headingOffset Robot heading in degree (clockwise +).
    */
   public DriveForward(Drivetrain subsystem, double power, double stopPitch, double headingOffset) {
     m_drivetrain = subsystem;
@@ -56,10 +55,12 @@ public class DriveForward extends CommandBase {
     m_drivetrain.rawRun(0, 0);
   }
 
-  // Returns true when ticksCount met or dropped suddenly when counting ticks
-  // (something wrong, stop to avoid penalty).
   @Override
   public boolean isFinished() {
+    /*
+     * Returns true when ticksCount met or dropped suddenly when counting ticks
+     * (something wrong, stop to avoid penalty).
+     */
     return !m_drivetrain.isIMUConnected() || (isTickMode &&
         ((Math.abs(m_drivetrain.getLeftEncoder() - startTick) > AutoConstants.fastClimbTicks)
             || (Math.abs(thisPitch) < Math.abs(m_stopPitch) / 2)));

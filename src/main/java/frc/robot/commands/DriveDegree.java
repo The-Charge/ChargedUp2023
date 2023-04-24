@@ -18,20 +18,20 @@ public class DriveDegree extends CommandBase {
 
   /**
    * Field centric arcade drive with left joystick x controls the field angle and
-   * right y controls power
+   * right y controls power.
    * We recommend power set at 0.65 or -0.65 to use the full range of joystick and
-   * usable power
-   * The robot typically stalls at around 0.3 power
+   * usable power.
+   * The robot typically stalls at around 0.3 power.
    * 
-   * @param subsystem drivetrain
-   * @param _heading  the default field angle if no left joystick x input
-   * @param _power    the default power if no right joystick y input
+   * @param subsystem The Drivetrain subsystem used by this command.
+   * @param _heading  The default field angle if no left joystick x input.
+   * @param _power    The default power if no right joystick y input.
    */
   public DriveDegree(Drivetrain subsystem, double _heading, double _power) {
     m_drivetrain = subsystem;
     if (DriverStation.getAlliance() == DriverStation.Alliance.Red) {
       m_heading = _heading;
-    } else { // Blue alliane is the mirror image, default angle needs to be fliped
+    } else { // Blue alliane is the mirror image, default angle needs to be flipped.
       m_heading = -_heading;
     }
     if (m_drivetrain.isStarted180Off()) {
@@ -50,6 +50,7 @@ public class DriveDegree extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // Speed multiplier control.
     double fractionControl = 1.0;
     if (m_drivetrain.atHalfSpeed())
       fractionControl = 0.5;
@@ -58,23 +59,27 @@ public class DriveDegree extends CommandBase {
 
     /*
      * Full deltaPower range is -0.35 to 0.35 when added to 0.65, becomes fully
-     * usable power of 0.3-1
+     * usable power of 0.3-1.
      * Assumes robot front side facing the driver, so that robot can climb easily
      * scoring and can use the
      * Swing to neutral after scoring to climb. In this setup, power is negtiave to
-     * collect and positive
+     * collect and positive.
      * To score. Push Joystick away is negative and pull towards the driver is
      * positive. The joystick
      * Matches the driver perspective.
      */
     double deltaPower = RobotContainer.getInstance().getrightJoystick().getY() * 0.35;
 
-    // Joystick left (-x) adds counterclockwise rotation and steer to the driver's
-    // left driving backwards (away from the driver).
+    /*
+     * Joystick left (-x) adds counterclockwise rotation and steer to the driver's
+     * left driving backwards (away from the driver).
+     */
     double deltaHeading = RobotContainer.getInstance().getleftJoystick().getX() * 20.0;
 
-    // If driving towards the driver, -x should be clockwise rotation to the left of
-    // the driver
+    /*
+     * If driving towards the driver, -x should be clockwise rotation to the left of
+     * the driver.
+     */
     if (m_power > 0) {
       deltaHeading = -deltaHeading;
     }

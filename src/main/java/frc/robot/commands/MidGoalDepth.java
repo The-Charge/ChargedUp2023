@@ -20,10 +20,10 @@ public class MidGoalDepth extends CommandBase {
    * Moves armtip so that it is the same depth as when the robot is straight
    * against the goal
    * 
-   * @param subsystem MagicArm subsystem
-   * @param gyroTrain drivetrain for heading input
-   * @param _x        meters
-   * @param _y        meters
+   * @param subsystem MagicArm subsystem used in this command.
+   * @param gyroTrain Drivetrain subsystem used in this command.
+   * @param _x        Arm X position to travel to in meters.
+   * @param _y        Arm Y position to travel to in meters.
    */
   public MidGoalDepth(MagicArm subsystem, Drivetrain gyroTrain, double _x, double _y) {
     m_driveTrain = gyroTrain;
@@ -52,9 +52,10 @@ public class MidGoalDepth extends CommandBase {
   public void end(boolean interrupted) {
   }
 
-  // Returns true when joysticks on gamepad moved.
+  
   @Override
   public boolean isFinished() {
+    // Returns true when joysticks on gamepad moved.
     return Math.abs(RobotContainer.getInstance().getArmController().getRawAxis(1)) > 0.1
         || Math.abs(RobotContainer.getInstance().getArmController().getRawAxis(3)) > 0.1;
   }

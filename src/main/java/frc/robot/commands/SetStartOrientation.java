@@ -12,10 +12,10 @@ public class SetStartOrientation extends CommandBase {
   private final Boolean facingBack;
 
   /**
-   * Setting Orientation (for DriveDegree)
+   * Setting Orientation (for DriveDegree).
    * 
-   * @param subsystem  Drivetrain subsystem
-   * @param _backToDriver Front facing away from Driver
+   * @param subsystem     The Drivetrain subsystem used in this command.
+   * @param _backToDriver Front facing away from Driver.
    */
   public SetStartOrientation(Drivetrain subsystem, Boolean _backToDriver) {
     m_drivetrain = subsystem;
