@@ -16,10 +16,7 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [
-          "MoveArmScore",
-          "OpenClaw"
-        ],
+        "names": [],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
@@ -41,23 +38,12 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [
-          "MoveArmLow",
-          "CloseClaw"
-        ],
+        "names": [],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
     }
   ],
-  "markers": [
-    {
-      "position": 0.3054545454545363,
-      "names": [
-        "CloseClaw",
-        "MoveArmNeutral"
-      ]
-    }
-  ]
+  "markers": []
 }

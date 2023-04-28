@@ -3,12 +3,12 @@
     {
       "anchorPoint": {
         "x": 1.9578837445834658,
-        "y": 5.0
+        "y": 5.054472419929148
       },
       "prevControl": null,
       "nextControl": {
         "x": 2.9578837445834685,
-        "y": 5.0
+        "y": 5.054472419929148
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -27,41 +27,16 @@
     },
     {
       "anchorPoint": {
-        "x": 4.5,
-        "y": 5.0
+        "x": 6.0,
+        "y": 4.6
       },
       "prevControl": {
-        "x": 3.5,
-        "y": 5.0
+        "x": 5.326708512236955,
+        "y": 4.6
       },
       "nextControl": {
-        "x": 5.5,
-        "y": 5.0
-      },
-      "holonomicAngle": 0,
-      "isReversal": false,
-      "velOverride": null,
-      "isLocked": false,
-      "isStopPoint": false,
-      "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
-      }
-    },
-    {
-      "anchorPoint": {
-        "x": 6.05,
-        "y": 4.72
-      },
-      "prevControl": {
-        "x": 5.3869373228138295,
-        "y": 4.836915839888709
-      },
-      "nextControl": {
-        "x": 5.3869373228138295,
-        "y": 4.836915839888709
+        "x": 5.326708512236955,
+        "y": 4.6
       },
       "holonomicAngle": 0,
       "isReversal": true,
@@ -99,7 +74,7 @@
       "isStopPoint": true,
       "stopEvent": {
         "names": [
-          "MoveArmScore2",
+          "MoveArmScore",
           "OpenClaw"
         ],
         "executionBehavior": "sequential",
@@ -109,12 +84,12 @@
     },
     {
       "anchorPoint": {
-        "x": 6.303357770766897,
-        "y": 5.889260851274912
+        "x": 4.873925525311821,
+        "y": 4.528441353601679
       },
       "prevControl": {
-        "x": 6.102555314959157,
-        "y": 5.889260851274912
+        "x": 4.673123069504079,
+        "y": 4.528441353601679
       },
       "nextControl": null,
       "holonomicAngle": 0,
@@ -132,23 +107,16 @@
   ],
   "markers": [
     {
-      "position": 0.10181818181817795,
+      "position": 0.05,
       "names": [
         "CloseClaw",
         "MoveArmFrontLow"
       ]
     },
     {
-      "position": 2.1,
+      "position": 2.05,
       "names": [
-        "MoveArmScore2"
-      ]
-    },
-    {
-      "position": 3.1418181818181847,
-      "names": [
-        "CloseClaw",
-        "MoveArmNeutral"
+        "MoveArmScore"
       ]
     }
   ]

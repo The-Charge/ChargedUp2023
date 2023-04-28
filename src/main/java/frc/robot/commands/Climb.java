@@ -8,15 +8,15 @@ import frc.robot.Constants.AutoConstants;
 public class Climb extends CommandBase {
   private double lastPitch = 0;
   private int timesAtLevel = 0;
-  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final Drivetrain m_drivetrain;
-
   private double m_offset = 0;
 
   /**
-   * @param subsystem The subsystem used by this command.
+   * Traversing the charging station
+   * 
+   * @param subsystem     The Drivetrain subsystem used by this command.
+   * @param headingOffset Angle to travel in degrees.
    */
-
   public Climb(Drivetrain subsystem, double headingOffset) {
     m_drivetrain = subsystem;
     m_offset = headingOffset;
@@ -34,26 +34,31 @@ public class Climb extends CommandBase {
   @Override
   public void execute() {
     double thisPitch = m_drivetrain.getPitch();
-
-    double thisHeading = (m_drivetrain.getHeading() + m_offset) * AutoConstants.headingGain / 2;
-
-    double volt = thisPitch * AutoConstants.climbPitchGain +
+    // Power correction due to heading error.
+    double headingPower = (m_drivetrain.getHeading() + m_offset) * AutoConstants.headingGain / 2;
+    double power = thisPitch * AutoConstants.climbPitchGain +
         (thisPitch - lastPitch) * AutoConstants.climbPitchDerivativeGain;
-
     lastPitch = thisPitch;
 
-    if (thisPitch < -2.5) {
-      volt = volt + AutoConstants.climbPowerBackwardBias;
+    /*
+     * Robot is not level outside of +-2 degrees of 0
+     * Add bias to power depending on which direction of error and reset
+     * timesAtLevel counter.
+     * Otherwise, add another tick to the counter. 
+     */
+    if (thisPitch < -2) {
+      power = power + AutoConstants.climbPowerBackwardBias;
       timesAtLevel = 0;
-    } else if (thisPitch > 2.5) {
-      volt = volt + AutoConstants.climbPowerForwardBias;
+    } else if (thisPitch > 2) {
+      power = power + AutoConstants.climbPowerForwardBias;
       timesAtLevel = 0;
     } else {
       timesAtLevel++;
     }
 
-    volt = MathUtil.clamp(volt, -AutoConstants.climbPowerLimit, AutoConstants.climbPowerLimit);
-    m_drivetrain.run(volt + thisHeading, volt - thisHeading);
+    // Clamp power within the speed limits (prevent sudden jerks in speed) and feed the speeds into the Drivetrain
+    power = MathUtil.clamp(power, -AutoConstants.climbPowerLimit, AutoConstants.climbPowerLimit);
+    m_drivetrain.run(power + headingPower, power - headingPower);
   }
 
   // Called once the command ends or is interrupted.
@@ -64,6 +69,7 @@ public class Climb extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // Ends when robot has stayed within 2 degrees of 0 for 400ms
     return (timesAtLevel > 40);
   }
 }

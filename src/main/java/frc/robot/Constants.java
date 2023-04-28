@@ -24,24 +24,35 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
   public static final class DriveConstants {
+    // Port locations for CAN devices
     public static final int kLeftMotor1Port = 16;
     public static final int kLeftMotor2Port = 17;
     public static final int kRightMotor1Port = 2;
     public static final int kRightMotor2Port = 3;
     public static final int shifterChannel = 1;
     public static final int clawChannel = 2;
+
+    // PID Constants for drivetrain (utilized in VelocityDrive)
+    public static final double SPEED_P_CONSTANT = .2;
+    public static final double SPEED_I_CONSTANT = 0.0001;
+    public static final double SPEED_D_CONSTANT = 10.0;
+    public static final double SPEED_F_CONSTANT = 0.1;
+
   }
 
   public static final class AutoConstants {
-    public static final double climbPowerLimit = 0.57; // was 0.55;
-    public static final double climbPowerForwardBias = 0.3;
-    public static final double climbPowerBackwardBias = -0.3;
-    public static final double climbPitchGain = 0.018;
+    // Constants for non-pathplanner autonomous paths (charge station paths)
+    public static final double climbPowerLimit = 0.59; // was 0.55;
+    public static final double climbPowerForwardBias = 0.32;
+    public static final double climbPowerBackwardBias = -0.32;
+    public static final double climbPitchGain = 0.020;
     public static final double climbPitchDerivativeGain = 0.1; // was 0.6;
-    public static final double fastClimbTicks = 25000;
+    public static final double fastClimbTicks = 17500;
     public static final double headingGain = 0.02;
     public static final double fallPitchPerCycle = 1;
   }
+
+  // Conversion constants
   public static final double InchToMeter = 0.0254;
   public static final double degreeToRadian = Math.PI / 180.0;
 
@@ -52,7 +63,7 @@ public final class Constants {
     public static final int elbowCAN_ID = 15;
     public static final double shoulderL = 39.0 * InchToMeter;
     public static final double elbowL = 37.0 * InchToMeter;
-    public static final double shoulderAngleToSafeSwingElbowThrough = 22.6 * degreeToRadian;
+    public static final double shoulderAngleToSafeSwingElbowThrough = 33 * degreeToRadian; // was 22.6
     public static final double shoulderHeight = 11 * InchToMeter;
     public static final double elbowperMotorTick = Math.PI * 2 / 4096;
     public static final double shoulderperMotorTick = Math.PI * 2 / 4096;
@@ -61,21 +72,23 @@ public final class Constants {
     public static final double hiGoalY = 47.0 * InchToMeter;
     public static final double midGoalX = 45.3 * InchToMeter;
     public static final double midGoalY = 32.5 * InchToMeter;
-    public static final double stationX = 31.7 * InchToMeter;
-    public static final double stationY = 32.7 * InchToMeter;
+    public static final double stationX = 29 * InchToMeter;
+    public static final double stationY = 33.5 * InchToMeter;
     public static final double pickUpX = 35.4 * InchToMeter;
-    public static final double pickUpY = -8.7 * InchToMeter;
+    public static final double pickUpY = -6.7 * InchToMeter;
   }
 
   public static final class robotLimit {
+    // Definition of robot dimensions, range of motion allowed
     public static final double height = (78 - 2) * 0.0254;
     public static final double widthFromCenter = 66 * 0.0254;
     public static final double robotLength = 44 * 0.0254;
-    public static final double shoulderRange = Units.degreesToRadians(60);
-    public static final double elbowRange = (175.0 / 180.0) * 3.1415;
+    public static final double shoulderRange = Units.degreesToRadians(65);
+    public static final double elbowRange = (185.0 / 180.0) * 3.1415;
   }
 
   public static final class MagicArmCnsts {
+    // PID constants for shoulder/elbow
     public static final int kSlotIdxShldr = 0;
     public static final int kSlotIdxElbow = 0;
     public static final int kPIDLoopIdxShldr = 0;
@@ -107,28 +120,33 @@ public final class Constants {
     }
   }
 
+
+  // Unused vision constants
+  
   // public static final class VisionConstants {
-  //   public static final String cameraName = "IMX219";
+  // public static final String cameraName = "IMX219";
 
-  //   public static final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(4.6);
-  //   public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(16.7);
+  // public static final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(4.6);
+  // public static final double CAMERA_PITCH_RADIANS =
+  // Units.degreesToRadians(16.7);
 
-  //   public static final double nodeSideDistanceMeters = Units.inchesToMeters(6.25 + 0);
+  // public static final double nodeSideDistanceMeters = Units.inchesToMeters(6.25
+  // + 0);
 
-  //   public static final double fieldLength = Units.inchesToMeters(651.25);
-  //   public static final double fieldWidth = Units.inchesToMeters(315.5);
+  // public static final double fieldLength = Units.inchesToMeters(651.25);
+  // public static final double fieldWidth = Units.inchesToMeters(315.5);
 
-  //   public static final Transform3d robotToCamera = new Transform3d(
-  //       new Translation3d(0.31, 0.07, Units.inchesToMeters(4.6)),
-  //       new Rotation3d(0, 16.7, 0));
+  // public static final Transform3d robotToCamera = new Transform3d(
+  // new Translation3d(0.31, 0.07, Units.inchesToMeters(4.6)),
+  // new Rotation3d(0, 16.7, 0));
 
-  //   public static final Transform3d cameraToRobot = robotToCamera.inverse();
+  // public static final Transform3d cameraToRobot = robotToCamera.inverse();
 
-  //   // 31,7
-  //   public static final double LINEAR_P = 1;
-  //   public static final double LINEAR_D = 0;
-  //   public static final double ANGULAR_P = 0.05;
-  //   public static final double ANGULAR_D = 0;
+  // // 31,7
+  // public static final double LINEAR_P = 1;
+  // public static final double LINEAR_D = 0;
+  // public static final double ANGULAR_P = 0.05;
+  // public static final double ANGULAR_D = 0;
   // }
 
   public static final class SysIDConstants {
@@ -160,9 +178,10 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
 
     // List of pathways #ed
-    public static final int NUMBER_OF_PATHWAYS = 11;
+    public static final int NUMBER_OF_PATHWAYS = 17;
 
     // Maximum for Velocity ControlMode (Initial Test Starting Pt)
     public static final double MAX_VELOCITY = 7000;
+
   }
 }

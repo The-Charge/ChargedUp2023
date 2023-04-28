@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -95,22 +96,27 @@ public class RobotContainer {
 
     // Manually places in paths
     pathFileNames[0] = "None";
-    pathFileNames[1] = "Clear With Score";
-    //pathFileNames[2] = "Clear Two Ball";
-    pathFileNames[2] = "Clear No Score";
-    //pathFileNames[4] = "Clear ChargeStation";
-    pathFileNames[3] = "Charge Station Two Piece Left";
-    pathFileNames[4] = "Charge Station Two Piece Right";
-    pathFileNames[5] = "Charge Station With Score";
-    pathFileNames[6] = "Charge Station No Score";
-    pathFileNames[7] = "Bump With Score";
-    pathFileNames[8] = "Bump No Score";
-    pathFileNames[9] = "Score Cone Only";
-    pathFileNames[10] = "Forward 2M";
+    pathFileNames[1] = "Charge Station Two Piece Score Balance Left";
+    pathFileNames[2] = "Charge Station Two Piece Score Balance Right";
+    pathFileNames[3] = "Clear Two Ball";
+    pathFileNames[4] = "Bump Two Ball";
+    pathFileNames[5] = "Clear With Score";
+    pathFileNames[6] = "Clear No Score";
+    pathFileNames[7] = "Charge Station Two Piece Left";
+    pathFileNames[8] = "Charge Station Two Piece Right";
+    pathFileNames[9] = "Charge Station With Score";
+    pathFileNames[10] = "Charge Station No Score";
+    pathFileNames[11] = "Charge Station Two Piece Score Left";
+    pathFileNames[12] = "Charge Station Two Piece Score Right";
+    pathFileNames[13] = "Bump With Score";
+    pathFileNames[14] = "Bump No Score";
+    pathFileNames[15] = "Score Cone Only";
+    pathFileNames[16] = "Forward 2M";
 
     // Adds path options to sendable chooser
     for (int x = 0; x < pathFileNames.length; x++) {
       m_pathSendableChooser.addOption(pathFileNames[x], pathFileNames[x]);
+      System.out.println(pathFileNames[x]);
     }
 
     // Default path doesn't run the robot
@@ -134,18 +140,22 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // final JoystickButton collectBtn = new JoystickButton(rightJoystick, 2);
-    // collectBtn.whileTrue(new DriveDegree(m_drivetrain, -20, -0.5));
+    pathSendableChooserInit();
 
-    // final JoystickButton scorePosBut = new JoystickButton(leftJoystick, 2);
-    // scorePosBut.onTrue(new DriveDegree(m_drivetrain, 0, 0.5));
+    final JoystickButton collectBtn = new JoystickButton(rightJoystick, 2);
+    collectBtn.whileTrue(new DriveDegree(m_drivetrain, -10, -0.65));
+
+    final JoystickButton scorePosBut = new JoystickButton(leftJoystick, 2);
+    scorePosBut.whileTrue(new DriveDegree(m_drivetrain, 0, 0.65));
 
     final JoystickButton halfSpeedBtn = new JoystickButton(rightJoystick, 1);
-    halfSpeedBtn.onTrue(new HalfSpeed(m_drivetrain).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+    halfSpeedBtn.onTrue(new HalfSpeed(m_drivetrain));
 
-    // final JoystickButton quarterSpeedBtn = new JoystickButton(rightJoystick, 6);
-    // quarterSpeedBtn.onTrue(new
-    // QuarterSpeed(m_drivetrain).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
+    final JoystickButton quarterSpeedBtn = new JoystickButton(rightJoystick, 5);
+    quarterSpeedBtn.onTrue(new QuarterSpeed(m_drivetrain));
+
+    final JoystickButton fullSpeedBtn = new JoystickButton(leftJoystick, 3);
+    fullSpeedBtn.onTrue(new FullSpeed(m_drivetrain));
 
     final JoystickButton reverseDriveBtn = new JoystickButton(leftJoystick, 1);
     reverseDriveBtn.onTrue(new ReverseDrive(m_drivetrain).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
@@ -168,6 +178,13 @@ public class RobotContainer {
     final JoystickButton shiftHighBtn = new JoystickButton(rightJoystick, 6);
     shiftHighBtn.onTrue(new ShiftHigh(m_drivetrain).withInterruptBehavior(InterruptionBehavior.kCancelSelf));
 
+    final JoystickButton driveDistanceBtn = new JoystickButton(leftJoystick, 12);
+    driveDistanceBtn.onTrue(new SequentialCommandGroup(new ResetHeading(m_drivetrain),
+        new DriveDistance(m_drivetrain, -.8, 0, Units.inchesToMeters(227))));
+
+    final JoystickButton velocityDriveBtn = new JoystickButton(rightJoystick, 3);
+    velocityDriveBtn.whileTrue(new VelocityDrive(m_drivetrain));
+
     // final JoystickButton alignBtn = new JoystickButton(leftJoystick, 1);
     // alignBtn.onTrue(new Align(m_drivetrain, m_camera));
 
@@ -183,9 +200,9 @@ public class RobotContainer {
         .withInterruptBehavior(InterruptionBehavior.kCancelSelf);
     Command armBackLow = (new MoveMagicArmToXY(m_magicArm, -ArmConstants.pickUpX, ArmConstants.pickUpY, 8000))
         .withInterruptBehavior(InterruptionBehavior.kCancelSelf);
-    Command armFrontMid = (new MoveMagicArmToXY(m_magicArm, ArmConstants.midGoalX, ArmConstants.midGoalY, 8000))
+    Command armFrontMid = (new MidGoalDepth(m_magicArm, m_drivetrain, ArmConstants.midGoalX, ArmConstants.midGoalY))
         .withInterruptBehavior(InterruptionBehavior.kCancelSelf);
-    Command armBackMid = (new MoveMagicArmToXY(m_magicArm, -ArmConstants.midGoalX, ArmConstants.midGoalY, 8000))
+    Command armBackMid = (new MidGoalDepth(m_magicArm, m_drivetrain, -ArmConstants.midGoalX, ArmConstants.midGoalY))
         .withInterruptBehavior(InterruptionBehavior.kCancelSelf);
     Command armFrontHigh = (new MoveMagicArmToXY(m_magicArm, ArmConstants.hiGoalX, ArmConstants.hiGoalY, 8000))
         .withInterruptBehavior(InterruptionBehavior.kCancelSelf);

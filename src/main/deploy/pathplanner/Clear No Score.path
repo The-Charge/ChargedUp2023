@@ -3,20 +3,23 @@
     {
       "anchorPoint": {
         "x": 1.9578837445834658,
-        "y": 5.054472419929148
+        "y": 5.0
       },
       "prevControl": null,
       "nextControl": {
         "x": 2.9578837445834685,
-        "y": 5.054472419929148
+        "y": 5.0
       },
       "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
-      "isLocked": false,
+      "isLocked": true,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
+        "names": [
+          "MoveArmScore",
+          "OpenClaw"
+        ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
@@ -24,16 +27,16 @@
     },
     {
       "anchorPoint": {
-        "x": 4.609237504783934,
-        "y": 5.059610702410157
+        "x": 4.5,
+        "y": 5.0
       },
       "prevControl": {
-        "x": 3.609237504783934,
-        "y": 5.059610702410157
+        "x": 3.5,
+        "y": 5.0
       },
       "nextControl": {
-        "x": 5.609237504783934,
-        "y": 5.059610702410157
+        "x": 5.5,
+        "y": 5.0
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -49,26 +52,38 @@
     },
     {
       "anchorPoint": {
-        "x": 6.25,
-        "y": 4.576612149195342
+        "x": 6.05,
+        "y": 4.72
       },
       "prevControl": {
-        "x": 5.576708512236955,
-        "y": 4.576612149195342
+        "x": 5.3869373228138295,
+        "y": 4.836915839888709
       },
       "nextControl": null,
       "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
-      "isLocked": false,
+      "isLocked": true,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
+        "names": [
+          "OpenClaw",
+          "MoveArmFrontLow",
+          "CloseClaw"
+        ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
-        "waitTime": 0.25
+        "waitTime": 10.0
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 0.05,
+      "names": [
+        "CloseClaw",
+        "MoveArmFrontLow"
+      ]
+    }
+  ]
 }

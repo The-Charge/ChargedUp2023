@@ -6,6 +6,11 @@ import frc.robot.subsystems.Drivetrain;
 public class ResetPitch extends CommandBase {
   private final Drivetrain m_drivetrain;
 
+  /**
+   * Reset the NavX pitch (at the start of non-pathplanner autonomous paths).
+   * 
+   * @param subsystem The Drivetrain subsystem used in this command.
+   */
   public ResetPitch(Drivetrain subsystem) {
     m_drivetrain = subsystem;
     addRequirements(subsystem);
