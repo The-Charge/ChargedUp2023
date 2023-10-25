@@ -57,10 +57,10 @@ public final class Constants {
     public static final double elbowperMotorTick = Math.PI * 2 / 4096;
     public static final double shoulderperMotorTick = Math.PI * 2 / 4096;
     public static final double shoulderScoreDegree = 55.0;
-    public static final double hiGoalX = 59.6 * InchToMeter;
-    public static final double hiGoalY = 47.0 * InchToMeter;
-    public static final double midGoalX = 45.3 * InchToMeter;
-    public static final double midGoalY = 32.5 * InchToMeter;
+    public static final double hiGoalX = 55 * InchToMeter; //was 59
+    public static final double hiGoalY = 52 * InchToMeter;  //was 49ish
+    public static final double midGoalX = 45.3 * InchToMeter;//was 45.3
+    public static final double midGoalY = 33.5 * InchToMeter; //32.5
     public static final double stationX = 31.7 * InchToMeter;
     public static final double stationY = 32.7 * InchToMeter;
     public static final double pickUpX = 35.4 * InchToMeter;
@@ -68,9 +68,9 @@ public final class Constants {
   }
 
   public static final class robotLimit {
-    public static final double height = (78 - 2) * 0.0254;
-    public static final double widthFromCenter = 66 * 0.0254;
-    public static final double robotLength = 44 * 0.0254;
+    public static final double height = (78 + 2) * 0.0254;  // was 78-2
+    public static final double widthFromCenter = 68 * 0.0254; //was 66
+    public static final double robotLength = 46 * 0.0254; //was 44
     public static final double shoulderRange = Units.degreesToRadians(60);
     public static final double elbowRange = (175.0 / 180.0) * 3.1415;
   }
